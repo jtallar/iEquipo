@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#0099FF</color>
+    <color name="colorPrimaryDark">#007CCC</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="colorBackground">#191919</color>
+
+    <color name="colorBottomNavTrue">@color/colorPrimary</color>
+    <color name="colorBottomNavFalse">#747F8B</color>
+    <color name="colorBottomNavBackground">#1E1E1E</color>
+
+    <color name="colorCardBackground">#FFFFFF</color>
+    <color name="colorCardContent">#141414</color>
+    <color name="colorDialogText">#3C3C3C</color>
 </resources>

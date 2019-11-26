@@ -1,16 +1,15 @@
-package ar.edu.itba.inge.pab.ui.home;
+package ar.edu.itba.inge.pab.ui.students;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
-
+public class StudentsViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public StudentsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is students fragment");
     }
 
     public LiveData<String> getText() {

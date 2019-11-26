@@ -1,16 +1,16 @@
-package ar.edu.itba.inge.pab.ui.dashboard;
+package ar.edu.itba.inge.pab.ui.explore;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class ExploreViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public ExploreViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is explore fragment");
     }
 
     public LiveData<String> getText() {
