@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    tools:context="ar.edu.itba.inge.pab.ui.notifications.NotificationsFragment">
+    tools:context="ar.edu.itba.inge.pab.ui.students.StudentsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_notifications"
+        android:id="@+id/rv_students"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <include android:id="@+id/empty_notifications_card"
+    <include android:id="@+id/empty_students_card"
         layout="@layout/item_no_elements"/>
 
-    <include android:id="@+id/notifications_loading_bar"
+    <include android:id="@+id/students_loading_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/item_loading"

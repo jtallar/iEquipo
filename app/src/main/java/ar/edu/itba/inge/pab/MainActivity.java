@@ -20,10 +20,18 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import ar.edu.itba.inge.pab.elements.Person;
+import ar.edu.itba.inge.pab.elements.Student;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "ar.edu.itba.hci.hoh";
     private static MainActivity instance;
+    private static Person loggedPerson = new Person("Julian Tallar", "59356", "jtallar@itba.edu.ar");
+
+    public synchronized static MainActivity getInstance() {
+        return instance;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,11 +67,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        loggedPerson.addActivity("A0");
+        loggedPerson.addActivity("A1");
+
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration;
-        if (false) {
+        if (loggedPerson.getClass() == Student.class) {
             // STUDENT
             navView.inflateMenu(R.menu.bottom_nav_menu_student);
             appBarConfiguration = new AppBarConfiguration.Builder(
@@ -93,5 +102,9 @@ public class MainActivity extends AppCompatActivity {
         ImageButton closeDialogButton = dialogView.findViewById(R.id.close_dialog_about_us);
         if (closeDialogButton != null) closeDialogButton.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
+    }
+
+    public static Person getLoggedPerson() {
+        return loggedPerson;
     }
 }

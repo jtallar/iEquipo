@@ -21,4 +21,11 @@
     <string name="title_projects">My Activities</string>
     <string name="title_explore">Explore</string>
     <string name="title_students">Students</string>
+
+    <string name="student_free_hours">Available hours</string>
+    <string name="project_required_hours">Weekly hours</string>
+
+    <string name="empty_projects_list">No projects</string>
+    <string name="empty_students_list">No students</string>
+    <string name="empty_notifications_list">No notifications</string>
 </resources>

@@ -28,4 +28,8 @@ public class MyApplication extends Application {
         toast.setMargin(toastHorizontalMargin, toastVerticalMargin);
         toast.show();
     }
+
+    public static String getStringResource(int id) {
+        return instance.getResources().getString(id);
+    }
 }

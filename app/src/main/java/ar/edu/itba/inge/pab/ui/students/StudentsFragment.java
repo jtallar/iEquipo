@@ -16,9 +16,9 @@ import ar.edu.itba.inge.pab.ui.explore.ExploreViewModel;
 public class StudentsFragment extends Fragment {
     private StudentsViewModel studentsViewModel;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         studentsViewModel = ViewModelProviders.of(this).get(StudentsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
