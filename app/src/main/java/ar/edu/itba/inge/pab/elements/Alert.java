@@ -22,5 +22,7 @@ public class Alert {
     }
 
     public Project getProject() { return project; }
+
+    // TODO: OVERRIDE EQUALS AND HASH CODE CUANDO LE PONGAMOS ALGUN ID O ALGO ASI
 }
 

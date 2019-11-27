@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,11 +74,9 @@ public class StudentsFragment extends Fragment {
         rvStudents = root.findViewById(R.id.rv_students);
         gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
         rvStudents.setLayoutManager(gridLayoutManager);
-        adapter = new StudentAdapter(data, new OnItemClickListener<Student>() {
-            @Override
-            public void onItemClick(Student element) {
-                // TODO: GO TO STUDENT FRAGMENT
-            }
+        adapter = new StudentAdapter(data, student -> {
+            StudentsFragmentDirections.ActionSelectStudent action = StudentsFragmentDirections.actionSelectStudent(student, student.getNombre());
+            Navigation.findNavController(root).navigate(action);
         });
         rvStudents.setAdapter(adapter);
 

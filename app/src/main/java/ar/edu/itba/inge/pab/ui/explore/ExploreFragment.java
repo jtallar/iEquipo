@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,11 +71,9 @@ public class ExploreFragment extends Fragment {
         rvExplore = root.findViewById(R.id.rv_explore);
         gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
         rvExplore.setLayoutManager(gridLayoutManager);
-        adapter = new ProjectAdapter(data, new OnItemClickListener<Project>() {
-            @Override
-            public void onItemClick(Project element) {
-                // TODO: GO TO PROJECT FRAGMENT
-            }
+        adapter = new ProjectAdapter(data, project -> {
+            ExploreFragmentDirections.ActionSelectProject action = ExploreFragmentDirections.actionSelectProject(project, this.getClass().getName(), project.getTitulo());
+            Navigation.findNavController(root).navigate(action);
         });
         rvExplore.setAdapter(adapter);
 

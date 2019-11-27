@@ -2,10 +2,11 @@ package ar.edu.itba.inge.pab.elements;
 
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Project {
+public class Project implements Serializable {
     private String id;
     private String idDocente;
     private String titulo;

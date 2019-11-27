@@ -13,4 +13,9 @@
     <color name="colorCardBackground">#FFFFFF</color>
     <color name="colorCardContent">#141414</color>
     <color name="colorDialogText">#3C3C3C</color>
+
+    <color name="colorEditTextContent">#FFFFFF</color>
+    <color name="colorEditTextHint">#8F8F8F</color>
+
+    <color name="colorProfileContent">#FFFFFF</color>
 </resources>

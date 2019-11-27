@@ -2,10 +2,11 @@ package ar.edu.itba.inge.pab.elements;
 
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Person {
+public class Person implements Serializable {
     private String nombre;
     private String id;
     private List<String> actividades = new ArrayList<>();
@@ -39,4 +40,16 @@ public class Person {
         actividades.add(activityId);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return getId().equals(person.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }

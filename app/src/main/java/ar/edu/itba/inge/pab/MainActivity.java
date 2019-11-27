@@ -1,5 +1,6 @@
 package ar.edu.itba.inge.pab;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "ar.edu.itba.hci.hoh";
     private static MainActivity instance;
-//    private static Person loggedPerson = new Person("Julian Tallar", "59356", "jtallar@itba.edu.ar");
-    private static Person loggedPerson = new Student("Julian Tallar", "59356", "jtallar@itba.edu.ar");
+    private static Person loggedPerson = new Person("Julian Tallar", "P354", "jtallar@itba.edu.ar");
+//    private static Person loggedPerson = new Student("Julian Tallar", "59356", "jtallar@itba.edu.ar");
 
     public synchronized static MainActivity getInstance() {
         return instance;
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.kebab_about_us:
                 aboutUsDialog(item.getActionView());
                 break;
+            case R.id.kebab_log_out:
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        // TODO: ADD NAVIGATE UP LISTENERS TO UPDATE VALUES
         return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp() || super.onSupportNavigateUp();
     }
 

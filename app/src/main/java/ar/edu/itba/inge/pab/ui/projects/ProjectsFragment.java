@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +37,7 @@ import ar.edu.itba.inge.pab.ui.ProjectAdapter;
 import ar.edu.itba.inge.pab.ui.explore.ExploreViewModel;
 
 public class ProjectsFragment extends Fragment {
-    private static final String LOG_TAG = "ar.edu.itba.inge.pab.ui.projects.ProjectsFragment";
+    public static final String LOG_TAG = "ar.edu.itba.inge.pab.ui.projects.ProjectsFragment";
     private ProjectsViewModel projectsViewModel;
 
     private RecyclerView rvProjects;
@@ -46,6 +47,8 @@ public class ProjectsFragment extends Fragment {
     private List<Project> data = new ArrayList<>();
 
     private DatabaseReference database;
+
+    private String nextId;
 
     private CardView emptyCard;
     private ProgressBar loading;
@@ -64,22 +67,18 @@ public class ProjectsFragment extends Fragment {
             addButton.setVisibility(View.GONE);
         else {
             addButton.setVisibility(View.VISIBLE);
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // TODO: GO TO NEW PROJECT FRAGMENT
-                }
+            addButton.setOnClickListener(v -> {
+                ProjectsFragmentDirections.ActionNewProject action = ProjectsFragmentDirections.actionNewProject(nextId);
+                Navigation.findNavController(root).navigate(action);
             });
         }
 
         rvProjects = root.findViewById(R.id.rv_projects);
         gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
         rvProjects.setLayoutManager(gridLayoutManager);
-        adapter = new ProjectAdapter(data, new OnItemClickListener<Project>() {
-            @Override
-            public void onItemClick(Project element) {
-                // TODO: GO TO PROJECT FRAGMENT
-            }
+        adapter = new ProjectAdapter(data, project -> {
+            ProjectsFragmentDirections.ActionSelectProject action = ProjectsFragmentDirections.actionSelectProject(project, this.getClass().getName(), project.getTitulo());
+            Navigation.findNavController(root).navigate(action);
         });
         rvProjects.setAdapter(adapter);
 
@@ -104,6 +103,7 @@ public class ProjectsFragment extends Fragment {
                     else
                         emptyCard.setVisibility(View.VISIBLE);
                 }
+                nextId = String.format("A%d", dataSnapshot.getChildrenCount());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

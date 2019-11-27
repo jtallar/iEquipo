@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">PAB</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+
+    <string name="title_projects">My Activities</string>
+    <string name="title_explore">Explore</string>
+    <string name="title_students">Students</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_new_project">New Activity</string>
+    <string name="title_project">Project</string>
+    <string name="title_student">Student</string>
 
     <string name="option_search">Search</string>
     <string name="option_profile">My profile</string>
     <string name="option_about_us">About Us</string>
+    <string name="option_log_out">Log Out</string>
     <string name="option_filter">Filter</string>
 
     <string name="search_button_message">Search not implemented yet!</string>
@@ -19,9 +25,6 @@
         Programa para Alumnos Becados (PAB) is an application made by iEquipo. We are a student group from ITBA University
         with the purpose of developing android applications applying IS1 knowledge.
     </string>
-    <string name="title_projects">My Activities</string>
-    <string name="title_explore">Explore</string>
-    <string name="title_students">Students</string>
 
     <string name="student_free_hours">Available hours</string>
     <string name="project_required_hours">Weekly hours</string>
@@ -29,4 +32,16 @@
     <string name="empty_projects_list">No projects</string>
     <string name="empty_students_list">No students</string>
     <string name="empty_notifications_list">No notifications</string>
+
+    <string name="activity_title">Title</string>
+    <string name="activity_credits">Credits</string>
+    <string name="activity_student_quantity">Students needed</string>
+    <string name="activity_description">Description</string>
+    <string name="activity_schedule">Schedule</string>
+    <string name="activity_requirements">Requirements</string>
+
+    <string name="button_publish">Create</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_add_student">Add to project…</string>
+
 </resources>

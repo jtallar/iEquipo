@@ -17,4 +17,9 @@
         android:id="@+id/kebab_about_us"
         android:title="@string/option_about_us"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/kebab_log_out"
+        android:title="@string/option_log_out"
+        app:showAsAction="never"/>
 </menu>
