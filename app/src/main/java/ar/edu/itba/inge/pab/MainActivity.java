@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "ar.edu.itba.hci.hoh";
     private static MainActivity instance;
-    private static Person loggedPerson = new Person("Julian Tallar", "59356", "jtallar@itba.edu.ar");
+//    private static Person loggedPerson = new Person("Julian Tallar", "59356", "jtallar@itba.edu.ar");
+    private static Person loggedPerson = new Student("Julian Tallar", "59356", "jtallar@itba.edu.ar");
 
     public synchronized static MainActivity getInstance() {
         return instance;

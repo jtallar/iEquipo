@@ -36,6 +36,7 @@ import ar.edu.itba.inge.pab.ui.ProjectAdapter;
 import ar.edu.itba.inge.pab.ui.explore.ExploreViewModel;
 
 public class ProjectsFragment extends Fragment {
+    private static final String LOG_TAG = "ar.edu.itba.inge.pab.ui.projects.ProjectsFragment";
     private ProjectsViewModel projectsViewModel;
 
     private RecyclerView rvProjects;
@@ -43,7 +44,6 @@ public class ProjectsFragment extends Fragment {
     private ProjectAdapter adapter;
 
     private List<Project> data = new ArrayList<>();
-    private List<String> activities;
 
     private DatabaseReference database;
 
@@ -83,42 +83,33 @@ public class ProjectsFragment extends Fragment {
         });
         rvProjects.setAdapter(adapter);
 
-        database.child("Feed").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (final DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    database.child("Feed").child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Project act = snapshot.getValue(Project.class);
-                            if (act != null && loggedPerson.getActividades().contains(act.getId()) && !data.contains(act)) {
-                                data.add(act);
-                                adapter.notifyDataSetChanged();
-                            }
-                            Log.e("ProjectFragment", "fetched form database");
-
-                            // TODO: REVISAR ESTO CUANDO CAMBIEMOS EL FETCHING
-                            loading.setVisibility(View.GONE);
-                            if (!data.isEmpty())
-                                emptyCard.setVisibility(View.GONE);
-                            else
-                                emptyCard.setVisibility(View.VISIBLE);
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.w("CargarAct:OnCancelled" , databaseError.toException());
-                        }
-                    });
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-
         emptyCard = root.findViewById(R.id.empty_projects_card);
         TextView tvEmptyRoom = emptyCard.findViewById(R.id.card_no_element_text);
         tvEmptyRoom.setText(R.string.empty_projects_list);
         loading = root.findViewById(R.id.projects_loading_bar);
+
+        database.child("Feed").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (final DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Project act = snapshot.getValue(Project.class);
+                    if (act != null && loggedPerson.getActividades().contains(act.getId()) && !data.contains(act)) {
+                        data.add(act);
+                        adapter.notifyDataSetChanged();
+                    }
+                    // TODO: REVISAR ESTO CUANDO CAMBIEMOS EL FETCHING
+                    loading.setVisibility(View.GONE);
+                    if (!data.isEmpty())
+                        emptyCard.setVisibility(View.GONE);
+                    else
+                        emptyCard.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(LOG_TAG, databaseError.getMessage());
+            }
+        });
 
         return root;
     }
