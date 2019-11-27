@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">PAB</string>
+    <string name="login_label">Login</string>
 
     <string name="title_projects">My Activities</string>
     <string name="title_explore">Explore</string>
@@ -26,6 +27,9 @@
         with the purpose of developing android applications applying IS1 knowledge.
     </string>
 
+    <string name="description_pab_logo">PAB Logo</string>
+    <string name="description_login_button">Login button</string>
+
     <string name="student_free_hours">Available hours</string>
     <string name="project_required_hours">Weekly hours</string>
 
@@ -44,4 +48,7 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_add_student">Add to project…</string>
 
+    <string name="error_login_failed">Google sign in failed!</string>
+    <string name="error_mail_not_found">Mail not registered in PAB!</string>
+    <string name="error_firebase_failed">Firebase authentication failed!</string>
 </resources>

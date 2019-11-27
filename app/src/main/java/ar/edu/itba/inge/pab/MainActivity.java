@@ -11,7 +11,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -56,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 aboutUsDialog(item.getActionView());
                 break;
             case R.id.kebab_log_out:
-
+                logOut();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -68,12 +73,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            loggedPerson = (Person) intent.getSerializableExtra(LoginActivity.EXTRA_PERSON);
+        } else {
+            // NO DEBERIA ENTRAR, DEJO EL EXAMPLE
+            loggedPerson.addActivity("A0");
+            loggedPerson.addActivity("A1");
+        }
+
         instance = this;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        loggedPerson.addActivity("A0");
-        loggedPerson.addActivity("A1");
 
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         AppBarConfiguration appBarConfiguration;
@@ -112,5 +123,19 @@ public class MainActivity extends AppCompatActivity {
 
     public static Person getLoggedPerson() {
         return loggedPerson;
+    }
+
+    private void logOut() {
+        // Firebase sign out
+        FirebaseAuth.getInstance().signOut();
+        GoogleSignInOptions tempgso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        // Google sign out
+        GoogleSignIn.getClient(this,tempgso).signOut().addOnCompleteListener(this, task -> {
+            Intent myIntent = new Intent(this, LoginActivity.class);
+            startActivity(myIntent);
+        });
     }
 }

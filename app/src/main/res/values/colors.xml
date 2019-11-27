@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="colorBackground">#191919</color>
+    <color name="colorLoginBackground">#000000</color>
 
     <color name="colorBottomNavTrue">@color/colorPrimary</color>
     <color name="colorBottomNavFalse">#747F8B</color>
