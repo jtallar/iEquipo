@@ -60,6 +60,8 @@ public class NewProjectFragment extends Fragment {
     private View.OnClickListener getPublishListener(View root) {
         return v -> {
             Person loggedPerson = MainActivity.getLoggedPerson();
+
+            // TODO: VALIDAR ENTRADA ANTES, SINO ROMPE
             Project newProject = new Project(projectId, loggedPerson.getId(), title.getText().toString(),
                     Integer.valueOf(credits.getText().toString()), description.getText().toString(),
                     schedule.getText().toString(), requirements.getText().toString(),
@@ -72,6 +74,7 @@ public class NewProjectFragment extends Fragment {
                     Person teacher = dataSnapshot.getValue(Person.class);
                     if (teacher != null) {
                         teacher.addActivity(projectId);
+                        MainActivity.setLoggedPerson(teacher);
                         database.child("Usuarios").child("Profesores").child(teacher.getId()).setValue(teacher);
                     }
                     Navigation.findNavController(root).navigateUp();

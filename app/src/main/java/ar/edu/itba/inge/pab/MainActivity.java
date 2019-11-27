@@ -3,6 +3,7 @@ package ar.edu.itba.inge.pab;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -76,8 +77,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             loggedPerson = (Person) intent.getSerializableExtra(LoginActivity.EXTRA_PERSON);
+            Log.e(LOG_TAG, String.format("BIEN INTENT %d", loggedPerson.getActividades().size()));
+            Log.e(LOG_TAG, String.format("%s %s %s", loggedPerson.getNombre(), loggedPerson.getId(), loggedPerson.getEmail()));
+            for (String a : loggedPerson.getActividades())
+                Log.e(LOG_TAG, String.format("ACT %s", a));
         } else {
             // NO DEBERIA ENTRAR, DEJO EL EXAMPLE
+            Log.e(LOG_TAG, "ERROR INTENT");
             loggedPerson.addActivity("A0");
             loggedPerson.addActivity("A1");
         }
@@ -125,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
         return loggedPerson;
     }
 
+    public static void setLoggedPerson(Person person) {
+        loggedPerson = person;
+    }
+
     private void logOut() {
         // Firebase sign out
         FirebaseAuth.getInstance().signOut();
@@ -137,5 +147,11 @@ public class MainActivity extends AppCompatActivity {
             Intent myIntent = new Intent(this, LoginActivity.class);
             startActivity(myIntent);
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logOut();
     }
 }

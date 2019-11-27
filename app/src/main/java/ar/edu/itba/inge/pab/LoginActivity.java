@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private static boolean state;
 
     private DatabaseReference database;
+    private ValueEventListener listener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,40 +118,45 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user){
         if (user != null && user.getEmail() != null){
-            database.child("Usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String category = snapshot.getKey();
-                        if (category == null) return;
+            listener = getListener(user);
+            database.child("Usuarios").addValueEventListener(listener);
+        }
+    }
 
-                        if (category.equals("Becarios")) {
-                            for (final DataSnapshot childSnapshot : snapshot.getChildren()){
-                                Student student = childSnapshot.getValue(Student.class);
-                                if (student != null && user.getEmail().equals(student.getEmail())) {
-                                    goToMain(student);
-                                    return;
-                                }
+    private ValueEventListener getListener(FirebaseUser user) {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String category = snapshot.getKey();
+                    if (category == null) return;
+
+                    if (category.equals("Becarios")) {
+                        for (final DataSnapshot childSnapshot : snapshot.getChildren()){
+                            Student student = childSnapshot.getValue(Student.class);
+                            if (student != null && user.getEmail().equals(student.getEmail())) {
+                                goToMain(student);
+                                return;
                             }
-                        } else if (category.equals("Profesores")) {
-                            for (final DataSnapshot childSnapshot : snapshot.getChildren()){
-                                Person teacher = childSnapshot.getValue(Person.class);
-                                if (teacher != null && user.getEmail().equals(teacher.getEmail())) {
-                                    goToMain(teacher);
-                                    return;
-                                }
+                        }
+                    } else if (category.equals("Profesores")) {
+                        for (final DataSnapshot childSnapshot : snapshot.getChildren()){
+                            Person teacher = childSnapshot.getValue(Person.class);
+                            if (teacher != null && user.getEmail().equals(teacher.getEmail())) {
+                                goToMain(teacher);
+                                return;
                             }
                         }
                     }
-                    MyApplication.makeToast(getResources().getString(R.string.error_mail_not_found));
                 }
+                MyApplication.makeToast(getResources().getString(R.string.error_mail_not_found));
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(LOG_TAG, databaseError.getMessage());
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(LOG_TAG, databaseError.getMessage());
+            }
+        };
     }
 
     private void goToMain(Person person) {
@@ -159,5 +165,11 @@ public class LoginActivity extends AppCompatActivity {
         myIntent.putExtra(EXTRA_PERSON, person);
         startActivity(myIntent);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        database.child("Usuarios").removeEventListener(listener);
     }
 }
