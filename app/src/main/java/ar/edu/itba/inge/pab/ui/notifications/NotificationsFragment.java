@@ -79,4 +79,6 @@ public class NotificationsFragment extends Fragment {
 
         return root;
     }
+
+    /* FUNCIONES PARA USAR ENTRE LAS POSIBLES ACCIONES */
 }
