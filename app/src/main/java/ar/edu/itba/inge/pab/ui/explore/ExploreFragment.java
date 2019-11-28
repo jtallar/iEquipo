@@ -82,31 +82,26 @@ public class ExploreFragment extends Fragment {
         tvEmptyRoom.setText(R.string.empty_projects_list);
         loading = root.findViewById(R.id.explore_loading_bar);
 
-        database.child("Feed").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (final DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Project act = snapshot.getValue(Project.class);
-                    if (act != null && !loggedPerson.getActividades().contains(act.getId()) &&
-                            act.getAlumnos().size() < act.getCantidad() && !data.contains(act)) {
-                        data.add(act);
-                        adapter.notifyDataSetChanged();
-                    }
-                    // TODO: REVISAR ESTO CUANDO CAMBIEMOS EL FETCHING
-                    loading.setVisibility(View.GONE);
-                    if (!data.isEmpty())
-                        emptyCard.setVisibility(View.GONE);
-                    else
-                        emptyCard.setVisibility(View.VISIBLE);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(LOG_TAG, databaseError.getMessage());
-            }
-        });
+        getFeedList();
 
         return root;
+    }
+
+    private void getFeedList() {
+        exploreViewModel.getFeed().observe(this, projects -> {
+            if (projects != null) {
+                for (Project project : projects) {
+                    if (!MainActivity.getLoggedPerson().getActividades().contains(project.getId()) && !data.contains(project) && project.getAlumnos().size() < project.getCantidad())
+                        data.add(project);
+                }
+                adapter.notifyDataSetChanged();
+            }
+            loading.setVisibility(View.GONE);
+            if (!data.isEmpty())
+                emptyCard.setVisibility(View.GONE);
+            else
+                emptyCard.setVisibility(View.VISIBLE);
+        });
     }
 
     @Override
@@ -124,5 +119,11 @@ public class ExploreFragment extends Fragment {
         MyApplication.makeToast(getResources().getString(R.string.filter_button_message));
 
         return true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        exploreViewModel.cancelRequests();
     }
 }

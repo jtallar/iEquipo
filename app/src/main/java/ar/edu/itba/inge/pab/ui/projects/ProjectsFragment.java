@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -87,30 +88,32 @@ public class ProjectsFragment extends Fragment {
         tvEmptyRoom.setText(R.string.empty_projects_list);
         loading = root.findViewById(R.id.projects_loading_bar);
 
-        database.child("Feed").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (final DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Project act = snapshot.getValue(Project.class);
-                    if (act != null && loggedPerson.getActividades().contains(act.getId()) && !data.contains(act)) {
-                        data.add(act);
-                        adapter.notifyDataSetChanged();
-                    }
-                    // TODO: REVISAR ESTO CUANDO CAMBIEMOS EL FETCHING
-                    loading.setVisibility(View.GONE);
-                    if (!data.isEmpty())
-                        emptyCard.setVisibility(View.GONE);
-                    else
-                        emptyCard.setVisibility(View.VISIBLE);
-                }
-                nextId = String.format("A%d", dataSnapshot.getChildrenCount());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(LOG_TAG, databaseError.getMessage());
-            }
-        });
+        getFeedList();
 
         return root;
+    }
+
+    private void getFeedList() {
+        projectsViewModel.getFeed().observe(this, projects -> {
+            if (projects != null) {
+                for (Project project : projects) {
+                    if (MainActivity.getLoggedPerson().getActividades().contains(project.getId()) && !data.contains(project))
+                        data.add(project);
+                }
+                adapter.notifyDataSetChanged();
+                nextId = String.format("%s%s", getResources().getString(R.string.activity_prefix) , String.valueOf(projects.size()));
+            }
+            loading.setVisibility(View.GONE);
+            if (!data.isEmpty())
+                emptyCard.setVisibility(View.GONE);
+            else
+                emptyCard.setVisibility(View.VISIBLE);
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        projectsViewModel.cancelRequests();
     }
 }

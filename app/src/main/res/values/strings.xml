@@ -43,6 +43,7 @@
     <string name="activity_description">Description</string>
     <string name="activity_schedule">Schedule</string>
     <string name="activity_requirements">Requirements</string>
+    <string name="activity_prefix">A</string>
 
     <string name="button_publish">Create</string>
     <string name="button_cancel">Cancel</string>

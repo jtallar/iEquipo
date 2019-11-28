@@ -78,10 +78,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             loggedPerson = (Person) intent.getSerializableExtra(LoginActivity.EXTRA_PERSON);
-            Log.e(LOG_TAG, String.format("BIEN INTENT %d", loggedPerson.getActividades().size()));
-            Log.e(LOG_TAG, String.format("%s %s %s", loggedPerson.getNombre(), loggedPerson.getId(), loggedPerson.getEmail()));
-            for (String a : loggedPerson.getActividades())
-                Log.e(LOG_TAG, String.format("ACT %s", a));
+            if (loggedPerson != null) {
+                Log.e(LOG_TAG, String.format("%s %s %s", loggedPerson.getNombre(), loggedPerson.getId(), loggedPerson.getEmail()));
+                for (String a : loggedPerson.getActividades())
+                    Log.e(LOG_TAG, String.format("ACT %s", a));
+            }
         } else {
             // NO DEBERIA ENTRAR, DEJO EL EXAMPLE
             Log.e(LOG_TAG, "ERROR INTENT");
@@ -150,9 +151,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // TODO: VER SI ACA DEBO DESLOGUEARME O NO
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        logOut();
+//        logOut();
     }
 }

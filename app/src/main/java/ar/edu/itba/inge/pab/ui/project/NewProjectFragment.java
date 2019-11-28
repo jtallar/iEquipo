@@ -30,14 +30,10 @@ public class NewProjectFragment extends Fragment {
     private Button cancel, publish;
     private String projectId;
 
-    private DatabaseReference database;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_new_project, container, false);
-
-        database = FirebaseDatabase.getInstance().getReference();
 
         if (getArguments() != null)
             projectId = NewProjectFragmentArgs.fromBundle(getArguments()).getActivityId();
@@ -59,33 +55,22 @@ public class NewProjectFragment extends Fragment {
 
     private View.OnClickListener getPublishListener(View root) {
         return v -> {
+            if (credits.getText() == null || studentCant.getText() == null) return;
+
             Person loggedPerson = MainActivity.getLoggedPerson();
 
-            // TODO: VALIDAR ENTRADA ANTES, SINO ROMPE
             Project newProject = new Project(projectId, loggedPerson.getId(), title.getText().toString(),
                     Integer.valueOf(credits.getText().toString()), description.getText().toString(),
                     schedule.getText().toString(), requirements.getText().toString(),
                     loggedPerson.getEmail(), Integer.valueOf(studentCant.getText().toString()));
 
-            database.child("Feed").child(projectId).setValue(newProject);
-            database.child("Usuarios").child("Profesores").child(loggedPerson.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Person teacher = dataSnapshot.getValue(Person.class);
-                    if (teacher != null) {
-                        teacher.addActivity(projectId);
-                        MainActivity.setLoggedPerson(teacher);
-                        database.child("Usuarios").child("Profesores").child(teacher.getId()).setValue(teacher);
-                    }
-                    Navigation.findNavController(root).navigateUp();
-                }
+            MyApplication.getInstance().getApiRepository().setProject(newProject);
+            Person teacher = MainActivity.getLoggedPerson();
+            teacher.addActivity(projectId);
+            MainActivity.setLoggedPerson(teacher);
+            MyApplication.getInstance().getApiRepository().setTeacher(teacher);
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(ProjectsFragment.LOG_TAG, "error creando project");
-                    Navigation.findNavController(root).navigateUp();
-                }
-            });
+            Navigation.findNavController(root).navigateUp();
         };
     }
 }

@@ -85,30 +85,26 @@ public class StudentsFragment extends Fragment {
         tvEmptyRoom.setText(R.string.empty_students_list);
         loading = root.findViewById(R.id.students_loading_bar);
 
-        database.child("Lista de Becarios Disponibles").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (final DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Student student = snapshot.getValue(Student.class);
-                    if (student != null && !data.contains(student)) {
-                        data.add(student);
-                        adapter.notifyDataSetChanged();
-                    }
-                    // TODO: REVISAR ESTO CUANDO CAMBIEMOS EL FETCHING
-                    loading.setVisibility(View.GONE);
-                    if (!data.isEmpty())
-                        emptyCard.setVisibility(View.GONE);
-                    else
-                        emptyCard.setVisibility(View.VISIBLE);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(LOG_TAG, databaseError.getMessage());
-            }
-        });
+        getStudentsList();
 
         return root;
+    }
+
+    private void getStudentsList() {
+        studentsViewModel.getStudents().observe(this, students -> {
+            if (students != null) {
+                for (Student student : students) {
+                    if (!data.contains(student))
+                        data.add(student);
+                }
+                adapter.notifyDataSetChanged();
+            }
+            loading.setVisibility(View.GONE);
+            if (!data.isEmpty())
+                emptyCard.setVisibility(View.GONE);
+            else
+                emptyCard.setVisibility(View.VISIBLE);
+        });
     }
 
     @Override

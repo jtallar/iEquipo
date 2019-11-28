@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -28,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
 
@@ -39,21 +42,15 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ImageButton logInButton;
     private GoogleSignInClient mGoogleSignInClient;
-    private static boolean state;
 
-    private DatabaseReference database;
-    private ValueEventListener listener;
+    private LoginData loginData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if (!state) {
-            state = true;
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        }
-        database = FirebaseDatabase.getInstance().getReference();
+        loginData = new LoginData();
 
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder()
@@ -118,45 +115,32 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user){
         if (user != null && user.getEmail() != null){
-            listener = getListener(user);
-            database.child("Usuarios").addValueEventListener(listener);
+            searchUser(user);
         }
     }
 
-    private ValueEventListener getListener(FirebaseUser user) {
-        return new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String category = snapshot.getKey();
-                    if (category == null) return;
-
-                    if (category.equals("Becarios")) {
-                        for (final DataSnapshot childSnapshot : snapshot.getChildren()){
-                            Student student = childSnapshot.getValue(Student.class);
-                            if (student != null && user.getEmail().equals(student.getEmail())) {
-                                goToMain(student);
-                                return;
-                            }
-                        }
-                    } else if (category.equals("Profesores")) {
-                        for (final DataSnapshot childSnapshot : snapshot.getChildren()){
-                            Person teacher = childSnapshot.getValue(Person.class);
-                            if (teacher != null && user.getEmail().equals(teacher.getEmail())) {
-                                goToMain(teacher);
-                                return;
-                            }
+    private void searchUser(FirebaseUser user) {
+        loginData.getStudents().observe(this, students -> {
+            if (students != null) {
+                for (Student student : students) {
+                    if (user.getEmail().equals(student.getEmail())) {
+                        goToMain(student);
+                        return;
+                    }
+                }
+            }
+            loginData.getTeachers().observe(this, teachers -> {
+                if (teachers != null) {
+                    for (Person teacher : teachers) {
+                        if (user.getEmail().equals(teacher.getEmail())) {
+                            goToMain(teacher);
+                            return;
                         }
                     }
                 }
                 MyApplication.makeToast(getResources().getString(R.string.error_mail_not_found));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(LOG_TAG, databaseError.getMessage());
-            }
-        };
+            });
+        });
     }
 
     private void goToMain(Person person) {
@@ -168,8 +152,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        database.child("Usuarios").removeEventListener(listener);
+    protected void onStop() {
+        super.onStop();
+        loginData.cancelRequests();
     }
 }
