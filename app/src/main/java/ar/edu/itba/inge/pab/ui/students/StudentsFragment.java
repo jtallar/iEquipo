@@ -94,7 +94,7 @@ public class StudentsFragment extends Fragment {
         studentsViewModel.getStudents().observe(this, students -> {
             if (students != null) {
                 for (Student student : students) {
-                    if (!data.contains(student))
+                    if (!data.contains(student) && student.getCreditos() > 0)
                         data.add(student);
                 }
                 adapter.notifyDataSetChanged();
