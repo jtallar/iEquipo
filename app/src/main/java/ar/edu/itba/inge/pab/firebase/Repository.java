@@ -82,12 +82,6 @@ public class Repository {
         return new ApiRequest<>(listener, result);
     }
 
-    public ApiRequest<List<Student>> getFreeStudents() {
-        final MutableLiveData<Result<List<Student>>> result = new MutableLiveData<>();
-        ValueEventListener listener = api.getFreeStudents(getListListener(result, Student.class));
-        return new ApiRequest<>(listener, result);
-    }
-
     public ApiRequest<Project> getProject(String id) {
         final MutableLiveData<Result<Project>> result = new MutableLiveData<>();
         ValueEventListener listener = api.getProject(id, getListener(result, Project.class));

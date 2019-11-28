@@ -40,10 +40,6 @@ public class Api {
         return database.child("Feed").addValueEventListener(listener);
     }
 
-    ValueEventListener getFreeStudents(ValueEventListener listener) {
-        return database.child("Lista de Becarios Disponibles").addValueEventListener(listener);
-    }
-
     ValueEventListener getProject(String id, ValueEventListener listener) {
         return database.child("Feed").child(id).addValueEventListener(listener);
     }
@@ -77,11 +73,11 @@ public class Api {
 //
 //    }
 
-    public void cancelRequest(ValueEventListener listener) {
+    void cancelRequest(ValueEventListener listener) {
         database.removeEventListener(listener);
     }
 
-    public Error handleError(@NonNull DatabaseError error) {
+    Error handleError(@NonNull DatabaseError error) {
         return new Error(error.getCode(), error.getMessage());
     }
 }

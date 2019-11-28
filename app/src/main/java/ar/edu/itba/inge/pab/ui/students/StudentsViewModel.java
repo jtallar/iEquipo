@@ -27,7 +27,7 @@ public class StudentsViewModel extends RequestViewModel {
     }
 
     void reloadStudents() {
-        ApiRequest<List<Student>> studentsRequest = MyApplication.getInstance().getApiRepository().getFreeStudents();
+        ApiRequest<List<Student>> studentsRequest = MyApplication.getInstance().getApiRepository().getStudents();
         requestListeners.add(studentsRequest.getListener());
         this.students = studentsRequest.getLiveData();
     }
