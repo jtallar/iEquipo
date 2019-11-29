@@ -25,6 +25,7 @@ import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.ui.explore.ExploreFragment;
 import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragment;
 import ar.edu.itba.inge.pab.ui.projects.ProjectsFragment;
+import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 
 public class ProjectFragment extends Fragment {
     private ProjectViewModel projectViewModel;
@@ -86,8 +87,14 @@ public class ProjectFragment extends Fragment {
                 case NotificationsFragment.className:
                     action.setText(getResources().getString(R.string.project_action_btn_accept_request));
                     action.setOnClickListener(v -> acceptRequest());
+                    break;
                 default:
-                    action.setVisibility(View.GONE);
+                    // TODO lo que sigue es para probar nomas
+                    action.setOnClickListener(v -> {
+                        MyFirebaseMessagingService.sendMessage("Request for Approval", "It seems to be working", MainActivity.getLoggedPerson().getId());
+                        Navigation.findNavController(root).navigateUp();
+                    });
+//                     action.setVisibility(View.GONE);
             }
         }
 
