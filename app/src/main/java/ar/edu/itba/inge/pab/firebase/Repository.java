@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.itba.inge.pab.MainActivity;
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
@@ -100,6 +101,12 @@ public class Repository {
         return new ApiRequest<>(listener, result);
     }
 
+    public ApiRequest<List<Notification>> getNotifications(String id) {
+        final MutableLiveData<Result<List<Notification>>> result = new MutableLiveData<>();
+        ValueEventListener listener = api.getNotifications(id, getListListener(result, Notification.class));
+        return new ApiRequest<>(listener, result);
+    }
+
     public void setProject(Project project) {
         api.setProject(project);
     }
@@ -112,7 +119,11 @@ public class Repository {
         api.setTeacher(teacher);
     }
 
+    public void setNotification(String userId, Notification notification) { api.setNotification(userId, notification); }
+
     public void deleteProject(String id) {
         api.deleteProject(id);
     }
+
+    public void deleteNotification(String userId, String id) { api.deleteNotification(userId, id);}
 }

@@ -31,6 +31,7 @@ import ar.edu.itba.inge.pab.LoginActivity;
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.MainActivity;
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
 
@@ -145,67 +146,42 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Sends a message to a particular device, having its ID.
      *
-     * @param title FCM title to be send.
-     * @param message FCM message to be send.
+     * @param notification The FCM message to send.
      * @param id User destination ID.
      */
-    public static void sendMessage(String title, String message, String id, JSONObject data) {
+    public static void sendMessage(Notification notification, String id) {
         Log.d(TAG, "Request for message to: " + id);
 
         // TODO change != to ==, when final
         if (id.charAt(0) != 'P')
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;
-                publishMessage(title, message, student.getToken(), data);
+                publishMessage(notification, student.getToken());
             });
         else messagingViewModel.getTeacher(id).observe(MainActivity.getInstance(), person -> {
             if (person == null) return;
-            publishMessage(title, message, person.getToken(), data);
+            publishMessage(notification, person.getToken());
         });
     }
 
     /**
      * Sends a message to a particular device, having its token.
      *
-     * @param title FCM title to be send.
-     * @param message FCM message to be send.
+     * @param notification The FCM notification to send.
      * @param token User destination token.
      */
-    private static void publishMessage(String title, String message, String token, JSONObject data) {
-        JSONObject notification = new JSONObject();
-        JSONObject notificationBody = new JSONObject();
-        try {
-            notificationBody.put("title", title);
-            notificationBody.put("body", message);
+    private static void publishMessage(Notification notification, String token) {
+        JSONObject notificationJSON = new JSONObject();
 
-            notification.put("to", token);
-            notification.put("notification", notificationBody);
-            notification.put("data", data);
+        try {
+            notificationJSON.put("to", token);
+            notificationJSON.put("notification", notification.getNotification());
+            notificationJSON.put("data", notification.getData());
             Log.d(TAG, "Notification: " + notification.toString());
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage());
         }
-        sendNotification(notification);
-    }
-
-    /**
-     * Converts the data to be send into a JSON Object
-     *
-     * @param projectId
-     * @param type
-     * @return the JSON Object to be used on the notification.
-     */
-    public static JSONObject notificationData(String projectId, String type) {
-        JSONObject data = new JSONObject();
-        try {
-            data.put("sender", MainActivity.getLoggedPerson().getId());
-            data.put("project", projectId);
-            data.put("type", type);
-            Log.d(TAG, "Data: " + data.toString());
-        } catch (JSONException e) {
-            Log.e(TAG, "On data JSON create: " + e.getMessage());
-        }
-        return data;
+        sendNotification(notificationJSON);
     }
 
     /**
