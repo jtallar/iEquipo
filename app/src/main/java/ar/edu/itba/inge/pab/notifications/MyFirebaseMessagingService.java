@@ -12,8 +12,17 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
@@ -23,7 +32,13 @@ import ar.edu.itba.inge.pab.elements.Student;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "ar.edu.itba.inge.pab.firebase_messaging";
+    private static final String FCM_API = "https://fcm.googleapis.com/fcm/send";
+    private static final String TYPE = "application/json";
+    private static final String KEY = "";
+    private static RequestQueue requestQueue;
+    private static Context context;
     private static String userToken;
+
     /**
      * Called when message is received.
      *
@@ -71,7 +86,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * Create and show a simple notification containing the received FCM message.
      *
      * @param messageTitle FCM message title received.
-     * @param messageBody FCM message body received
+     * @param messageBody FCM message body received.
      */
     private void sendNotification(String messageTitle, String messageBody) {
         Intent intent = new Intent(this, MainActivity.class);
@@ -112,7 +127,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     public static void sendRegistrationToServer() {
         Person user = MainActivity.getLoggedPerson();
-        if (user == null) return;
+        if (user == null || userToken == null) return;
 
         Log.d(TAG, "Registration of token: " + userToken);
 
@@ -120,5 +135,56 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (user.getClass() == Student.class)
             MyApplication.getInstance().getApiRepository().setStudent((Student) user);
         else MyApplication.getInstance().getApiRepository().setTeacher(user);
+    }
+
+    /**
+     * Sends a message to a particular device, having its ID.
+     *
+     * @param title FCM title to be send.
+     * @param message FCM message to be send.
+     * @param userId User destination ID.
+     */
+    public static void sendMessage(String title, String message, String userId) {
+        JSONObject notification = new JSONObject();
+        JSONObject notificationBody = new JSONObject();
+        try {
+            notificationBody.put("title", title);
+            notificationBody.put("body", message);
+            notification.put("token", MainActivity.getLoggedPerson().getToken());
+            notification.put("notification", notificationBody);
+            Log.d(TAG, "Try to parse JSON data");
+        } catch (JSONException e) {
+            Log.e(TAG, "onCreate: " + e.getMessage());
+        }
+        sendNotification(notification);
+    }
+
+    /**
+     *  Sends the notification to the server.
+     *
+     * @param notification JSON Object properly modeled.
+     */
+    private static void sendNotification(JSONObject notification) {
+        Log.d(TAG, "Sending Notification");
+        JsonObjectRequest request = new JsonObjectRequest(FCM_API, notification, response -> Log.i(TAG, String.format("onResponse: %s", response.toString())), error -> Log.i(TAG, "onErrorResponse: Didn't work")){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String>  params = new HashMap<>();
+                params.put("Authorization", KEY);
+                params.put("Content-Type", TYPE);
+                return params;
+            }
+        };
+        requestQueue.add(request);
+    }
+
+    /**
+     *  Initializes only once the requestQueue
+     *
+     * @param contextIn Context given to run the queue.
+     */
+    public static void setRequestQueue(Context contextIn) {
+        if (context == null) context = contextIn;
+        if (requestQueue == null) requestQueue = Volley.newRequestQueue(contextIn);
     }
 }
