@@ -1,18 +1,20 @@
 package ar.edu.itba.inge.pab.ui.project;
 
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.EditText;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -30,7 +32,7 @@ import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 public class ProjectFragment extends Fragment {
     private ProjectViewModel projectViewModel;
     private TextView title, credits, studentCant, description, schedule, requirements;
-    private Button action;
+    private Button actionLeft, actionRight;
     private Project project;
     private String callingFragment;
 
@@ -67,35 +69,57 @@ public class ProjectFragment extends Fragment {
         requirements.setText(project.getRequisitos());
 
         // TODO: DEFINIR ACCIONES Y TEXTO DE BOTON SEGUN CALLING FRAGMENT
-        action = root.findViewById(R.id.act_btn_action);
-        if (callingFragment == null) action.setVisibility(View.GONE);
+
+        actionLeft = root.findViewById(R.id.act_btn_left_action);
+        if (callingFragment == null) actionLeft.setVisibility(View.GONE);
+        else {
+            switch (callingFragment) {
+                case ProjectsFragment.className:
+                    if (MainActivity.getLoggedPerson().getClass() == Student.class)
+                        actionLeft.setText(getResources().getString(R.string.project_action_btn_contact_teacher));
+                    else
+                        actionLeft.setText(getResources().getString(R.string.project_action_btn_contact_students));
+                    actionLeft.setOnClickListener(v -> openMessageDialog(MainActivity.getLoggedPerson()));
+                    break;
+                case NotificationsFragment.className:
+                    actionLeft.setText(getResources().getString(R.string.project_action_btn_reject_request));
+                    actionLeft.setOnClickListener(v -> rejectRequest());
+                    break;
+                case ExploreFragment.className:
+                default:
+                     actionLeft.setVisibility(View.GONE);
+            }
+        }
+
+        actionRight = root.findViewById(R.id.act_btn_right_action);
+        if (callingFragment == null) actionRight.setVisibility(View.GONE);
         else {
             switch (callingFragment) {
                 case ProjectsFragment.className:
                     if (MainActivity.getLoggedPerson().getClass() == Student.class) {
-                        action.setText(getResources().getString(R.string.project_action_btn_request_out));
-                        action.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.REQUEST_OUT));
+                        actionRight.setText(getResources().getString(R.string.project_action_btn_request_out));
+                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.REQUEST_OUT));
                     } else {
-                        action.setText(getResources().getString(R.string.project_action_btn_delete));
-                        action.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.DELETE));
+                        actionRight.setText(getResources().getString(R.string.project_action_btn_delete));
+                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.DELETE));
                     }
                     break;
                 case ExploreFragment.className:
-                    action.setText(getResources().getString(R.string.project_action_btn_request_in));
-                    action.setOnClickListener(v -> requestIn());
+                    actionRight.setText(getResources().getString(R.string.project_action_btn_request_in));
+                    actionRight.setOnClickListener(v -> requestIn());
                     break;
                 case NotificationsFragment.className:
-                    action.setText(getResources().getString(R.string.project_action_btn_accept_request));
-                    action.setOnClickListener(v -> acceptRequest());
+                    actionRight.setText(getResources().getString(R.string.project_action_btn_accept_request));
+                    actionRight.setOnClickListener(v -> acceptRequest());
                     break;
                 default:
                     // TODO lo que sigue es para probar nomas
-                    action.setText("PROBAR NOTIF");
-                    action.setOnClickListener(v -> {
+                    actionRight.setText("PROBAR NOTIF");
+                    actionRight.setOnClickListener(v -> {
                         MyFirebaseMessagingService.sendMessage("Request de JT", "Holaa", "58639");
                         Navigation.findNavController(root).navigateUp();
                     });
-//                     action.setVisibility(View.GONE);
+//                     actionRight.setVisibility(View.GONE);
             }
         }
 
@@ -134,6 +158,38 @@ public class ProjectFragment extends Fragment {
             }
         }
 
+        dialog.show();
+    }
+
+    private void openMessageDialog(Person loggedPerson) {
+        String title = (loggedPerson.getClass() == Student.class) ? getString(R.string.dialog_message_title_student) : getString(R.string.dialog_message_title_teacher);
+
+        View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_message, null);
+        AlertDialog dialog = new AlertDialog.Builder(root.getContext()).setView(dialogView).create();
+
+        TextView tvTitle = dialogView.findViewById(R.id.dialog_message_title);
+        if (tvTitle != null) tvTitle.setText(title);
+
+        EditText input = dialogView.findViewById(R.id.dialog_message_content);
+        Button cancelButton = dialogView.findViewById(R.id.dialog_message_cancel);
+        if (cancelButton != null) cancelButton.setOnClickListener(v -> dialog.dismiss());
+        Button sendButton = dialogView.findViewById(R.id.dialog_message_ok);
+        if (sendButton != null) {
+            if (loggedPerson.getClass() == Student.class) {
+                sendButton.setOnClickListener(v -> {
+                    if (input.getText() != null) MyFirebaseMessagingService.sendMessage(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString(), project.getIdDocente());
+                    dialog.dismiss();
+                });
+            } else {
+                sendButton.setOnClickListener(v -> {
+                    if (input.getText() != null) {
+                        for (String studentId : project.getAlumnos())
+                            MyFirebaseMessagingService.sendMessage(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString(), studentId);
+                    }
+                    dialog.dismiss();
+                });
+            }
+        }
         dialog.show();
     }
 
