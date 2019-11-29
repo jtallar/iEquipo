@@ -15,8 +15,11 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.MainActivity;
+import ar.edu.itba.inge.pab.elements.Person;
+import ar.edu.itba.inge.pab.elements.Student;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "ar.edu.itba.inge.pab.firebase_messaging";
@@ -56,10 +59,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         Log.d(TAG, "Refreshed token: " + token);
 
+        userToken = token;
+
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(token);
+        sendRegistrationToServer();
     }
 
     /**
@@ -104,10 +109,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * Modify this method to associate the user's FCM InstanceID token with any server-side account
      * maintained by your application.
-     *
-     * @param token The new token.
      */
-    private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method to send token to your app server.
+    public static void sendRegistrationToServer() {
+        Person user = MainActivity.getLoggedPerson();
+        if (user == null) return;
+
+        Log.d(TAG, "Sending token registration to server");
+
+        user.setToken(userToken);
+        if (user.getClass() == Student.class)
+            MyApplication.getInstance().getApiRepository().setStudent((Student) user);
+        else MyApplication.getInstance().getApiRepository().setTeacher(user);
     }
 }

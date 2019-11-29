@@ -30,12 +30,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "ar.edu.itba.hci.hoh";
     private static MainActivity instance;
-    private static Person loggedPerson = new Person("Julian Tallar", "P354", "jtallar@itba.edu.ar");
+    private static Person loggedPerson;
 //    private static Person loggedPerson = new Student("Julian Tallar", "59356", "jtallar@itba.edu.ar");
 
     public synchronized static MainActivity getInstance() {
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
             loggedPerson.addActivity("A0");
             loggedPerson.addActivity("A1");
         }
+
+        MyFirebaseMessagingService.sendRegistrationToServer();
 
         instance = this;
         Toolbar toolbar = findViewById(R.id.toolbar);
