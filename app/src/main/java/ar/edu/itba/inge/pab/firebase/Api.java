@@ -52,6 +52,10 @@ public class Api {
         return database.child("Usuarios").child("Becarios").child(id).addValueEventListener(listener);
     }
 
+    ValueEventListener getNotifications(String id, ValueEventListener listener) {
+        return database.child("Notificationes").child(id).addValueEventListener(listener);
+    }
+
     void setProject(Project project) {
         database.child("Feed").child(project.getId()).setValue(project);
     }
@@ -67,10 +71,6 @@ public class Api {
     void deleteProject(String id) {
         database.child("Feed").child(id).removeValue();
     }
-
-//    ValueEventListener getNotifications(String id, ValueEventListener listener) {
-//
-//    }
 
     void cancelRequest(ValueEventListener listener) {
         database.removeEventListener(listener);
