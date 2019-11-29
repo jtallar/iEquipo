@@ -42,6 +42,7 @@ import ar.edu.itba.inge.pab.ui.explore.ExploreViewModel;
 
 public class StudentsFragment extends Fragment {
     private static final String LOG_TAG = "ar.edu.itba.inge.pab.ui.students.StudentsFragment";
+    public static final String className = "StudentsFragment";
     private StudentsViewModel studentsViewModel;
 
     private RecyclerView rvStudents;
@@ -75,7 +76,7 @@ public class StudentsFragment extends Fragment {
         gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
         rvStudents.setLayoutManager(gridLayoutManager);
         adapter = new StudentAdapter(data, student -> {
-            StudentsFragmentDirections.ActionSelectStudent action = StudentsFragmentDirections.actionSelectStudent(student, student.getNombre());
+            StudentsFragmentDirections.ActionSelectStudent action = StudentsFragmentDirections.actionSelectStudent(student, null, student.getNombre());
             Navigation.findNavController(root).navigate(action);
         });
         rvStudents.setAdapter(adapter);
@@ -91,6 +92,7 @@ public class StudentsFragment extends Fragment {
     }
 
     private void getStudentsList() {
+        data.clear();
         studentsViewModel.getStudents().observe(this, students -> {
             if (students != null) {
                 for (Student student : students) {

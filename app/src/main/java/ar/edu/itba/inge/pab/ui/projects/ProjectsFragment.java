@@ -39,6 +39,7 @@ import ar.edu.itba.inge.pab.ui.explore.ExploreViewModel;
 
 public class ProjectsFragment extends Fragment {
     public static final String LOG_TAG = "ar.edu.itba.inge.pab.ui.projects.ProjectsFragment";
+    public static final String className = "ProjectsFragment";
     private ProjectsViewModel projectsViewModel;
 
     private RecyclerView rvProjects;
@@ -78,7 +79,7 @@ public class ProjectsFragment extends Fragment {
         gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
         rvProjects.setLayoutManager(gridLayoutManager);
         adapter = new ProjectAdapter(data, project -> {
-            ProjectsFragmentDirections.ActionSelectProject action = ProjectsFragmentDirections.actionSelectProject(project, this.getClass().getName(), project.getTitulo());
+            ProjectsFragmentDirections.ActionSelectProject action = ProjectsFragmentDirections.actionSelectProject(project, className, project.getTitulo());
             Navigation.findNavController(root).navigate(action);
         });
         rvProjects.setAdapter(adapter);
@@ -94,6 +95,7 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void getFeedList() {
+        data.clear();
         projectsViewModel.getFeed().observe(this, projects -> {
             if (projects != null) {
                 for (Project project : projects) {
