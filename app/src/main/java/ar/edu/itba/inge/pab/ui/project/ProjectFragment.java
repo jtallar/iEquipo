@@ -90,8 +90,9 @@ public class ProjectFragment extends Fragment {
                     break;
                 default:
                     // TODO lo que sigue es para probar nomas
+                    action.setText("PROBAR NOTIF");
                     action.setOnClickListener(v -> {
-                        MyFirebaseMessagingService.sendMessage("Request for Approval", "It seems to be working", MainActivity.getLoggedPerson().getId());
+                        MyFirebaseMessagingService.sendMessage("Request de JT", "Holaa", "58639");
                         Navigation.findNavController(root).navigateUp();
                     });
 //                     action.setVisibility(View.GONE);
