@@ -114,7 +114,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Person user = MainActivity.getLoggedPerson();
         if (user == null) return;
 
-        Log.d(TAG, "Sending token registration to server");
+        Log.d(TAG, "Registration of token: " + userToken);
 
         user.setToken(userToken);
         if (user.getClass() == Student.class)
