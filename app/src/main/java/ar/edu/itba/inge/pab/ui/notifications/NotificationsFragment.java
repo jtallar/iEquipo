@@ -30,7 +30,7 @@ import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.ui.OnItemClickListener;
 
 public class NotificationsFragment extends Fragment {
-
+    public static final String className = "NotificationsFragment";
     private NotificationsViewModel notificationsViewModel;
 
     private RecyclerView rvNotification;
