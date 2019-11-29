@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +35,7 @@ import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.ui.GridLayoutAutofitManager;
 import ar.edu.itba.inge.pab.ui.OnItemClickListener;
 import ar.edu.itba.inge.pab.ui.ProjectAdapter;
 import ar.edu.itba.inge.pab.ui.explore.ExploreViewModel;
@@ -43,7 +46,6 @@ public class ProjectsFragment extends Fragment {
     private ProjectsViewModel projectsViewModel;
 
     private RecyclerView rvProjects;
-    private GridLayoutManager gridLayoutManager;
     private ProjectAdapter adapter;
 
     private List<Project> data = new ArrayList<>();
@@ -76,7 +78,8 @@ public class ProjectsFragment extends Fragment {
         }
 
         rvProjects = root.findViewById(R.id.rv_projects);
-        gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutAutofitManager(this.getContext(), (int) getResources().getDimension(R.dimen.card_width), LinearLayoutManager.VERTICAL, false);
         rvProjects.setLayoutManager(gridLayoutManager);
         adapter = new ProjectAdapter(data, project -> {
             ProjectsFragmentDirections.ActionSelectProject action = ProjectsFragmentDirections.actionSelectProject(project, className, project.getTitulo());

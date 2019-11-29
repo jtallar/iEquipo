@@ -12,4 +12,6 @@
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_small">14sp</dimen>
+
+    <dimen name="card_width">300dp</dimen>
 </resources>
