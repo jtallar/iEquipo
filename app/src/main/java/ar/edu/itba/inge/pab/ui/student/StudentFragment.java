@@ -110,4 +110,36 @@ public class StudentFragment extends Fragment {
             }
         });
     }
+
+    // To be called when ACCEPT is pressed
+    private void acceptRequest() {
+        // TODO: NEED PROJECT TO ADD STUDENT TO IT
+
+//        Project project;
+//        project.addStudent(student.getId());
+//        studentViewModel.setProject(project);
+//
+//        student.addActivity(project.getId());
+//        studentViewModel.setStudent(student);
+
+        // TODO: SEND NOTIFICATION
+        Navigation.findNavController(root).navigateUp();
+    }
+
+    private void rejectRequest() {
+        // TODO: SEND NOTIFICATION
+        Navigation.findNavController(root).navigateUp();
+    }
+
+    private void removeStudent() {
+//        Project project;
+//        project.removeStudent(student.getId());
+//        studentViewModel.setProject(project);
+//
+//        student.removeActivity(project.getId());
+//        studentViewModel.setStudent(student);
+//
+        // TODO: SEND NOTIFICATION
+        Navigation.findNavController(root).navigateUp();
+    }
 }

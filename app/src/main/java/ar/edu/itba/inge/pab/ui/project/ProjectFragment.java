@@ -147,11 +147,37 @@ public class ProjectFragment extends Fragment {
     }
 
     private void requestIn() {
-
+        // TODO: SEND NOTIFICATION
+        Navigation.findNavController(root).navigateUp();
     }
 
     private void requestOut() {
+        // TODO: SEND NOTIFICATION
+        Navigation.findNavController(root).navigateUp();
+    }
 
+    // To be called when ACCEPT is pressed
+    private void acceptRequest() {
+        if (project.getCantidad() == project.getAlumnos().size()) {
+            MyApplication.makeToast(getResources().getString(R.string.error_project_full));
+            return;
+        }
+
+        Student student = (Student) MainActivity.getLoggedPerson();
+        project.addStudent(student.getId());
+        projectViewModel.setProject(project);
+
+        student.addActivity(project.getId());
+        MainActivity.setLoggedPerson(student);
+        projectViewModel.setStudent(student);
+
+        // TODO: SEND NOTIFICATION
+        Navigation.findNavController(root).navigateUp();
+    }
+
+    private void rejectRequest() {
+        // TODO: SEND NOTIFICATION
+        Navigation.findNavController(root).navigateUp();
     }
 
     private void increaseDeleteCount(View root) {
