@@ -88,4 +88,8 @@ public class Project implements Serializable {
     public void addStudent(String aluId) {
         alumnos.add(aluId);
     }
+
+    public void removeStudent(String aluId) {
+        alumnos.remove(aluId);
+    }
 }
