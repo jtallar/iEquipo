@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +30,7 @@ import ar.edu.itba.inge.pab.elements.Alert;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.ui.GridLayoutAutofitManager;
 import ar.edu.itba.inge.pab.ui.OnItemClickListener;
 
 public class NotificationsFragment extends Fragment {
@@ -36,7 +38,6 @@ public class NotificationsFragment extends Fragment {
     private NotificationsViewModel notificationsViewModel;
 
     private RecyclerView rvNotification;
-    private GridLayoutManager gridLayoutManager;
     private AlertAdapter adapter;
     private View root;
 
@@ -63,7 +64,8 @@ public class NotificationsFragment extends Fragment {
         data.add(new Alert("Solicitud de actividad", "Ha sido seleccionado para participar en:\nCursos de Excel en EDX",new Project()));
 
         rvNotification = root.findViewById(R.id.rv_notifications);
-        gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
+//        GridLayoutManager gridLayoutManager = new GridLayoutAutofitManager(this.getContext(), (int) getResources().getDimension(R.dimen.card_width), LinearLayoutManager.VERTICAL, false);
         rvNotification.setLayoutManager(gridLayoutManager);
         adapter = new AlertAdapter(data, new OnItemClickListener<Alert>() {
             @Override
