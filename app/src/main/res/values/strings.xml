@@ -48,6 +48,7 @@
     <string name="button_publish">Create</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_add_student">Add to project…</string>
+    <string name="button_request">Request</string>
 
     <string name="error_login_failed">Google sign in failed!</string>
     <string name="error_mail_not_found">Mail not registered in PAB!</string>
@@ -61,4 +62,7 @@
     <string name="project_action_btn_request_out">Request out</string>
     <string name="project_action_btn_request_in">Request in</string>
     <string name="project_action_btn_delete">Delete</string>
+
+    <string name="dialog_select_project_title">Select an activity</string>
+    <string name="student_no_activities_message">You have no activities created!</string>
 </resources>
