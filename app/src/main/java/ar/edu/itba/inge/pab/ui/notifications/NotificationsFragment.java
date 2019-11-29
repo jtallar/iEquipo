@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.elements.Alert;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
+import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.ui.OnItemClickListener;
 
 public class NotificationsFragment extends Fragment {
@@ -36,6 +38,7 @@ public class NotificationsFragment extends Fragment {
     private RecyclerView rvNotification;
     private GridLayoutManager gridLayoutManager;
     private AlertAdapter adapter;
+    private View root;
 
     private ArrayList<Alert> data = new ArrayList<>();
 
@@ -48,7 +51,7 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel = ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        root = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         database = FirebaseDatabase.getInstance().getReference();
 
@@ -81,4 +84,18 @@ public class NotificationsFragment extends Fragment {
     }
 
     /* FUNCIONES PARA USAR ENTRE LAS POSIBLES ACCIONES */
+    private OnItemClickListener goToProject(Project project) {
+        return element -> {
+            NotificationsFragmentDirections.ActionSelectProject action = NotificationsFragmentDirections.actionSelectProject(project, className, project.getTitulo());
+            Navigation.findNavController(root).navigate(action);
+        };
+    }
+
+    private OnItemClickListener goToStudent(Student student, String projectId) {
+        return element -> {
+            // TODO: AGREGAR ALGUN PARAMETRO MAS QUE INDIQUE QUE TIPO DE REQUEST ES
+            NotificationsFragmentDirections.ActionSelectStudent action = NotificationsFragmentDirections.actionSelectStudent(student, projectId, student.getNombre());
+            Navigation.findNavController(root).navigate(action);
+        };
+    }
 }
