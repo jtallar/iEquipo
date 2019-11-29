@@ -12,7 +12,7 @@ import ar.edu.itba.inge.pab.firebase.ApiRequest;
 import ar.edu.itba.inge.pab.firebase.Result;
 import ar.edu.itba.inge.pab.ui.RequestViewModel;
 
-class StudentViewModel extends RequestViewModel {
+public class StudentViewModel extends RequestViewModel {
     private LiveData<Result<Project>> project;
 
     LiveData<List<Project>> getFeed() {
