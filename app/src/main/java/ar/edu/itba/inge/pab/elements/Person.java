@@ -40,6 +40,10 @@ public class Person implements Serializable {
         actividades.add(activityId);
     }
 
+    public void removeActivity(String activityId) {
+        actividades.remove(activityId);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

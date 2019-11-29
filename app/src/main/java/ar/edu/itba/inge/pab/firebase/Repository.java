@@ -111,4 +111,8 @@ public class Repository {
     public void setTeacher(Person teacher) {
         api.setTeacher(teacher);
     }
+
+    public void deleteProject(String id) {
+        api.deleteProject(id);
+    }
 }
