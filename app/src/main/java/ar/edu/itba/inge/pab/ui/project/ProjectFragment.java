@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import ar.edu.itba.inge.pab.MainActivity;
+import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.elements.Project;
+import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 
 public class ProjectFragment extends Fragment {
     private TextView title, credits, studentCant, description, schedule, requirements;
@@ -50,6 +53,10 @@ public class ProjectFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: DEFINIR ACCIONES Y TEXTO DE BOTON SEGUN CALLING FRAGMENT
+
+                // TODO lo que sigue es para probar nomas
+                MyFirebaseMessagingService.sendMessage("Request for Approval", "It seems to be working", MainActivity.getLoggedPerson().getId());
+
                 Navigation.findNavController(root).navigateUp();
             }
         });
