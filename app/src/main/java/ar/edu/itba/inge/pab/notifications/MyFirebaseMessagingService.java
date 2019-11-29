@@ -27,6 +27,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import ar.edu.itba.inge.pab.LoginActivity;
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.MainActivity;
@@ -95,7 +96,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param extra FCM extra received. Used for intent extra.
      */
     private void sendNotification(String messageTitle, String messageBody, String extra) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("data", extra);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
