@@ -71,15 +71,15 @@ public class LoginActivity extends AppCompatActivity {
 
         // Intent received if coming from notification
         Intent intent = getIntent();
-        if (intent != null)
+        if (intent != null && intent.getExtras() != null)  {
+            Log.d(LOG_TAG, "We have an intent");
             data = intent.getExtras().getString("data");
-        else data = null;
+        } else data = null;
     }
 
 
     private void logIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        if (data != null) signInIntent.putExtra("data", data);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -155,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent myIntent = new Intent(this, MainActivity.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         myIntent.putExtra(EXTRA_PERSON, person);
+        if (data != null) myIntent.putExtra("data", data);
         startActivity(myIntent);
         finish();
     }
