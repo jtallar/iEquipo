@@ -76,7 +76,7 @@ public class StudentsFragment extends Fragment {
         gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
         rvStudents.setLayoutManager(gridLayoutManager);
         adapter = new StudentAdapter(data, student -> {
-            StudentsFragmentDirections.ActionSelectStudent action = StudentsFragmentDirections.actionSelectStudent(student, className, student.getNombre());
+            StudentsFragmentDirections.ActionSelectStudent action = StudentsFragmentDirections.actionSelectStudent(student, null, student.getNombre());
             Navigation.findNavController(root).navigate(action);
         });
         rvStudents.setAdapter(adapter);
