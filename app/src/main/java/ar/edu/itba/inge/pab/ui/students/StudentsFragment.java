@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +37,7 @@ import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.ui.GridLayoutAutofitManager;
 import ar.edu.itba.inge.pab.ui.OnItemClickListener;
 import ar.edu.itba.inge.pab.ui.ProjectAdapter;
 import ar.edu.itba.inge.pab.ui.explore.ExploreViewModel;
@@ -46,7 +48,6 @@ public class StudentsFragment extends Fragment {
     private StudentsViewModel studentsViewModel;
 
     private RecyclerView rvStudents;
-    private GridLayoutManager gridLayoutManager;
     private StudentAdapter adapter;
 
     private List<Student> data = new ArrayList<>();
@@ -73,7 +74,8 @@ public class StudentsFragment extends Fragment {
         Person loggedPerson = MainActivity.getLoggedPerson();
 
         rvStudents = root.findViewById(R.id.rv_students);
-        gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
+//        GridLayoutManager gridLayoutManager = new GridLayoutAutofitManager(this.getContext(), (int) getResources().getDimension(R.dimen.card_width), LinearLayoutManager.VERTICAL, false);
         rvStudents.setLayoutManager(gridLayoutManager);
         adapter = new StudentAdapter(data, student -> {
             StudentsFragmentDirections.ActionSelectStudent action = StudentsFragmentDirections.actionSelectStudent(student, null, student.getNombre());
