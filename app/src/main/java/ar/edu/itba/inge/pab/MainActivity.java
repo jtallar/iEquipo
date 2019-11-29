@@ -119,12 +119,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        // Intent received if coming from notification
-        Intent myIntent = getIntent();
-        if (myIntent != null) {
+        if (intent.getExtras().getString("data") != null) {
             navController.navigate(R.id.navigation_notifications);
         }
-
     }
 
     @Override

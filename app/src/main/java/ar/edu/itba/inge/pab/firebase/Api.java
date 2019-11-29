@@ -52,9 +52,9 @@ public class Api {
         return database.child("Usuarios").child("Becarios").child(id).addValueEventListener(listener);
     }
 
-    ValueEventListener getNotifications(String id, ValueEventListener listener) {
-        return database.child("Notificationes").child(id).addValueEventListener(listener);
-    }
+//    ValueEventListener getNotifications(String id, ValueEventListener listener) {
+//        return database.child("Notificationes").child(id).addValueEventListener(listener);
+//    }
 
     void setProject(Project project) {
         database.child("Feed").child(project.getId()).setValue(project);
