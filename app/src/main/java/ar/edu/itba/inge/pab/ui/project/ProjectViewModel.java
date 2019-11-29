@@ -10,7 +10,8 @@ import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.firebase.ApiRequest;
 import ar.edu.itba.inge.pab.ui.RequestViewModel;
 
-class ProjectViewModel extends RequestViewModel {
+public class ProjectViewModel extends RequestViewModel {
+
     LiveData<Student> getStudent(String id) {
         ApiRequest<Student> studentRequest = MyApplication.getInstance().getApiRepository().getStudent(id);
         requestListeners.add(studentRequest.getListener());
