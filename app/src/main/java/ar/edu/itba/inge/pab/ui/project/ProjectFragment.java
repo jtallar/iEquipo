@@ -175,6 +175,7 @@ public class ProjectFragment extends Fragment {
         if (cancelButton != null) cancelButton.setOnClickListener(v -> dialog.dismiss());
         Button sendButton = dialogView.findViewById(R.id.dialog_message_ok);
         if (sendButton != null) {
+            // TODO: ADAPTAR AL CAMBIO
             if (loggedPerson.getClass() == Student.class) {
                 sendButton.setOnClickListener(v -> {
                     if (input.getText() != null) MyFirebaseMessagingService.sendMessage(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString(), project.getIdDocente());
