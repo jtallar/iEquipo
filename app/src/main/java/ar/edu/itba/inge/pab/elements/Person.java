@@ -11,6 +11,7 @@ public class Person implements Serializable {
     private String id;
     private List<String> actividades = new ArrayList<>();
     private String email;
+    private String token = "";
 
     public Person() { }
 
@@ -30,6 +31,12 @@ public class Person implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getToken() {return token; }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public List<String> getActividades() {

@@ -52,4 +52,6 @@
     <string name="error_login_failed">Google sign in failed!</string>
     <string name="error_mail_not_found">Mail not registered in PAB!</string>
     <string name="error_firebase_failed">Firebase authentication failed!</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>
