@@ -150,4 +150,10 @@ public class StudentFragment extends Fragment {
         // TODO: SEND NOTIFICATION
         Navigation.findNavController(root).navigateUp();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        studentViewModel.cancelRequests();
+    }
 }
