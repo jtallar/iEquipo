@@ -30,4 +30,11 @@ public class Student extends Person {
         return creditos;
     }
 
+    public void substractCreditos(int creditos) {
+        this.creditos -= creditos;
+    }
+
+    public void addCreditos(int creditos) {
+        this.creditos += creditos;
+    }
 }

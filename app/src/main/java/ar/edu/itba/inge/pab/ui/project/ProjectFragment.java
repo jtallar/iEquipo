@@ -141,6 +141,7 @@ public class ProjectFragment extends Fragment {
         for (String studentId : project.getAlumnos()) {
             projectViewModel.getStudent(studentId).observe(this, student -> {
                 if (student != null) {
+                    student.addCreditos(project.getCreditos());
                     student.removeActivity(project.getId());
                     projectViewModel.setStudent(student);
                 }
@@ -178,6 +179,7 @@ public class ProjectFragment extends Fragment {
         project.addStudent(student.getId());
         projectViewModel.setProject(project);
 
+        student.substractCreditos(project.getCreditos());
         student.addActivity(project.getId());
         MainActivity.setLoggedPerson(student);
         projectViewModel.setStudent(student);
