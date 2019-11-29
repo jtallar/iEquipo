@@ -94,6 +94,9 @@
             app:argType="ar.edu.itba.inge.pab.elements.Student"
             app:nullable="true" />
         <argument
+            android:name="calling_fragment"
+            app:argType="string" />
+        <argument
             android:name="appbar_title"
             app:argType="string" />
     </fragment>
