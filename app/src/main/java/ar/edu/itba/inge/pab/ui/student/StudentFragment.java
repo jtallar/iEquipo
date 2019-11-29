@@ -120,8 +120,6 @@ public class StudentFragment extends Fragment {
 
     // To be called when ACCEPT is pressed
     private void acceptRequest() {
-        // TODO: NEED PROJECT TO ADD STUDENT TO IT
-
         if (selectedProject != null) {
             selectedProject.addStudent(student.getId());
             studentViewModel.setProject(selectedProject);
