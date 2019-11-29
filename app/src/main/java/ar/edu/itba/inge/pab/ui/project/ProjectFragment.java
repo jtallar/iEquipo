@@ -23,6 +23,7 @@ import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.ui.explore.ExploreFragment;
+import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragment;
 import ar.edu.itba.inge.pab.ui.projects.ProjectsFragment;
 
 public class ProjectFragment extends Fragment {
@@ -82,6 +83,9 @@ public class ProjectFragment extends Fragment {
                     action.setText(getResources().getString(R.string.project_action_btn_request_in));
                     action.setOnClickListener(v -> requestIn());
                     break;
+                case NotificationsFragment.className:
+                    action.setText(getResources().getString(R.string.project_action_btn_accept_request));
+                    action.setOnClickListener(v -> acceptRequest());
                 default:
                     action.setVisibility(View.GONE);
             }
@@ -156,7 +160,6 @@ public class ProjectFragment extends Fragment {
         Navigation.findNavController(root).navigateUp();
     }
 
-    // To be called when ACCEPT is pressed
     private void acceptRequest() {
         if (project.getCantidad() == project.getAlumnos().size()) {
             MyApplication.makeToast(getResources().getString(R.string.error_project_full));
