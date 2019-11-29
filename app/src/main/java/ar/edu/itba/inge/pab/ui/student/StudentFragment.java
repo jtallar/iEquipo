@@ -124,6 +124,7 @@ public class StudentFragment extends Fragment {
             selectedProject.addStudent(student.getId());
             studentViewModel.setProject(selectedProject);
 
+            student.substractCreditos(selectedProject.getCreditos());
             student.addActivity(selectedProject.getId());
             studentViewModel.setStudent(student);
         }
@@ -142,6 +143,7 @@ public class StudentFragment extends Fragment {
             selectedProject.removeStudent(student.getId());
             studentViewModel.setProject(selectedProject);
 
+            student.addCreditos(selectedProject.getCreditos());
             student.removeActivity(selectedProject.getId());
             studentViewModel.setStudent(student);
         }
