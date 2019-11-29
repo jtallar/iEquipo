@@ -91,6 +91,7 @@ public class StudentsFragment extends Fragment {
     }
 
     private void getStudentsList() {
+        data.clear();
         studentsViewModel.getStudents().observe(this, students -> {
             if (students != null) {
                 for (Student student : students) {

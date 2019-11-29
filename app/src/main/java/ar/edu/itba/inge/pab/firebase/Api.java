@@ -64,7 +64,6 @@ public class Api {
         database.child("Usuarios").child("Profesores").child(teacher.getId()).setValue(teacher);
     }
 
-    // BEFORE CALLING DELETE, YOU SHOULD GET STUDENTS AND REMOVE ACTIVITY FROM STUDENTS IN PROJECT
     void deleteProject(String id) {
         database.child("Feed").child(id).removeValue();
     }

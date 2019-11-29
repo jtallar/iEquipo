@@ -20,13 +20,12 @@
         android:layout_marginEnd="@dimen/card_spacing">
 
         <TextView
-            android:id="@+id/dialog_exec_routine_message"
+            android:id="@+id/dialog_confirmation_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_italic"
             android:textColor="@color/colorDialogText"
             android:textSize="@dimen/text_size_small"
-            android:text="@string/dialog_confirmation_delete"
             android:layout_marginTop="5dp"/>
 
         <RelativeLayout
@@ -34,15 +33,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/dialog_exec_routine_cancel"
+                android:id="@+id/dialog_confirmation_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dialog_cancel"
                 android:textColor="@color/colorPrimaryDark"
                 android:background="@null"
-                android:layout_toStartOf="@id/dialog_exec_routine_run"/>
+                android:layout_toStartOf="@id/dialog_confirmation_ok"/>
             <Button
-                android:id="@+id/dialog_exec_routine_run"
+                android:id="@+id/dialog_confirmation_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dialog_delete"
