@@ -23,6 +23,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,8 +65,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
+        new JSONObject(remoteMessage.getData()).toString();
 
-        sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), "unused");
     }
 
     /**
@@ -90,12 +92,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param messageTitle FCM message title received.
      * @param messageBody FCM message body received.
+     * @param extra FCM extra received. Used for intent extra.
      */
-    private void sendNotification(String messageTitle, String messageBody) {
+    private void sendNotification(String messageTitle, String messageBody, String extra) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        intent.putExtra("data", extra);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = getString(R.string.default_notification_channel_id);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -113,9 +116,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(channelId, "Channel human readable title", NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
 
@@ -147,18 +148,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param message FCM message to be send.
      * @param id User destination ID.
      */
-    public static void sendMessage(String title, String message, String id) {
+    public static void sendMessage(String title, String message, String id, JSONObject data) {
         Log.d(TAG, "Request for message to: " + id);
 
         // TODO change != to ==, when final
         if (id.charAt(0) != 'P')
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;
-                publishMessage(title, message, student.getToken());
+                publishMessage(title, message, student.getToken(), data);
             });
         else messagingViewModel.getTeacher(id).observe(MainActivity.getInstance(), person -> {
             if (person == null) return;
-            publishMessage(title, message, person.getToken());
+            publishMessage(title, message, person.getToken(), data);
         });
     }
 
@@ -169,25 +170,40 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param message FCM message to be send.
      * @param token User destination token.
      */
-    private static void publishMessage(String title, String message, String token) {
+    private static void publishMessage(String title, String message, String token, JSONObject data) {
         JSONObject notification = new JSONObject();
-        JSONObject dataBody = new JSONObject();
         JSONObject notificationBody = new JSONObject();
         try {
             notificationBody.put("title", title);
             notificationBody.put("body", message);
 
-            // TODO check the need of functionality and add here
-            dataBody.put("sender", MainActivity.getLoggedPerson().getId());
-
             notification.put("to", token);
             notification.put("notification", notificationBody);
-            notification.put("data", dataBody);
+            notification.put("data", data);
             Log.d(TAG, "Notification: " + notification.toString());
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage());
         }
         sendNotification(notification);
+    }
+
+    /**
+     * Converts the data to be send into a JSON Object
+     *
+     * @param projectId
+     * @param type
+     * @return the JSON Object to be used on the notification.
+     */
+    public static JSONObject notificationData(String projectId, String type) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("sender", MainActivity.getLoggedPerson().getId());
+            data.put("project", projectId);
+            data.put("type", type);
+        } catch (JSONException e) {
+            Log.e(TAG, "On data JSON create: " + e.getMessage());
+        }
+        return data;
     }
 
     /**
