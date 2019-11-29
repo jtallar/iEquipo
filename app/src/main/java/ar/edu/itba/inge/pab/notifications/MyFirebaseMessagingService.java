@@ -3,6 +3,7 @@ package ar.edu.itba.inge.pab.notifications;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -38,6 +40,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static RequestQueue requestQueue;
     private static Context context;
     private static String userToken;
+    private static MessagingViewModel messagingViewModel;
 
     /**
      * Called when message is received.
@@ -142,17 +145,43 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param title FCM title to be send.
      * @param message FCM message to be send.
-     * @param userId User destination ID.
+     * @param id User destination ID.
      */
-    public static void sendMessage(String title, String message, String userId) {
+    public static void sendMessage(String title, String message, String id) {
+        Log.d(TAG, "Request for message to: " + id);
+        if (id.charAt(0) != 'P')
+            messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
+                if (student == null) return;
+                publishMessage(title, message, student.getToken());
+            });
+        else messagingViewModel.getTeacher(id).observe(MainActivity.getInstance(), person -> {
+            if (person == null) return;
+            publishMessage(title, message, person.getToken());
+        });
+    }
+
+    /**
+     * Sends a message to a particular device, having its token.
+     *
+     * @param title FCM title to be send.
+     * @param message FCM message to be send.
+     * @param token User destination token.
+     */
+    private static void publishMessage(String title, String message, String token) {
         JSONObject notification = new JSONObject();
+        JSONObject dataBody = new JSONObject();
         JSONObject notificationBody = new JSONObject();
         try {
             notificationBody.put("title", title);
             notificationBody.put("body", message);
-            notification.put("token", MainActivity.getLoggedPerson().getToken());
+
+            // TODO check the need of functionality and add here
+            dataBody.put("sender", MainActivity.getLoggedPerson().getId());
+
+            notification.put("to", token);
             notification.put("notification", notificationBody);
-            Log.d(TAG, "Try to parse JSON data");
+            notification.put("data", dataBody);
+            Log.d(TAG, "Notification: " + notification.toString());
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage());
         }
@@ -183,8 +212,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param contextIn Context given to run the queue.
      */
-    public static void setRequestQueue(Context contextIn) {
+    public static void setParameters(Context contextIn) {
         if (context == null) context = contextIn;
         if (requestQueue == null) requestQueue = Volley.newRequestQueue(contextIn);
+        if (messagingViewModel == null) messagingViewModel = new MessagingViewModel();
     }
 }

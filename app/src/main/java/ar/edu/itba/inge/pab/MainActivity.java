@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             loggedPerson.addActivity("A1");
         }
 
-        MyFirebaseMessagingService.setRequestQueue(this.getApplicationContext());
+        MyFirebaseMessagingService.setParameters(this.getApplicationContext());
         MyFirebaseMessagingService.sendRegistrationToServer();
 
         instance = this;
