@@ -149,6 +149,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     public static void sendMessage(String title, String message, String id) {
         Log.d(TAG, "Request for message to: " + id);
+
+        // TODO change != to ==, when final
         if (id.charAt(0) != 'P')
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;
