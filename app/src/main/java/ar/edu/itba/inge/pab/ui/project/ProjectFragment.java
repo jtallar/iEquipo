@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.elements.Project;
+import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 
 public class ProjectFragment extends Fragment {
     private TextView title, credits, studentCant, description, schedule, requirements;
@@ -50,6 +51,11 @@ public class ProjectFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: DEFINIR ACCIONES Y TEXTO DE BOTON SEGUN CALLING FRAGMENT
+
+                // TODO lo que sigue es para probar nomas
+                MyFirebaseMessagingService.sendMessage(title.toString(), "Somebody touched something here", "");
+
+
                 Navigation.findNavController(root).navigateUp();
             }
         });
