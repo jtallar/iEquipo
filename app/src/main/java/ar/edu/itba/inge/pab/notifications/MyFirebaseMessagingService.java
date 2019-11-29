@@ -200,6 +200,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             data.put("sender", MainActivity.getLoggedPerson().getId());
             data.put("project", projectId);
             data.put("type", type);
+            Log.d(TAG, "Data: " + data.toString());
         } catch (JSONException e) {
             Log.e(TAG, "On data JSON create: " + e.getMessage());
         }
