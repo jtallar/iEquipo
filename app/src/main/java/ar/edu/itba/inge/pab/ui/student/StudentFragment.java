@@ -34,7 +34,7 @@ public class StudentFragment extends Fragment {
     private TextView name, career, id, hours;
     private Button action;
     private Student student;
-    private String callingFragment;
+    private String projectID;
     private View root;
 
     private Project selectedProject;
@@ -48,7 +48,9 @@ public class StudentFragment extends Fragment {
         if (getArguments() != null) {
             StudentFragmentArgs args = StudentFragmentArgs.fromBundle(getArguments());
             student = args.getStudent();
-            callingFragment = args.getCallingFragment();
+            projectID = args.getProjectId();
+            if (projectID != null)
+                studentViewModel.setViewModelProject(projectID);
         }
 
         name = root.findViewById(R.id.student_name);
@@ -61,18 +63,23 @@ public class StudentFragment extends Fragment {
         hours.setText(String.valueOf(student.getCreditos()));
 
         action = root.findViewById(R.id.student_btn_action);
-        if (callingFragment == null) action.setVisibility(View.GONE);
-        else {
-            switch (callingFragment) {
-                case StudentsFragment.className:
-                    action.setText(getResources().getString(R.string.button_add_student));
-                    action.setOnClickListener(v -> getLoggedProjects());
-                    break;
-                default:
-                    action.setVisibility(View.GONE);
-            }
+        if (projectID == null) {
+            // Called by StudentsFragment
+            action.setText(getResources().getString(R.string.button_add_student));
+            action.setOnClickListener(v -> getLoggedProjects());
+        } else {
+            // Called by NotificationsFragment
+            // TODO: VER COMO RECIBO EL TIPO DE NOTIFICACION, QUE HAGO SEGUN EL
+            studentViewModel.getProject().observe(this, project -> {
+                if (project != null) {
+                    selectedProject = project;
+//                    acceptRequest();
+//                    rejectRequest();
+//                    removeStudent();
+                }
+            });
+            action.setVisibility(View.GONE);
         }
-
         return root;
     }
 
@@ -115,12 +122,13 @@ public class StudentFragment extends Fragment {
     private void acceptRequest() {
         // TODO: NEED PROJECT TO ADD STUDENT TO IT
 
-//        Project project;
-//        project.addStudent(student.getId());
-//        studentViewModel.setProject(project);
-//
-//        student.addActivity(project.getId());
-//        studentViewModel.setStudent(student);
+        if (selectedProject != null) {
+            selectedProject.addStudent(student.getId());
+            studentViewModel.setProject(selectedProject);
+
+            student.addActivity(selectedProject.getId());
+            studentViewModel.setStudent(student);
+        }
 
         // TODO: SEND NOTIFICATION
         Navigation.findNavController(root).navigateUp();
@@ -132,13 +140,13 @@ public class StudentFragment extends Fragment {
     }
 
     private void removeStudent() {
-//        Project project;
-//        project.removeStudent(student.getId());
-//        studentViewModel.setProject(project);
-//
-//        student.removeActivity(project.getId());
-//        studentViewModel.setStudent(student);
-//
+        if (selectedProject != null) {
+            selectedProject.removeStudent(student.getId());
+            studentViewModel.setProject(selectedProject);
+
+            student.removeActivity(selectedProject.getId());
+            studentViewModel.setStudent(student);
+        }
         // TODO: SEND NOTIFICATION
         Navigation.findNavController(root).navigateUp();
     }
