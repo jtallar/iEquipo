@@ -179,7 +179,7 @@ public class ProjectFragment extends Fragment {
                 sendButton.setOnClickListener(v -> {
                     if (input.getText() != null)
                         sendNotif(Notification.NotificationType.INFO,
-                                String.format("%s %s %s", loggedPerson.getNombre(), getResources().getString(R.string.notification_info_message), project.getTitulo()), input.getText().toString(), project.getId(), project.getIdDocente());
+                                String.format("%s %s", getResources().getString(R.string.notification_info_message), loggedPerson.getNombre()), input.getText().toString(), project.getId(), project.getIdDocente());
                     dialog.dismiss();
                 });
             } else {
@@ -187,7 +187,7 @@ public class ProjectFragment extends Fragment {
                     if (input.getText() != null) {
                         for (String studentId : project.getAlumnos())
                             sendNotif(Notification.NotificationType.INFO,
-                                    String.format("%s %s %s", loggedPerson.getNombre(), getResources().getString(R.string.notification_info_message), project.getTitulo()), input.getText().toString(), project.getId(), studentId);
+                                    String.format("%s %s", getResources().getString(R.string.notification_info_message), loggedPerson.getNombre()), input.getText().toString(), project.getId(), studentId);
                     }
                     dialog.dismiss();
                 });

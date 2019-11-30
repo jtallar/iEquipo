@@ -91,7 +91,7 @@
     <string name="notification_request_title">Nueva invitación</string>
     <string name="notification_request_message">lo ha invitado a la actividad</string>
     <string name="notification_info_title">Nuevo mensaje</string>
-    <string name="notification_info_message">le ha mandado un mensaje</string>
+    <string name="notification_info_message">de:</string>
     <string name="notification_info_accept_join">ha aceptado su solicitud para la actividad</string>
     <string name="notification_info_reject_join">ha rechazado su solicitud para la actividad</string>
     <string name="notification_info_accept_down">ha aceptado su solicitud para dar de baja la actividad</string>
