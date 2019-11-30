@@ -10,16 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
-import ar.edu.itba.inge.pab.elements.Alert;
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.ui.OnItemClickListener;
 
-public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHolder> {
-    private List<Alert> data;
-    private OnItemClickListener<Alert> listener;
+public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.AlertViewHolder> {
+    private List<Notification> data;
+    private OnItemClickListener<Notification> listener;
 
-    public AlertAdapter(List<Alert> data, OnItemClickListener<Alert> itemClickListener) {
+    public NotificationsAdapter(List<Notification> data, OnItemClickListener<Notification> itemClickListener) {
         this.data = data;
         this.listener = itemClickListener;
     }
@@ -51,10 +50,10 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
             tvNotificationContent = itemView.findViewById(R.id.tv_notification_content);
         }
 
-        public void bind(final Alert alert, final OnItemClickListener<Alert> listener) {
-            tvNotificationType.setText(alert.getType());
-            tvNotificationContent.setText(alert.getContent());
-            itemView.setOnClickListener(view -> listener.onItemClick(alert));
+        public void bind(final Notification notification, final OnItemClickListener<Notification> listener) {
+            tvNotificationType.setText(notification.getTitle());
+            tvNotificationContent.setText(notification.getMessage());
+            itemView.setOnClickListener(view -> listener.onItemClick(notification));
         }
     }
 }
