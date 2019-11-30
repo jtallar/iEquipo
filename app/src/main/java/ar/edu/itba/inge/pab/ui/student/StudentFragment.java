@@ -24,8 +24,10 @@ import java.util.stream.Collectors;
 import ar.edu.itba.inge.pab.MainActivity;
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 import ar.edu.itba.inge.pab.ui.students.StudentsFragment;
 
 
@@ -75,17 +77,19 @@ public class StudentFragment extends Fragment {
             studentViewModel.getProject().observe(this, project -> {
                 if (project != null) {
                     selectedProject = project;
-                    switch (notifType) {
-                        case "DAR DE ALTA":
-                            actionLeft.setText(getResources().getString(R.string.button_reject_join));
-                            actionLeft.setOnClickListener(v -> rejectRequest());
-                            actionRight.setText(getResources().getString(R.string.button_accept_join));
+                    Notification.NotificationType type = Notification.NotificationType.getNotificationType(notifType);
+                    if (type == null) return;
+                    switch (type) {
+                        case JOIN:
+                            actionLeft.setText(String.format("%s %s", getResources().getString(R.string.button_reject_join), project.getTitulo()));
+                            actionLeft.setOnClickListener(v -> rejectRequest(Notification.NotificationType.JOIN));
+                            actionRight.setText(String.format("%s %s", getResources().getString(R.string.button_accept_join), project.getTitulo()));
                             actionRight.setOnClickListener(v -> acceptRequest());
                             break;
-                        case "DAR DE BAJA":
-                            actionLeft.setText(getResources().getString(R.string.button_reject_out));
-                            actionLeft.setOnClickListener(v -> rejectRequest());
-                            actionRight.setText(getResources().getString(R.string.button_accept_out));
+                        case DOWN:
+                            actionLeft.setText(String.format("%s %s", getResources().getString(R.string.button_reject_out), project.getTitulo()));
+                            actionLeft.setOnClickListener(v -> rejectRequest(Notification.NotificationType.DOWN));
+                            actionRight.setText(String.format("%s %s", getResources().getString(R.string.button_accept_out), project.getTitulo()));
                             actionRight.setOnClickListener(v -> removeStudent());
                             break;
                         default:
@@ -94,7 +98,6 @@ public class StudentFragment extends Fragment {
                     }
                 }
             });
-            actionRight.setVisibility(View.GONE);
         }
         return root;
     }
@@ -107,11 +110,12 @@ public class StudentFragment extends Fragment {
         String[] projectNames = projects.stream().map(Project::getTitulo).toArray(String[]::new);
         selectedProject = projects.get(0);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext(), R.style.AlertDialogTheme);
         builder.setTitle(R.string.dialog_select_project_title)
                 .setSingleChoiceItems(projectNames, 0, (dialog, which) -> selectedProject = projects.get(which))
                 .setPositiveButton(R.string.button_request, (dialog, which) -> {
-                    // TODO: SEND NOTIFICATION
+                    sendNotif(Notification.NotificationType.REQUEST,
+                            String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_request_message), selectedProject.getTitulo()), selectedProject.getId(), student.getId());
                     Log.e(MainActivity.LOG_TAG, String.format("REQUESTED FOR %s", selectedProject.getTitulo()));
                     dialog.dismiss();
                     Navigation.findNavController(root).navigateUp();
@@ -145,12 +149,19 @@ public class StudentFragment extends Fragment {
             studentViewModel.setStudent(student);
         }
 
-        // TODO: SEND NOTIFICATION
+        sendNotif(Notification.NotificationType.INFO,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_join), selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();
     }
 
-    private void rejectRequest() {
-        // TODO: SEND NOTIFICATION
+    private void rejectRequest(Notification.NotificationType type) {
+        String message;
+        if (type.equals(Notification.NotificationType.JOIN))
+            message = getResources().getString(R.string.notification_info_reject_join);
+        else // DOWN
+            message = getResources().getString(R.string.notification_info_reject_down);
+        sendNotif(Notification.NotificationType.INFO,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), message, selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();
     }
 
@@ -163,8 +174,18 @@ public class StudentFragment extends Fragment {
             student.removeActivity(selectedProject.getId());
             studentViewModel.setStudent(student);
         }
-        // TODO: SEND NOTIFICATION
+
+        sendNotif(Notification.NotificationType.INFO,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_down), selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();
+    }
+
+    private void sendNotif(Notification.NotificationType type, String message, String projectId, String receiverId) {
+        MyFirebaseMessagingService.sendMessage(new Notification(type.getTitle(), message, projectId, type), receiverId);
+    }
+
+    private void sendNotif(Notification.NotificationType type, String message, String body, String projectId, String receiverId) {
+        MyFirebaseMessagingService.sendMessage(new Notification(type.getTitle(), message, body, projectId, type), receiverId);
     }
 
     @Override
