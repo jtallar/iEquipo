@@ -48,7 +48,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         public ProjectViewHolder (View itemView) {
             super(itemView);
             tvProjectName = itemView.findViewById(R.id.tv_project_name);
-            tvProjectHours = itemView.findViewById(R.id.tv_project_hours);
+//            tvProjectHours = itemView.findViewById(R.id.tv_project_hours);
         }
 
         public void bind(final Project project, final OnItemClickListener<Project> listener) {
