@@ -32,9 +32,9 @@ import ar.edu.itba.inge.pab.ui.students.StudentsFragment;
 public class StudentFragment extends Fragment {
     private StudentViewModel studentViewModel;
     private TextView name, career, id, hours;
-    private Button action;
+    private Button actionRight, actionLeft;
     private Student student;
-    private String projectID;
+    private String projectID, notifType;
     private View root;
 
     private Project selectedProject;
@@ -49,6 +49,7 @@ public class StudentFragment extends Fragment {
             StudentFragmentArgs args = StudentFragmentArgs.fromBundle(getArguments());
             student = args.getStudent();
             projectID = args.getProjectId();
+            notifType = args.getRequestType();
             if (projectID != null)
                 studentViewModel.setViewModelProject(projectID);
         }
@@ -62,23 +63,38 @@ public class StudentFragment extends Fragment {
         hours = root.findViewById(R.id.student_hours);
         hours.setText(String.valueOf(student.getCreditos()));
 
-        action = root.findViewById(R.id.student_btn_action);
+        actionLeft = root.findViewById(R.id.student_btn_left_action);
+        actionRight = root.findViewById(R.id.student_btn_right_action);
         if (projectID == null) {
             // Called by StudentsFragment
-            action.setText(getResources().getString(R.string.button_add_student));
-            action.setOnClickListener(v -> getLoggedProjects());
+            actionLeft.setVisibility(View.GONE);
+            actionRight.setText(getResources().getString(R.string.button_add_student));
+            actionRight.setOnClickListener(v -> getLoggedProjects());
         } else {
             // Called by NotificationsFragment
-            // TODO: VER COMO RECIBO EL TIPO DE NOTIFICACION, QUE HAGO SEGUN EL
             studentViewModel.getProject().observe(this, project -> {
                 if (project != null) {
                     selectedProject = project;
-//                    acceptRequest();
-//                    rejectRequest();
-//                    removeStudent();
+                    switch (notifType) {
+                        case "DAR DE ALTA":
+                            actionLeft.setText(getResources().getString(R.string.button_reject_join));
+                            actionLeft.setOnClickListener(v -> rejectRequest());
+                            actionRight.setText(getResources().getString(R.string.button_accept_join));
+                            actionRight.setOnClickListener(v -> acceptRequest());
+                            break;
+                        case "DAR DE BAJA":
+                            actionLeft.setText(getResources().getString(R.string.button_reject_out));
+                            actionLeft.setOnClickListener(v -> rejectRequest());
+                            actionRight.setText(getResources().getString(R.string.button_accept_out));
+                            actionRight.setOnClickListener(v -> removeStudent());
+                            break;
+                        default:
+                            actionLeft.setVisibility(View.GONE);
+                            actionRight.setVisibility(View.GONE);
+                    }
                 }
             });
-            action.setVisibility(View.GONE);
+            actionRight.setVisibility(View.GONE);
         }
         return root;
     }
