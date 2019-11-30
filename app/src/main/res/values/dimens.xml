@@ -14,7 +14,4 @@
     <dimen name="text_size_small">14sp</dimen>
 
     <dimen name="card_width">300dp</dimen>
-
-    <dimen name="default_vertical_padding" >10dp</dimen>
-    <dimen name="default_card_height" ></dimen>
 </resources>
