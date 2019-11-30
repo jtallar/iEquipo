@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String EXTRA_PERSON = "ar.edu.itba.inge.pab.LoginActivity.extraPerson";
 
     private static final int RC_SIGN_IN = 123;
+    private String data;
     private FirebaseAuth mAuth;
     private ImageButton logInButton;
     private GoogleSignInClient mGoogleSignInClient;
@@ -67,6 +68,13 @@ public class LoginActivity extends AppCompatActivity {
 
         // Check if user is signed in (non-null) and update UI accordingly.
         updateUI(mAuth.getCurrentUser());
+
+        // Intent received if coming from notification
+        Intent intent = getIntent();
+        if (intent != null && intent.getExtras() != null)  {
+            Log.d(LOG_TAG, "We have an intent");
+            data = intent.getExtras().getString("data");
+        } else data = null;
     }
 
 
@@ -147,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent myIntent = new Intent(this, MainActivity.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         myIntent.putExtra(EXTRA_PERSON, person);
+        if (data != null) myIntent.putExtra("data", data);
         startActivity(myIntent);
         finish();
     }

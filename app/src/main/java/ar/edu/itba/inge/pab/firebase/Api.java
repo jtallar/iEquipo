@@ -7,6 +7,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
@@ -52,6 +56,10 @@ public class Api {
         return database.child("Usuarios").child("Becarios").child(id).addValueEventListener(listener);
     }
 
+    ValueEventListener getNotifications(String id, ValueEventListener listener) {
+        return database.child("Notificaciones").child(id).addValueEventListener(listener);
+    }
+
     void setProject(Project project) {
         database.child("Feed").child(project.getId()).setValue(project);
     }
@@ -64,13 +72,19 @@ public class Api {
         database.child("Usuarios").child("Profesores").child(teacher.getId()).setValue(teacher);
     }
 
+    void setNotification(String userId, Notification notification) {
+        String key = database.child("Notificaciones").child(userId).push().getKey();
+        notification.setId(key);
+        database.child("Notificaciones").child(userId).child(key).setValue(notification);
+    }
+
     void deleteProject(String id) {
         database.child("Feed").child(id).removeValue();
     }
 
-//    ValueEventListener getNotifications(String id, ValueEventListener listener) {
-//
-//    }
+    void deleteNotification(String userId, String id) {
+        database.child("Notificaciones").child(userId).child(id).removeValue();
+    }
 
     void cancelRequest(ValueEventListener listener) {
         database.removeEventListener(listener);

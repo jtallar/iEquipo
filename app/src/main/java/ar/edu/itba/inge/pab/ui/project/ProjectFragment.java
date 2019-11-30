@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import ar.edu.itba.inge.pab.MainActivity;
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
@@ -114,12 +115,13 @@ public class ProjectFragment extends Fragment {
                     break;
                 default:
                     // TODO lo que sigue es para probar nomas
-                    actionRight.setText("PROBAR NOTIF");
-                    actionRight.setOnClickListener(v -> {
-                        MyFirebaseMessagingService.sendMessage("Request de JT", "Holaa", "58639");
+                    action.setText("PROBAR NOTIF");
+                    action.setOnClickListener(v -> {
+                        MyFirebaseMessagingService.sendMessage(new Notification("Request to join", "Join " + title.getText(), "A01", "request")
+                                , MainActivity.getLoggedPerson().getId());
                         Navigation.findNavController(root).navigateUp();
                     });
-//                     actionRight.setVisibility(View.GONE);
+                     action.setVisibility(View.GONE);
             }
         }
 
