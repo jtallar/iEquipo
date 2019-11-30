@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         if (intent != null && intent.getExtras() != null)  {
             Log.d(LOG_TAG, "We have an intent");
             data = intent.getExtras().getString("data");
+            Log.d(LOG_TAG, "Data is: " + data);
         } else data = null;
     }
 
