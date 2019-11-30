@@ -120,12 +120,11 @@ public class StudentFragment extends Fragment {
 
     // To be called when ACCEPT is pressed
     private void acceptRequest() {
-        // TODO: NEED PROJECT TO ADD STUDENT TO IT
-
         if (selectedProject != null) {
             selectedProject.addStudent(student.getId());
             studentViewModel.setProject(selectedProject);
 
+            student.substractCreditos(selectedProject.getCreditos());
             student.addActivity(selectedProject.getId());
             studentViewModel.setStudent(student);
         }
@@ -144,10 +143,17 @@ public class StudentFragment extends Fragment {
             selectedProject.removeStudent(student.getId());
             studentViewModel.setProject(selectedProject);
 
+            student.addCreditos(selectedProject.getCreditos());
             student.removeActivity(selectedProject.getId());
             studentViewModel.setStudent(student);
         }
         // TODO: SEND NOTIFICATION
         Navigation.findNavController(root).navigateUp();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        studentViewModel.cancelRequests();
     }
 }
