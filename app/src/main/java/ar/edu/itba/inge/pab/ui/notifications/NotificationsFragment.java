@@ -104,10 +104,8 @@ public class NotificationsFragment extends Fragment {
         data.clear();
         notificationsViewModel.getNotifications().observe(this, notifications -> {
             if (notifications != null) {
-                for (Notification notification : notifications) {
-                    if (!data.contains(notification))
-                        data.add(notification);
-                }
+                data.clear();
+                data.addAll(notifications);
                 adapter.notifyDataSetChanged();
             }
             loading.setVisibility(View.GONE);
@@ -159,5 +157,11 @@ public class NotificationsFragment extends Fragment {
             dialog.dismiss();
         });
         dialog.show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        notificationsViewModel.cancelRequests();
     }
 }
