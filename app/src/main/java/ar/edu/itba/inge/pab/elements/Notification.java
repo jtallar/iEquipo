@@ -126,4 +126,16 @@ public class Notification implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                ", sender='" + sender + '\'' +
+                ", type='" + type + '\'' +
+                ", project='" + project + '\'' +
+                '}';
+    }
 }

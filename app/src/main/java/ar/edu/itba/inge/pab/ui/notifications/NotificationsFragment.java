@@ -92,12 +92,10 @@ public class NotificationsFragment extends Fragment {
     private void getNotificationsList() {
         data.clear();
         notificationsViewModel.getNotifications().observe(this, notifications -> {
-            Log.d("HELLO", "Entered here");
             if (notifications != null) {
-                Log.d("HELLO", "and here");
                 for (Notification notification : notifications) {
-                    Log.d("HELLO", "This has changed");
-                    data.add(notification);
+                    if (!data.contains(notification))
+                        data.add(notification);
                 }
                 adapter.notifyDataSetChanged();
             }
