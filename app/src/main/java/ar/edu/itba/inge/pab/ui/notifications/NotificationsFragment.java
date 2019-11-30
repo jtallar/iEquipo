@@ -1,18 +1,16 @@
 package ar.edu.itba.inge.pab.ui.notifications;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -25,8 +23,7 @@ import java.util.ArrayList;
 
 import ar.edu.itba.inge.pab.MainActivity;
 import ar.edu.itba.inge.pab.R;
-import ar.edu.itba.inge.pab.elements.Alert;
-import ar.edu.itba.inge.pab.elements.Person;
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.ui.OnItemClickListener;
@@ -37,10 +34,10 @@ public class NotificationsFragment extends Fragment {
 
     private RecyclerView rvNotification;
     private GridLayoutManager gridLayoutManager;
-    private AlertAdapter adapter;
+    private NotificationsAdapter adapter;
     private View root;
 
-    private ArrayList<Alert> data = new ArrayList<>();
+    private ArrayList<Notification> data = new ArrayList<>();
 
     private DatabaseReference database;
 
@@ -55,19 +52,12 @@ public class NotificationsFragment extends Fragment {
 
         database = FirebaseDatabase.getInstance().getReference();
 
-        Person loggedPerson = MainActivity.getLoggedPerson();
-
-        data.add(new Alert("Confirmacion de solicitud", "Ha sido aceptado para participar en:\nAyudantía en Programación Imperativa", new Project()));
-        data.add(new Alert("Solicitud de actividad", "Ha sido seleccionado para participar en:\nAyudantía en Laboratorio de Física I",  new Project()));
-        data.add(new Alert("Solicitud de actividad", "Ha sido seleccionado para participar en:\nAyudantía en Programación Funcional", new Project()));
-        data.add(new Alert("Solicitud de actividad", "Ha sido seleccionado para participar en:\nCursos de Excel en EDX",new Project()));
-
         rvNotification = root.findViewById(R.id.rv_notifications);
         gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
         rvNotification.setLayoutManager(gridLayoutManager);
-        adapter = new AlertAdapter(data, new OnItemClickListener<Alert>() {
+        adapter = new NotificationsAdapter(data, new OnItemClickListener<Notification>() {
             @Override
-            public void onItemClick(Alert element) {
+            public void onItemClick(Notification element) {
                 // TODO: OPEN NOTIF
             }
         });
@@ -78,7 +68,7 @@ public class NotificationsFragment extends Fragment {
         tvEmptyRoom.setText(R.string.empty_notifications_list);
         loading = root.findViewById(R.id.notifications_loading_bar);
 
-        // TODO: BRING DATA FROM FIREBASE
+        getNotificationsList();
 
         return root;
     }
@@ -97,5 +87,25 @@ public class NotificationsFragment extends Fragment {
             NotificationsFragmentDirections.ActionSelectStudent action = NotificationsFragmentDirections.actionSelectStudent(student, projectId, student.getNombre());
             Navigation.findNavController(root).navigate(action);
         };
+    }
+
+    private void getNotificationsList() {
+        data.clear();
+        notificationsViewModel.getNotifications().observe(this, notifications -> {
+            Log.d("HELLO", "Entered here");
+            if (notifications != null) {
+                Log.d("HELLO", "and here");
+                for (Notification notification : notifications) {
+                    Log.d("HELLO", "This has changed");
+                    data.add(notification);
+                }
+                adapter.notifyDataSetChanged();
+            }
+            loading.setVisibility(View.GONE);
+            if (!data.isEmpty())
+                emptyCard.setVisibility(View.GONE);
+            else
+                emptyCard.setVisibility(View.VISIBLE);
+        });
     }
 }
