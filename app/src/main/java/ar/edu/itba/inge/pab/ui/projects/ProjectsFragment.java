@@ -82,7 +82,7 @@ public class ProjectsFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutAutofitManager(this.getContext(), (int) getResources().getDimension(R.dimen.card_width), LinearLayoutManager.VERTICAL, false);
         rvProjects.setLayoutManager(gridLayoutManager);
         adapter = new ProjectAdapter(data, project -> {
-            ProjectsFragmentDirections.ActionSelectProject action = ProjectsFragmentDirections.actionSelectProject(project, className, project.getTitulo());
+            ProjectsFragmentDirections.ActionSelectProject action = ProjectsFragmentDirections.actionSelectProject(project, className, null, project.getTitulo());
             Navigation.findNavController(root).navigate(action);
         });
         rvProjects.setAdapter(adapter);
