@@ -31,6 +31,8 @@ import androidx.navigation.ui.NavigationUI;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
+import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragment;
+import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragmentDirections;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -117,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        if (intent.getExtras().getString("data") != null) {
+            navController.navigate(R.id.navigation_notifications);
+        }
     }
 
     @Override

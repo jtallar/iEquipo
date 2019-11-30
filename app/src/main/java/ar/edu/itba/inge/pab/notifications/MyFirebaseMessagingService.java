@@ -23,12 +23,15 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import ar.edu.itba.inge.pab.LoginActivity;
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.MainActivity;
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
 
@@ -49,23 +52,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // ...
-
-        // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-        }
+        // Get the notification and save it on database
+        String title = remoteMessage.getNotification().getTitle();
+        String message = remoteMessage.getNotification().getBody();
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-        }
+        Notification notification = new Notification(title, message);
+        notification.setData(new JSONObject(remoteMessage.getData()));
+        MyApplication.getInstance().getApiRepository().setNotification(MainActivity.getLoggedPerson().getId(), notification);
 
-        sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        // Send notification to user
+        sendNotification(title, message, "unused");
     }
 
     /**
@@ -90,12 +89,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param messageTitle FCM message title received.
      * @param messageBody FCM message body received.
+     * @param extra FCM extra received. Used for intent extra.
      */
-    private void sendNotification(String messageTitle, String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void sendNotification(String messageTitle, String messageBody, String extra) {
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        intent.putExtra("data", extra);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = getString(R.string.default_notification_channel_id);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -113,9 +113,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(channelId, "Channel human readable title", NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
 
@@ -143,51 +141,42 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Sends a message to a particular device, having its ID.
      *
-     * @param title FCM title to be send.
-     * @param message FCM message to be send.
+     * @param notification The FCM message to send.
      * @param id User destination ID.
      */
-    public static void sendMessage(String title, String message, String id) {
+    public static void sendMessage(Notification notification, String id) {
         Log.d(TAG, "Request for message to: " + id);
 
         // TODO change != to ==, when final
         if (id.charAt(0) != 'P')
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;
-                publishMessage(title, message, student.getToken());
+                publishMessage(notification, student.getToken());
             });
         else messagingViewModel.getTeacher(id).observe(MainActivity.getInstance(), person -> {
             if (person == null) return;
-            publishMessage(title, message, person.getToken());
+            publishMessage(notification, person.getToken());
         });
     }
 
     /**
      * Sends a message to a particular device, having its token.
      *
-     * @param title FCM title to be send.
-     * @param message FCM message to be send.
+     * @param notification The FCM notification to send.
      * @param token User destination token.
      */
-    private static void publishMessage(String title, String message, String token) {
-        JSONObject notification = new JSONObject();
-        JSONObject dataBody = new JSONObject();
-        JSONObject notificationBody = new JSONObject();
+    private static void publishMessage(Notification notification, String token) {
+        JSONObject notificationJSON = new JSONObject();
+
         try {
-            notificationBody.put("title", title);
-            notificationBody.put("body", message);
-
-            // TODO check the need of functionality and add here
-            dataBody.put("sender", MainActivity.getLoggedPerson().getId());
-
-            notification.put("to", token);
-            notification.put("notification", notificationBody);
-            notification.put("data", dataBody);
+            notificationJSON.put("to", token);
+            notificationJSON.put("notification", notification.jsonNotification());
+            notificationJSON.put("data", notification.jsonData());
             Log.d(TAG, "Notification: " + notification.toString());
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage());
         }
-        sendNotification(notification);
+        sendNotification(notificationJSON);
     }
 
     /**
