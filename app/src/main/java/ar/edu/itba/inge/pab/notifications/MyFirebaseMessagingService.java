@@ -147,7 +147,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static void sendMessage(Notification notification, String id) {
         Log.d(TAG, "Request for message to: " + id);
 
-        // TODO change != to ==, when final
+        // TODO: VER COMO QUEDA EL LEGADO DOCENTE
         if (id.charAt(0) != 'P')
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;

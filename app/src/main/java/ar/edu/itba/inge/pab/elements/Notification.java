@@ -2,6 +2,8 @@ package ar.edu.itba.inge.pab.elements;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,6 +11,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import ar.edu.itba.inge.pab.MainActivity;
+import ar.edu.itba.inge.pab.MyApplication;
+import ar.edu.itba.inge.pab.R;
 
 public class Notification implements Serializable {
     private static final String TAG = "ar.edu.itba.inge.pab.NotificationClass";
@@ -17,6 +21,7 @@ public class Notification implements Serializable {
     private String id;
     private String title;
     private String message;
+    private String body;
 
     private String sender;
     private String type = "";
@@ -30,9 +35,16 @@ public class Notification implements Serializable {
         this.sender = MainActivity.getLoggedPerson().getId();
     }
 
-    public Notification(String title, String message, String project, String type) {
+    public Notification(String title, String message, String project, NotificationType type) {
         this(title, message);
-        this.type = type;
+        this.type = type.getType();
+        this.project = project;
+    }
+
+    public Notification(String title, String message, String body, String project, NotificationType type) {
+        this(title, message);
+        this.body = body;
+        this.type = type.getType();
         this.project = project;
     }
 
@@ -55,6 +67,7 @@ public class Notification implements Serializable {
             notificationData.put("sender", sender);
             notificationData.put("project", project);
             notificationData.put("type", type);
+            notificationData.put("body", body);
             Log.d(TAG, "Notification: " + notificationData.toString());
         } catch (JSONException e) {
             Log.e(TAG, "On create: " + e.getMessage());
@@ -113,6 +126,9 @@ public class Notification implements Serializable {
         this.project = project;
     }
 
+    public String getBody() {
+        return body;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -127,6 +143,7 @@ public class Notification implements Serializable {
         return Objects.hash(id);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Notification{" +
@@ -137,5 +154,36 @@ public class Notification implements Serializable {
                 ", type='" + type + '\'' +
                 ", project='" + project + '\'' +
                 '}';
+    }
+
+    public enum NotificationType {
+        DOWN("Down", MyApplication.getStringResource(R.string.notification_down_title)),
+        JOIN("Join project", MyApplication.getStringResource(R.string.notification_join_title)),
+        REQUEST("Request student", MyApplication.getStringResource(R.string.notification_request_title)),
+        INFO("Info", MyApplication.getStringResource(R.string.notification_info_title));
+
+        private String type;
+        private String title;
+
+        NotificationType(String type, String title) {
+            this.type = type;
+            this.title = title;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public static NotificationType getNotificationType(String string) {
+            for (NotificationType notificationType : NotificationType.values()) {
+                if (notificationType.type.equals(string))
+                    return notificationType;
+            }
+            return null;
+        }
     }
 }
