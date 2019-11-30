@@ -50,10 +50,12 @@
     <string name="button_add_student">Add to project…</string>
     <string name="button_request">Request</string>
     <string name="button_send">Send</string>
-    <string name="button_accept_join">Accept join</string>
-    <string name="button_accept_out">Accept out</string>
-    <string name="button_reject_join">Reject join</string>
-    <string name="button_reject_out">Reject out</string>
+    <!--  ARCHIVAR ABAJO  -->
+    <string name="button_store">Store</string>
+    <string name="button_accept_join">Accept join to</string>
+    <string name="button_accept_out">Accept out to</string>
+    <string name="button_reject_join">Reject join to</string>
+    <string name="button_reject_out">Reject out to</string>
 
     <string name="error_login_failed">Google sign in failed!</string>
     <string name="error_mail_not_found">Mail not registered in PAB!</string>
@@ -81,4 +83,19 @@
     <string name="dialog_message_content_hint">Write your message here</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
+    <string name="notification_down_title">Nueva solicitud</string>
+    <string name="notification_down_message">ha solicitado darse de baja de la actividad</string>
+    <string name="notification_join_title">Nueva solicitud</string>
+    <string name="notification_join_message">ha solicitado darse de alta de la actividad</string>
+    <string name="notification_request_title">Nueva invitación</string>
+    <string name="notification_request_message">lo ha invitado a la actividad</string>
+    <string name="notification_info_title">Nuevo mensaje</string>
+    <string name="notification_info_message">le ha mandado un mensaje</string>
+    <string name="notification_info_accept_join">ha aceptado su solicitud para la actividad</string>
+    <string name="notification_info_reject_join">ha aceptado su solicitud para la actividad</string>
+    <string name="notification_info_accept_down">ha aceptado su solicitud para la actividad</string>
+    <string name="notification_info_reject_down">ha aceptado su solicitud para la actividad</string>
+    <string name="notification_info_accept_request">ha aceptado su invitación para la actividad</string>
+    <string name="notification_info_reject_request">ha aceptado su invitación para la actividad</string>
 </resources>
