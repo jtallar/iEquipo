@@ -59,10 +59,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String title = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
 
-        Notification notification = new Notification(title, message);
-        notification.setData(new JSONObject(remoteMessage.getData()));
-        MyApplication.getInstance().getApiRepository().setNotification(MainActivity.getLoggedPerson().getId(), notification);
-
         // Send notification to user
         sendNotification(title, message, "unused");
     }
@@ -152,10 +148,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;
                 publishMessage(notification, student.getToken());
+                MyApplication.getInstance().getApiRepository().setNotification(id, notification);
             });
         else messagingViewModel.getTeacher(id).observe(MainActivity.getInstance(), person -> {
             if (person == null) return;
             publishMessage(notification, person.getToken());
+            MyApplication.getInstance().getApiRepository().setNotification(id, notification);
         });
     }
 
@@ -176,6 +174,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage());
         }
+
         sendNotification(notificationJSON);
     }
 
