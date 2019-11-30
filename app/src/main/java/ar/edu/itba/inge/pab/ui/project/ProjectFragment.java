@@ -115,13 +115,13 @@ public class ProjectFragment extends Fragment {
                     break;
                 default:
                     // TODO lo que sigue es para probar nomas
-                    action.setText("PROBAR NOTIF");
-                    action.setOnClickListener(v -> {
+                    actionRight.setText("PROBAR NOTIF");
+                    actionRight.setOnClickListener(v -> {
                         MyFirebaseMessagingService.sendMessage(new Notification("Request to join", "Join " + title.getText(), "A01", "request")
                                 , MainActivity.getLoggedPerson().getId());
                         Navigation.findNavController(root).navigateUp();
                     });
-                     action.setVisibility(View.GONE);
+                    //actionRight.setVisibility(View.GONE);
             }
         }
 
@@ -177,17 +177,17 @@ public class ProjectFragment extends Fragment {
         if (cancelButton != null) cancelButton.setOnClickListener(v -> dialog.dismiss());
         Button sendButton = dialogView.findViewById(R.id.dialog_message_ok);
         if (sendButton != null) {
-            // TODO: ADAPTAR AL CAMBIO
             if (loggedPerson.getClass() == Student.class) {
                 sendButton.setOnClickListener(v -> {
-                    if (input.getText() != null) MyFirebaseMessagingService.sendMessage(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString(), project.getIdDocente());
+                    if (input.getText() != null)
+                        MyFirebaseMessagingService.sendMessage(new Notification(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString()), project.getIdDocente());
                     dialog.dismiss();
                 });
             } else {
                 sendButton.setOnClickListener(v -> {
                     if (input.getText() != null) {
                         for (String studentId : project.getAlumnos())
-                            MyFirebaseMessagingService.sendMessage(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString(), studentId);
+                            MyFirebaseMessagingService.sendMessage(new Notification(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString()), studentId);
                     }
                     dialog.dismiss();
                 });
