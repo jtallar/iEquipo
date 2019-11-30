@@ -33,6 +33,7 @@ public class ProjectFragment extends Fragment {
     private Button actionLeft, actionRight;
     private Project project;
     private String callingFragment;
+    private String notificationId;
 
     private View root;
 
@@ -51,6 +52,7 @@ public class ProjectFragment extends Fragment {
             ProjectFragmentArgs args = ProjectFragmentArgs.fromBundle(getArguments());
             project = args.getProject();
             callingFragment = args.getCallingFragment();
+            notificationId = args.getNotificationId();
         }
 
         title = root.findViewById(R.id.act_title);
@@ -220,6 +222,7 @@ public class ProjectFragment extends Fragment {
         sendNotif(Notification.NotificationType.JOIN,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_join_message), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
+        MyApplication.makeToast(getResources().getString(R.string.message_request_sent));
     }
 
     private void requestOut() {
@@ -244,12 +247,14 @@ public class ProjectFragment extends Fragment {
         MainActivity.setLoggedPerson(student);
         projectViewModel.setStudent(student);
 
+        if (notificationId != null) projectViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notificationId);
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_request), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
     }
 
     private void rejectRequest() {
+        if (notificationId != null) projectViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notificationId);
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_reject_request), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();

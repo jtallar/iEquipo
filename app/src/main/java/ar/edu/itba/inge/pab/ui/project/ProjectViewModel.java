@@ -39,4 +39,8 @@ public class ProjectViewModel extends RequestViewModel {
     void deleteProject(String id) {
         MyApplication.getInstance().getApiRepository().deleteProject(id);
     }
+
+    void deleteNotification(String userId, String id) {
+        MyApplication.getInstance().getApiRepository().deleteNotification(userId, id);
+    }
 }

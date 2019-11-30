@@ -36,7 +36,8 @@ public class StudentFragment extends Fragment {
     private TextView name, career, id, hours;
     private Button actionRight, actionLeft;
     private Student student;
-    private String projectID, notifType;
+    private String projectID;
+    private Notification notification;
     private View root;
 
     private Project selectedProject;
@@ -51,7 +52,7 @@ public class StudentFragment extends Fragment {
             StudentFragmentArgs args = StudentFragmentArgs.fromBundle(getArguments());
             student = args.getStudent();
             projectID = args.getProjectId();
-            notifType = args.getRequestType();
+            notification = args.getNotification();
             if (projectID != null)
                 studentViewModel.setViewModelProject(projectID);
         }
@@ -77,7 +78,7 @@ public class StudentFragment extends Fragment {
             studentViewModel.getProject().observe(this, project -> {
                 if (project != null) {
                     selectedProject = project;
-                    Notification.NotificationType type = Notification.NotificationType.getNotificationType(notifType);
+                    Notification.NotificationType type = Notification.NotificationType.getNotificationType(notification.getType());
                     if (type == null) return;
                     switch (type) {
                         case JOIN:
@@ -119,6 +120,7 @@ public class StudentFragment extends Fragment {
                     Log.e(MainActivity.LOG_TAG, String.format("REQUESTED FOR %s", selectedProject.getTitulo()));
                     dialog.dismiss();
                     Navigation.findNavController(root).navigateUp();
+                    MyApplication.makeToast(getResources().getString(R.string.message_request_sent));
                 })
                 .setNegativeButton(R.string.button_cancel, (dialog, which) -> dialog.dismiss());
         builder.create().show();
@@ -130,7 +132,7 @@ public class StudentFragment extends Fragment {
         studentViewModel.getFeed().observe(this, projects -> {
             if (projects != null) {
                 for (Project project : projects) {
-                    if (actIds.contains(project.getId()) && !myProjects.contains(project))
+                    if (actIds.contains(project.getId()) && !myProjects.contains(project) && project.getAlumnos().size() < project.getCantidad())
                         myProjects.add(project);
                 }
                 projectsDialog(myProjects);
@@ -149,6 +151,7 @@ public class StudentFragment extends Fragment {
             studentViewModel.setStudent(student);
         }
 
+        if (notification != null) studentViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_join), selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();
@@ -160,6 +163,8 @@ public class StudentFragment extends Fragment {
             message = getResources().getString(R.string.notification_info_reject_join);
         else // DOWN
             message = getResources().getString(R.string.notification_info_reject_down);
+
+        if (notification != null) studentViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), message, selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();
@@ -175,6 +180,7 @@ public class StudentFragment extends Fragment {
             studentViewModel.setStudent(student);
         }
 
+        if (notification != null) studentViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_down), selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();
