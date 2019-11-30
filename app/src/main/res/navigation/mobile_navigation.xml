@@ -98,6 +98,10 @@
             app:argType="string"
             app:nullable="true" />
         <argument
+            android:name="request_type"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
             android:name="appbar_title"
             app:argType="string" />
     </fragment>

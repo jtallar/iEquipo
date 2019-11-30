@@ -77,10 +77,11 @@ public class ProjectFragment extends Fragment {
             switch (callingFragment) {
                 case ProjectsFragment.className:
                     if (MainActivity.getLoggedPerson().getClass() == Student.class)
-                        actionLeft.setText(getResources().getString(R.string.project_action_btn_contact_teacher));
-                    else
+                        actionLeft.setVisibility(View.GONE);
+                    else {
                         actionLeft.setText(getResources().getString(R.string.project_action_btn_contact_students));
-                    actionLeft.setOnClickListener(v -> openMessageDialog(MainActivity.getLoggedPerson()));
+                        actionLeft.setOnClickListener(v -> openMessageDialog(MainActivity.getLoggedPerson()));
+                    }
                     break;
                 case NotificationsFragment.className:
                     actionLeft.setText(getResources().getString(R.string.project_action_btn_reject_request));
@@ -231,6 +232,7 @@ public class ProjectFragment extends Fragment {
     private void acceptRequest() {
         if (project.getCantidad() == project.getAlumnos().size()) {
             MyApplication.makeToast(getResources().getString(R.string.error_project_full));
+            Navigation.findNavController(root).navigateUp();
             return;
         }
 
