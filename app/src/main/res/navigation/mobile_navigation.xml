@@ -80,6 +80,10 @@
             android:name="calling_fragment"
             app:argType="string" />
         <argument
+            android:name="notification_id"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
             android:name="appbar_title"
             app:argType="string" />
     </fragment>
@@ -98,8 +102,8 @@
             app:argType="string"
             app:nullable="true" />
         <argument
-            android:name="request_type"
-            app:argType="string"
+            android:name="notification"
+            app:argType="ar.edu.itba.inge.pab.elements.Notification"
             app:nullable="true" />
         <argument
             android:name="appbar_title"
