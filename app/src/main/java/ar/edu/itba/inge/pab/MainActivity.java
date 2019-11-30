@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // TODO: EN TODOS LOS ONSTOP, CANCEL REQUESTS
     // TODO: VER SI EN TODOS LOS ON DESTROY DE LOS FRAGMENTOS DEBO PONER REMOVE EVENT LISTENER
     @Override
     protected void onCreate(Bundle savedInstanceState) {
