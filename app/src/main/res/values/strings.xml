@@ -50,6 +50,10 @@
     <string name="button_add_student">Add to project…</string>
     <string name="button_request">Request</string>
     <string name="button_send">Send</string>
+    <string name="button_accept_join">Accept join</string>
+    <string name="button_accept_out">Accept out</string>
+    <string name="button_reject_join">Reject join</string>
+    <string name="button_reject_out">Reject out</string>
 
     <string name="error_login_failed">Google sign in failed!</string>
     <string name="error_mail_not_found">Mail not registered in PAB!</string>

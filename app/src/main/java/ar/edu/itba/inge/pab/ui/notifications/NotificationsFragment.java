@@ -85,10 +85,10 @@ public class NotificationsFragment extends Fragment {
         };
     }
 
-    private OnItemClickListener goToStudent(Student student, String projectId) {
+    private OnItemClickListener goToStudent(Student student, String projectId, String notifType) {
         return element -> {
             // TODO: AGREGAR ALGUN PARAMETRO MAS QUE INDIQUE QUE TIPO DE REQUEST ES
-            NotificationsFragmentDirections.ActionSelectStudent action = NotificationsFragmentDirections.actionSelectStudent(student, projectId, student.getNombre());
+            NotificationsFragmentDirections.ActionSelectStudent action = NotificationsFragmentDirections.actionSelectStudent(student, projectId, notifType, student.getNombre());
             Navigation.findNavController(root).navigate(action);
         };
     }
