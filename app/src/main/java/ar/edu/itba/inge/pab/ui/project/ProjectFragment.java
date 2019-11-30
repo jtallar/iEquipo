@@ -1,15 +1,12 @@
 package ar.edu.itba.inge.pab.ui.project;
 
 import android.os.Bundle;
-import android.text.InputType;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Scroller;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -69,8 +66,6 @@ public class ProjectFragment extends Fragment {
         requirements = root.findViewById(R.id.act_requirements);
         requirements.setText(project.getRequisitos());
 
-        // TODO: DEFINIR ACCIONES Y TEXTO DE BOTON SEGUN CALLING FRAGMENT
-
         actionLeft = root.findViewById(R.id.act_btn_left_action);
         if (callingFragment == null) actionLeft.setVisibility(View.GONE);
         else {
@@ -118,7 +113,7 @@ public class ProjectFragment extends Fragment {
                     // TODO lo que sigue es para probar nomas
                     actionRight.setText("PROBAR NOTIF");
                     actionRight.setOnClickListener(v -> {
-                        MyFirebaseMessagingService.sendMessage(new Notification("Request to join", "Join " + title.getText(), "A01", "request")
+                        MyFirebaseMessagingService.sendMessage(new Notification("Request to join", "Join " + title.getText(), "A01", Notification.NotificationType.JOIN)
                                 , MainActivity.getLoggedPerson().getId());
                         Navigation.findNavController(root).navigateUp();
                     });
@@ -167,7 +162,7 @@ public class ProjectFragment extends Fragment {
     private void openMessageDialog(Person loggedPerson) {
         String title = (loggedPerson.getClass() == Student.class) ? getString(R.string.dialog_message_title_student) : getString(R.string.dialog_message_title_teacher);
 
-        View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_message, null);
+        View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_send_message, null);
         AlertDialog dialog = new AlertDialog.Builder(root.getContext()).setView(dialogView).create();
 
         TextView tvTitle = dialogView.findViewById(R.id.dialog_message_title);
@@ -181,14 +176,16 @@ public class ProjectFragment extends Fragment {
             if (loggedPerson.getClass() == Student.class) {
                 sendButton.setOnClickListener(v -> {
                     if (input.getText() != null)
-                        MyFirebaseMessagingService.sendMessage(new Notification(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString()), project.getIdDocente());
+                        sendNotif(Notification.NotificationType.INFO,
+                                String.format("%s %s %s", loggedPerson.getNombre(), getResources().getString(R.string.notification_info_message), project.getTitulo()), input.getText().toString(), project.getId(), project.getIdDocente());
                     dialog.dismiss();
                 });
             } else {
                 sendButton.setOnClickListener(v -> {
                     if (input.getText() != null) {
                         for (String studentId : project.getAlumnos())
-                            MyFirebaseMessagingService.sendMessage(new Notification(String.format("New message from %s", loggedPerson.getNombre()), input.getText().toString()), studentId);
+                            sendNotif(Notification.NotificationType.INFO,
+                                    String.format("%s %s %s", loggedPerson.getNombre(), getResources().getString(R.string.notification_info_message), project.getTitulo()), input.getText().toString(), project.getId(), studentId);
                     }
                     dialog.dismiss();
                 });
@@ -220,12 +217,14 @@ public class ProjectFragment extends Fragment {
     }
 
     private void requestIn() {
-        // TODO: SEND NOTIFICATION
+        sendNotif(Notification.NotificationType.JOIN,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_join_message), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
     }
 
     private void requestOut() {
-        // TODO: SEND NOTIFICATION
+        sendNotif(Notification.NotificationType.DOWN,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_down_message), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
     }
 
@@ -245,12 +244,14 @@ public class ProjectFragment extends Fragment {
         MainActivity.setLoggedPerson(student);
         projectViewModel.setStudent(student);
 
-        // TODO: SEND NOTIFICATION
+        sendNotif(Notification.NotificationType.INFO,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_request), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
     }
 
     private void rejectRequest() {
-        // TODO: SEND NOTIFICATION
+        sendNotif(Notification.NotificationType.INFO,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_reject_request), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
     }
 
@@ -258,6 +259,15 @@ public class ProjectFragment extends Fragment {
         deleteCount++;
         if (deleteCount >= project.getAlumnos().size() + 1)
             Navigation.findNavController(root).navigateUp();
+    }
+
+    private void sendNotif(Notification.NotificationType type, String message, String projectId, String receiverId) {
+        MyFirebaseMessagingService.sendMessage(new Notification(type.getTitle(), message, projectId, type), receiverId);
+    }
+
+    private void sendNotif(Notification.NotificationType type, String message, String body, String projectId, String receiverId) {
+        Log.e(MainActivity.LOG_TAG, receiverId);
+        MyFirebaseMessagingService.sendMessage(new Notification(type.getTitle(), message, body, projectId, type), receiverId);
     }
 
     @Override
