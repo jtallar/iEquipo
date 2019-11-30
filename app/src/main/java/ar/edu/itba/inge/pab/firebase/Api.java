@@ -57,7 +57,7 @@ public class Api {
     }
 
     ValueEventListener getNotifications(String id, ValueEventListener listener) {
-        return database.child("Notificationes").child(id).addValueEventListener(listener);
+        return database.child("Notificaciones").child(id).addValueEventListener(listener);
     }
 
     void setProject(Project project) {

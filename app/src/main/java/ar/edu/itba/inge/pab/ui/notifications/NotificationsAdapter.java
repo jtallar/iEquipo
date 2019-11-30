@@ -51,8 +51,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         }
 
         public void bind(final Notification notification, final OnItemClickListener<Notification> listener) {
-            // TODO change getType here
-            tvNotificationType.setText(notification.getType());
+            tvNotificationType.setText(notification.getTitle());
             tvNotificationContent.setText(notification.getMessage());
             itemView.setOnClickListener(view -> listener.onItemClick(notification));
         }
