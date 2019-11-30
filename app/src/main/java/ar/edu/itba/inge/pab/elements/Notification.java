@@ -5,14 +5,14 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import ar.edu.itba.inge.pab.MainActivity;
 
-public class Notification {
+public class Notification implements Serializable {
     private static final String TAG = "ar.edu.itba.inge.pab.NotificationClass";
 
-    private static Integer idCount = 0;
 
     private String id;
     private String title;
@@ -22,26 +22,22 @@ public class Notification {
     private String type = "";
     private String project = "";
 
+    public Notification() { }
+
     public Notification(String title, String message) {
-        this.id = idCount.toString();
-        idCount++;
         this.title = title;
         this.message = message;
         this.sender = MainActivity.getLoggedPerson().getId();
     }
 
     public Notification(String title, String message, String project, String type) {
-        this.id = idCount.toString();
-        idCount++;
-        this.title = title;
-        this.message = message;
-        this.sender = MainActivity.getLoggedPerson().getId();
+        this(title, message);
         this.type = type;
         this.project = project;
     }
 
 
-    public JSONObject getNotification() {
+    public JSONObject jsonNotification() {
         JSONObject notificationBody = new JSONObject();
         try {
             notificationBody.put("title", title);
@@ -53,7 +49,7 @@ public class Notification {
         return notificationBody;
     }
 
-    public JSONObject getData() {
+    public JSONObject jsonData() {
         JSONObject notificationData = new JSONObject();
         try {
             notificationData.put("sender", sender);
@@ -66,8 +62,23 @@ public class Notification {
         return notificationData;
     }
 
+    public void setData(JSONObject data) {
+        try {
+            this.sender = data.getString("sender");
+            this.project = data.getString("project");
+            this.type = data.getString("type");
+        } catch (JSONException e) {
+            Log.e(TAG, "On create data: " + e.getMessage());
+        }
+
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

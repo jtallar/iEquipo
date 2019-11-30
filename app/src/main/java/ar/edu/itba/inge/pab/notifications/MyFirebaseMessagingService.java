@@ -52,24 +52,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // ...
-
-        // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-        }
+        // Get the notification and save it on database
+        String title = remoteMessage.getNotification().getTitle();
+        String message = remoteMessage.getNotification().getBody();
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-        }
-        new JSONObject(remoteMessage.getData()).toString();
+        Notification notification = new Notification(title, message);
+        notification.setData(new JSONObject(remoteMessage.getData()));
+        MyApplication.getInstance().getApiRepository().setNotification(MainActivity.getLoggedPerson().getId(), notification);
 
-        sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), "unused");
+        // Send notification to user
+        sendNotification(title, message, "unused");
     }
 
     /**
@@ -175,8 +170,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         try {
             notificationJSON.put("to", token);
-            notificationJSON.put("notification", notification.getNotification());
-            notificationJSON.put("data", notification.getData());
+            notificationJSON.put("notification", notification.jsonNotification());
+            notificationJSON.put("data", notification.jsonData());
             Log.d(TAG, "Notification: " + notification.toString());
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage());

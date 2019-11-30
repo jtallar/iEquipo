@@ -7,6 +7,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
@@ -70,7 +73,9 @@ public class Api {
     }
 
     void setNotification(String userId, Notification notification) {
-        database.child("Notificaciones").child(userId).child(notification.getId()).setValue(notification);
+        String key = database.child("Notificaciones").child(userId).push().getKey();
+        notification.setId(key);
+        database.child("Notificaciones").child(userId).child(key).setValue(notification);
     }
 
     void deleteProject(String id) {
