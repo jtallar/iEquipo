@@ -49,6 +49,7 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_add_student">Add to project…</string>
     <string name="button_request">Request</string>
+    <string name="button_send">Send</string>
 
     <string name="error_login_failed">Google sign in failed!</string>
     <string name="error_mail_not_found">Mail not registered in PAB!</string>
@@ -64,9 +65,16 @@
     <string name="project_action_btn_request_in">Request in</string>
     <string name="project_action_btn_delete">Delete</string>
     <string name="project_action_btn_accept_request">Accept request</string>
+    <string name="project_action_btn_reject_request">Reject request</string>
+    <string name="project_action_btn_contact_students">Contact students</string>
+    <string name="project_action_btn_contact_teacher">Contact teacher</string>
 
     <string name="dialog_select_project_title">Select an activity</string>
     <string name="student_no_activities_message">You have no activities created!</string>
+
+    <string name="dialog_message_title_student">Contact teacher</string>
+    <string name="dialog_message_title_teacher">Contact students</string>
+    <string name="dialog_message_content_hint">Write your message here</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>
