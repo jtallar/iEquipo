@@ -72,32 +72,32 @@ public class ProjectFragment extends Fragment {
         if (callingFragment == null) action.setVisibility(View.GONE);
         else {
             switch (callingFragment) {
-//                case ProjectsFragment.className:
-//                    if (MainActivity.getLoggedPerson().getClass() == Student.class) {
-//                        action.setText(getResources().getString(R.string.project_action_btn_request_out));
-//                        action.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.REQUEST_OUT));
-//                    } else {
-//                        action.setText(getResources().getString(R.string.project_action_btn_delete));
-//                        action.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.DELETE));
-//                    }
-//                    break;
-//                case ExploreFragment.className:
-//                    action.setText(getResources().getString(R.string.project_action_btn_request_in));
-//                    action.setOnClickListener(v -> requestIn());
-//                    break;
-//                case NotificationsFragment.className:
-//                    action.setText(getResources().getString(R.string.project_action_btn_accept_request));
-//                    action.setOnClickListener(v -> acceptRequest());
-//                    break;
+                case ProjectsFragment.className:
+                    if (MainActivity.getLoggedPerson().getClass() == Student.class) {
+                        action.setText(getResources().getString(R.string.project_action_btn_request_out));
+                        action.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.REQUEST_OUT));
+                    } else {
+                        action.setText(getResources().getString(R.string.project_action_btn_delete));
+                        action.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.DELETE));
+                    }
+                    break;
+                case ExploreFragment.className:
+                    action.setText(getResources().getString(R.string.project_action_btn_request_in));
+                    action.setOnClickListener(v -> requestIn());
+                    break;
+                case NotificationsFragment.className:
+                    action.setText(getResources().getString(R.string.project_action_btn_accept_request));
+                    action.setOnClickListener(v -> acceptRequest());
+                    break;
                 default:
                     // TODO lo que sigue es para probar nomas
-                    action.setText("PROBAR NOTIF");
-                    action.setOnClickListener(v -> {
-                        MyFirebaseMessagingService.sendMessage(new Notification("Request to join", "Join " + title.getText(), "A01", "request")
-                                , MainActivity.getLoggedPerson().getId());
-                        Navigation.findNavController(root).navigateUp();
-                    });
-//                     action.setVisibility(View.GONE);
+//                    action.setText("PROBAR NOTIF");
+//                    action.setOnClickListener(v -> {
+//                        MyFirebaseMessagingService.sendMessage(new Notification("Request to join", "Join " + title.getText(), "A01", "request")
+//                                , MainActivity.getLoggedPerson().getId());
+//                        Navigation.findNavController(root).navigateUp();
+//                    });
+                     action.setVisibility(View.GONE);
             }
         }
 
