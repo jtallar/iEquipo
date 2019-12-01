@@ -103,6 +103,20 @@ public class StudentFragment extends Fragment {
         return root;
     }
 
+    private void getLoggedProjects() {
+        List<Project> myProjects = new ArrayList<>();
+        List<String> actIds = MainActivity.getLoggedPerson().getActividades();
+        studentViewModel.getFeed().observe(this, projects -> {
+            if (projects != null) {
+                for (Project project : projects) {
+                    if (actIds.contains(project.getId()) && !myProjects.contains(project) && project.getAlumnos().size() < project.getCantidad())
+                        myProjects.add(project);
+                }
+                projectsDialog(myProjects);
+            }
+        });
+    }
+
     private void projectsDialog(List<Project> projects) {
         if (projects.size() == 0) {
             MyApplication.makeToast(getResources().getString(R.string.student_no_activities_message));
@@ -124,20 +138,6 @@ public class StudentFragment extends Fragment {
                 })
                 .setNegativeButton(R.string.button_cancel, (dialog, which) -> dialog.dismiss());
         builder.create().show();
-    }
-
-    private void getLoggedProjects() {
-        List<Project> myProjects = new ArrayList<>();
-        List<String> actIds = MainActivity.getLoggedPerson().getActividades();
-        studentViewModel.getFeed().observe(this, projects -> {
-            if (projects != null) {
-                for (Project project : projects) {
-                    if (actIds.contains(project.getId()) && !myProjects.contains(project) && project.getAlumnos().size() < project.getCantidad())
-                        myProjects.add(project);
-                }
-                projectsDialog(myProjects);
-            }
-        });
     }
 
     // To be called when ACCEPT is pressed

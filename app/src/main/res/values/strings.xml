@@ -76,7 +76,7 @@
     <string name="project_action_btn_contact_teacher">Contact teacher</string>
 
     <string name="dialog_select_project_title">Select an activity</string>
-    <string name="student_no_activities_message">You have no activities created!</string>
+    <string name="student_no_activities_message">You have no activities with free space!</string>
 
     <string name="dialog_message_title_student">Contact teacher</string>
     <string name="dialog_message_title_teacher">Contact students</string>
@@ -91,7 +91,7 @@
     <string name="notification_request_title">Nueva invitación</string>
     <string name="notification_request_message">lo ha invitado a la actividad</string>
     <string name="notification_info_title">Nuevo mensaje</string>
-    <string name="notification_info_message">de:</string>
+    <string name="notification_info_message">le ha mandado un mensaje</string>
     <string name="notification_info_accept_join">ha aceptado su solicitud para la actividad</string>
     <string name="notification_info_reject_join">ha rechazado su solicitud para la actividad</string>
     <string name="notification_info_accept_down">ha aceptado su solicitud para dar de baja la actividad</string>
@@ -99,5 +99,6 @@
     <string name="notification_info_accept_request">ha aceptado su invitación para la actividad</string>
     <string name="notification_info_reject_request">ha rechazado su invitación para la actividad</string>
 
+    <string name="notification_info_from">de</string>
     <string name="message_request_sent">Request sent!</string>
 </resources>
