@@ -60,6 +60,14 @@ public class Api {
         return database.child("Notificaciones").child(id).addValueEventListener(listener);
     }
 
+    void singleGetStudent(String id, ValueEventListener listener) {
+        database.child("Usuarios").child("Becarios").child(id).addListenerForSingleValueEvent(listener);
+    }
+
+    void singleGetProject(String id, ValueEventListener listener) {
+        database.child("Feed").child(id).addListenerForSingleValueEvent(listener);
+    }
+
     void setProject(Project project) {
         database.child("Feed").child(project.getId()).setValue(project);
     }
