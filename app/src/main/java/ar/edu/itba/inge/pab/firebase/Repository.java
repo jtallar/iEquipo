@@ -107,6 +107,18 @@ public class Repository {
         return new ApiRequest<>(listener, result);
     }
 
+    public ApiRequest<Student> singleGetStudent(String id) {
+        final MutableLiveData<Result<Student>> result = new MutableLiveData<>();
+        api.singleGetStudent(id, getListener(result, Student.class));
+        return new ApiRequest<>(null, result);
+    }
+
+    public ApiRequest<Project> singleGetProject(String id) {
+        final MutableLiveData<Result<Project>> result = new MutableLiveData<>();
+        api.singleGetProject(id, getListener(result, Project.class));
+        return new ApiRequest<>(null, result);
+    }
+
     public void setProject(Project project) {
         api.setProject(project);
     }

@@ -1,6 +1,7 @@
 package ar.edu.itba.inge.pab.ui.notifications;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,8 +139,16 @@ public class NotificationsFragment extends Fragment {
 
         TextView tvTitle = dialogView.findViewById(R.id.dialog_message_title);
         if (tvTitle != null) tvTitle.setText(notification.getTitle());
+
+        String teacherName = "";
+        String searched = getString(R.string.notification_info_message).split(" ")[0];
+        for (String aux : notification.getMessage().split(" ")) {
+            if (aux.equals(searched)) break;
+            teacherName = teacherName.concat(aux).concat(" ");
+        }
+
         TextView tvSubtitle = dialogView.findViewById(R.id.dialog_message_subtitle);
-        if (tvSubtitle != null) tvSubtitle.setText(notification.getMessage());
+        if (tvSubtitle != null) tvSubtitle.setText(String.format("%s %s", getResources().getString(R.string.notification_info_from), teacherName));
 
         TextView tvMessage = dialogView.findViewById(R.id.dialog_message_content);
         if (tvMessage != null) {
