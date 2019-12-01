@@ -177,9 +177,11 @@ public class ProjectFragment extends Fragment {
         if (sendButton != null) {
             if (loggedPerson.getClass() == Student.class) {
                 sendButton.setOnClickListener(v -> {
-                    if (input.getText() != null)
+                    if (input.getText() != null) {
                         sendNotif(Notification.NotificationType.INFO,
                                 String.format("%s %s %s", loggedPerson.getNombre(), getResources().getString(R.string.notification_info_message), project.getTitulo()), input.getText().toString(), project.getId(), project.getIdDocente());
+                        MyApplication.makeToast(getResources().getString(R.string.toast_message_sent));
+                    }
                     dialog.dismiss();
                 });
             } else {
@@ -188,6 +190,7 @@ public class ProjectFragment extends Fragment {
                         for (String studentId : project.getAlumnos())
                             sendNotif(Notification.NotificationType.INFO,
                                     String.format("%s %s %s", loggedPerson.getNombre(), getResources().getString(R.string.notification_info_message), project.getTitulo()), input.getText().toString(), project.getId(), studentId);
+                        MyApplication.makeToast(getResources().getString(R.string.toast_message_sent));
                     }
                     dialog.dismiss();
                 });
@@ -197,18 +200,20 @@ public class ProjectFragment extends Fragment {
     }
 
     private void deleteProject() {
+        Person teacher = MainActivity.getLoggedPerson();
         for (String studentId : project.getAlumnos()) {
             projectViewModel.getStudent(studentId).observe(this, student -> {
                 if (student != null) {
                     student.addCreditos(project.getCreditos());
                     student.removeActivity(project.getId());
                     projectViewModel.setStudent(student);
+                    sendNotif(Notification.NotificationType.INFO,
+                            String.format("%s %s %s", teacher.getNombre(), getResources().getString(R.string.notification_info_delete_project), project.getTitulo()), project.getId(), student.getId());
                 }
                 increaseDeleteCount(root);
             });
         }
 
-        Person teacher = MainActivity.getLoggedPerson();
         teacher.removeActivity(project.getId());
         MainActivity.setLoggedPerson(teacher);
         projectViewModel.setTeacher(teacher);
@@ -222,7 +227,7 @@ public class ProjectFragment extends Fragment {
         sendNotif(Notification.NotificationType.JOIN,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_join_message), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
-        MyApplication.makeToast(getResources().getString(R.string.message_request_sent));
+        MyApplication.makeToast(getResources().getString(R.string.toast_request_sent));
     }
 
     private void requestOut() {

@@ -16,13 +16,13 @@ public class MessagingViewModel extends RequestViewModel {
     }
 
     LiveData<Person> getTeacher(String id) {
-        ApiRequest<Person> personRequest = MyApplication.getInstance().getApiRepository().getTeacher(id);
+        ApiRequest<Person> personRequest = MyApplication.getInstance().getApiRepository().singleGetTeacher(id);
         requestListeners.add(personRequest.getListener());
         return Transformations.map(personRequest.getLiveData(), MyApplication.getTransformFunction());
     }
 
     LiveData<Student> getStudent(String id) {
-        ApiRequest<Student> studentRequest = MyApplication.getInstance().getApiRepository().getStudent(id);
+        ApiRequest<Student> studentRequest = MyApplication.getInstance().getApiRepository().singleGetStudent(id);
         requestListeners.add(studentRequest.getListener());
         return Transformations.map(studentRequest.getLiveData(), MyApplication.getTransformFunction());
     }
