@@ -134,7 +134,7 @@ public class StudentFragment extends Fragment {
                     Log.e(MainActivity.LOG_TAG, String.format("REQUESTED FOR %s", selectedProject.getTitulo()));
                     dialog.dismiss();
                     Navigation.findNavController(root).navigateUp();
-                    MyApplication.makeToast(getResources().getString(R.string.message_request_sent));
+                    MyApplication.makeToast(getResources().getString(R.string.toast_request_sent));
                 })
                 .setNegativeButton(R.string.button_cancel, (dialog, which) -> dialog.dismiss());
         builder.create().show();

@@ -113,6 +113,12 @@ public class Repository {
         return new ApiRequest<>(null, result);
     }
 
+    public ApiRequest<Person> singleGetTeacher(String id) {
+        final MutableLiveData<Result<Person>> result = new MutableLiveData<>();
+        api.singleGetTeacher(id, getListener(result, Person.class));
+        return new ApiRequest<>(null, result);
+    }
+
     public ApiRequest<Project> singleGetProject(String id) {
         final MutableLiveData<Result<Project>> result = new MutableLiveData<>();
         api.singleGetProject(id, getListener(result, Project.class));

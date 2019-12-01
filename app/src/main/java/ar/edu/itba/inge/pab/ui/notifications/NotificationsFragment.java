@@ -1,6 +1,7 @@
 package ar.edu.itba.inge.pab.ui.notifications;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,14 +149,17 @@ public class NotificationsFragment extends Fragment {
         }
 
         TextView tvSubtitle = dialogView.findViewById(R.id.dialog_message_subtitle);
-        if (tvSubtitle != null) tvSubtitle.setText(String.format("%s %s", getResources().getString(R.string.notification_info_from), teacherName));
-
         TextView tvMessage = dialogView.findViewById(R.id.dialog_message_content);
-        if (tvMessage != null) {
-            if (notification.getBody() != null)
+
+        if (tvMessage != null && tvSubtitle != null) {
+            tvMessage.setMovementMethod(new ScrollingMovementMethod());
+            if (notification.getBody() != null) {
+                tvSubtitle.setText(String.format("%s %s", getResources().getString(R.string.notification_info_from), teacherName));
                 tvMessage.setText(notification.getBody());
-            else
+            } else {
+                tvSubtitle.setText(notification.getMessage());
                 tvMessage.setVisibility(View.GONE);
+            }
         }
         Button cancelButton = dialogView.findViewById(R.id.dialog_message_cancel);
         if (cancelButton != null) cancelButton.setOnClickListener(v -> dialog.dismiss());
