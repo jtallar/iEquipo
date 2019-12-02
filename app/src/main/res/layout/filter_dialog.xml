@@ -22,11 +22,11 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:fontFamily="sans-serif-black"
-            android:textSize="22sp"
+            android:textSize="@dimen/text_size_title_double_medium"
             android:background="@null"
             android:textColor="@android:color/white"
             android:src="@drawable/ic_nodev_black_40dp"
-            android:text="Filter by:"/>
+            android:text="@string/option_filter"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,9 +51,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/text_size_title_medium"
                     android:text="Career"
                     android:textColor="@android:color/white" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <CheckBox
+                    android:id="@+id/cb_indus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"/>
+                <TextView
+                    android:id="@+id/txt_indus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="@dimen/text_size_title_medium"
+                    android:textColor="@android:color/white"
+                    android:text="@string/filter_info"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <CheckBox
+                    android:id="@+id/cb_elec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"/>
+                <TextView
+                    android:id="@+id/txt_elec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="@dimen/text_size_title_medium"
+                    android:textColor="@android:color/white"
+                    android:text="@string/filter_indus"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -74,9 +120,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/text_size_title_medium"
                     android:textColor="@android:color/white"
-                    android:text="Ingenieria Informatica"/>
+                    android:text="@string/filter_elec"/>
             </LinearLayout>
 
             <LinearLayout
@@ -97,9 +143,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="Career % higher than"
+                    android:text="@string/filter_percentage"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/text_size_title_medium" />
 
                 <EditText
                     android:id="@+id/edit_porcentaje"
@@ -117,7 +163,7 @@
                     android:text="%"
                     android:fontFamily="sans-serif"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/text_size_title_medium" />
             </LinearLayout>
 
             <LinearLayout
@@ -139,9 +185,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="Avaliable hours"
+                    android:text="@string/hours"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"/>
+                    android:textSize="@dimen/text_size_title_medium"/>
 
                 <EditText
                     android:id="@+id/edit_horas"
@@ -157,7 +203,7 @@
                     android:text="hs"
                     android:fontFamily="sans-serif"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/text_size_title_medium" />
             </LinearLayout>
         </LinearLayout>
         <Button
@@ -166,8 +212,8 @@
             android:layout_height="35dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="15dp"
-            android:text="Accept"
-            android:textSize="20sp"
+            android:text="@string/accept_button"
+            android:textSize="@dimen/text_size_title_medium"
             android:textAllCaps="false"
             android:layout_gravity="right"
             android:textColor="@android:color/black"
