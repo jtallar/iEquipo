@@ -109,7 +109,7 @@ public class StudentFragment extends Fragment {
         studentViewModel.getFeed().observe(this, projects -> {
             if (projects != null) {
                 for (Project project : projects) {
-                    if (actIds.contains(project.getId()) && !myProjects.contains(project) && project.getAlumnos().size() < project.getCantidad())
+                    if (actIds.contains(project.getId()) && !myProjects.contains(project) && project.getAlumnos().size() < project.getCantidad() && !project.getAlumnos().contains(student.getId()))
                         myProjects.add(project);
                 }
                 projectsDialog(myProjects);
