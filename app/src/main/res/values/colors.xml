@@ -18,6 +18,9 @@
     <color name="colorTextTitle">#FFFFFF</color>
     <color name="colorEditTextContent">#A9A9A9</color>
     <color name="colorEditTextHint">#8F8F8F</color>
+    <color name="colorEditContent" >#000000</color>
 
     <color name="colorProfileContent">#FFFFFF</color>
+
+
 </resources>
