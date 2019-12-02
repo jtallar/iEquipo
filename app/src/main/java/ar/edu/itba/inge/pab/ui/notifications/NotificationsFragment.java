@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import ar.edu.itba.inge.pab.MainActivity;
+import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
@@ -103,11 +104,13 @@ public class NotificationsFragment extends Fragment {
     }
 
     private void getNotificationsList() {
-        data.clear();
         notificationsViewModel.getNotifications().observe(this, notifications -> {
             if (notifications != null) {
-                data.clear();
-                data.addAll(notifications);
+                for (Notification notification: notifications) {
+                    if (data.contains(notification))
+                        MyApplication.getInstance().getApiRepository().deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
+                    else data.add(0, notification);
+                }
                 adapter.notifyDataSetChanged();
             }
             loading.setVisibility(View.GONE);

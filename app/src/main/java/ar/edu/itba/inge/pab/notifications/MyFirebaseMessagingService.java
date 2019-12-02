@@ -169,7 +169,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         try {
             notificationJSON.put("to", token);
             notificationJSON.put("data", notification.jsonData());
-            Log.d(TAG, "Notification: " + notification.toString());
+            Log.d(TAG, "Notification: " + notificationJSON.toString());
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage());
         }
