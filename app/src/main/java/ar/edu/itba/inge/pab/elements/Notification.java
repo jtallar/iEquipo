@@ -48,19 +48,6 @@ public class Notification implements Serializable {
         this.project = project;
     }
 
-
-    public JSONObject jsonNotification() {
-        JSONObject notificationBody = new JSONObject();
-        try {
-            notificationBody.put("title", title);
-            notificationBody.put("body", message);
-            Log.d(TAG, "Notification: " + notificationBody.toString());
-        } catch (JSONException e) {
-            Log.e(TAG, "On create: " + e.getMessage());
-        }
-        return notificationBody;
-    }
-
     public JSONObject jsonData() {
         JSONObject notificationData = new JSONObject();
         try {
@@ -68,6 +55,8 @@ public class Notification implements Serializable {
             notificationData.put("project", project);
             notificationData.put("type", type);
             notificationData.put("body", body);
+            notificationData.put("title", title);
+            notificationData.put("message", message);
             Log.d(TAG, "Notification: " + notificationData.toString());
         } catch (JSONException e) {
             Log.e(TAG, "On create: " + e.getMessage());

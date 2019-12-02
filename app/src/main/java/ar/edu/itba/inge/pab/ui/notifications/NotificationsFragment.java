@@ -1,6 +1,8 @@
 package ar.edu.itba.inge.pab.ui.notifications;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,13 +92,13 @@ public class NotificationsFragment extends Fragment {
     }
 
     /* FUNCIONES PARA USAR ENTRE LAS POSIBLES ACCIONES */
-    private void goToProject(Project project) {
-        NotificationsFragmentDirections.ActionSelectProject action = NotificationsFragmentDirections.actionSelectProject(project, className, project.getTitulo());
+    private void goToProject(Project project, Notification notification) {
+        NotificationsFragmentDirections.ActionSelectProject action = NotificationsFragmentDirections.actionSelectProject(project, className, notification.getId(), project.getTitulo());
         Navigation.findNavController(root).navigate(action);
     }
 
-    private void goToStudent(Student student, String projectId, String notifType) {
-        NotificationsFragmentDirections.ActionSelectStudent action = NotificationsFragmentDirections.actionSelectStudent(student, projectId, notifType, student.getNombre());
+    private void goToStudent(Student student, String projectId, Notification notification) {
+        NotificationsFragmentDirections.ActionSelectStudent action = NotificationsFragmentDirections.actionSelectStudent(student, projectId, notification, student.getNombre());
         Navigation.findNavController(root).navigate(action);
     }
 
@@ -104,10 +106,8 @@ public class NotificationsFragment extends Fragment {
         data.clear();
         notificationsViewModel.getNotifications().observe(this, notifications -> {
             if (notifications != null) {
-                for (Notification notification : notifications) {
-                    if (!data.contains(notification))
-                        data.add(notification);
-                }
+                data.clear();
+                data.addAll(notifications);
                 adapter.notifyDataSetChanged();
             }
             loading.setVisibility(View.GONE);
@@ -121,7 +121,7 @@ public class NotificationsFragment extends Fragment {
     private void getStudent(Notification notification) {
         notificationsViewModel.getStudent(notification.getSender()).observe(this, student -> {
             if (student != null) {
-                goToStudent(student, notification.getProject(), notification.getType());
+                goToStudent(student, notification.getProject(), notification);
             }
         });
     }
@@ -129,7 +129,7 @@ public class NotificationsFragment extends Fragment {
     private void getProject(Notification notification) {
         notificationsViewModel.getProject(notification.getProject()).observe(this, project -> {
             if (project != null) {
-                goToProject(project);
+                goToProject(project, notification);
             }
         });
     }
@@ -140,23 +140,41 @@ public class NotificationsFragment extends Fragment {
 
         TextView tvTitle = dialogView.findViewById(R.id.dialog_message_title);
         if (tvTitle != null) tvTitle.setText(notification.getTitle());
-        TextView tvSubtitle = dialogView.findViewById(R.id.dialog_message_subtitle);
-        if (tvSubtitle != null) tvSubtitle.setText(notification.getMessage());
 
+        String teacherName = "";
+        String searched = getString(R.string.notification_info_message).split(" ")[0];
+        for (String aux : notification.getMessage().split(" ")) {
+            if (aux.equals(searched)) break;
+            teacherName = teacherName.concat(aux).concat(" ");
+        }
+
+        TextView tvSubtitle = dialogView.findViewById(R.id.dialog_message_subtitle);
         TextView tvMessage = dialogView.findViewById(R.id.dialog_message_content);
-        if (tvMessage != null) {
-            if (notification.getBody() != null)
+
+        if (tvMessage != null && tvSubtitle != null) {
+            tvMessage.setMovementMethod(new ScrollingMovementMethod());
+            if (notification.getBody() != null) {
+                tvSubtitle.setText(String.format("%s %s", getResources().getString(R.string.notification_info_from), teacherName));
                 tvMessage.setText(notification.getBody());
-            else
+            } else {
+                tvSubtitle.setText(notification.getMessage());
                 tvMessage.setVisibility(View.GONE);
+            }
         }
         Button cancelButton = dialogView.findViewById(R.id.dialog_message_cancel);
         if (cancelButton != null) cancelButton.setOnClickListener(v -> dialog.dismiss());
         Button storeButton = dialogView.findViewById(R.id.dialog_message_ok);
         if (storeButton != null) storeButton.setOnClickListener(v -> {
             notificationsViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
+            data.remove(notification);
             dialog.dismiss();
         });
         dialog.show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        notificationsViewModel.cancelRequests();
     }
 }

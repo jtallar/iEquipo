@@ -24,6 +24,12 @@ public class ProjectViewModel extends RequestViewModel {
         return Transformations.map(teacherRequest.getLiveData(), MyApplication.getTransformFunction());
     }
 
+    LiveData<Project> getProject(String id) {
+        ApiRequest<Project> projectRequest = MyApplication.getInstance().getApiRepository().getProject(id);
+        requestListeners.add(projectRequest.getListener());
+        return Transformations.map(projectRequest.getLiveData(), MyApplication.getTransformFunction());
+    }
+
     void setStudent(Student student) {
         MyApplication.getInstance().getApiRepository().setStudent(student);
     }
@@ -38,5 +44,9 @@ public class ProjectViewModel extends RequestViewModel {
 
     void deleteProject(String id) {
         MyApplication.getInstance().getApiRepository().deleteProject(id);
+    }
+
+    void deleteNotification(String userId, String id) {
+        MyApplication.getInstance().getApiRepository().deleteNotification(userId, id);
     }
 }
