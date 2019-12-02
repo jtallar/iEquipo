@@ -1,5 +1,7 @@
 package ar.edu.itba.inge.pab.ui.notifications;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -107,6 +109,8 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel.getNotifications().observe(this, notifications -> {
             if (notifications != null) {
                 for (Notification notification: notifications) {
+                    NotificationManager notificationManager = (NotificationManager) MainActivity.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.cancel(notification.getId().hashCode());
                     if (data.contains(notification))
                         MyApplication.getInstance().getApiRepository().deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
                     else data.add(0, notification);
