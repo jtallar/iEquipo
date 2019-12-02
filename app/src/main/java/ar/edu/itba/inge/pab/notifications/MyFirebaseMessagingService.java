@@ -58,7 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Get the notification and save it on database
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
-        Integer id = remoteMessage.getData().get("id").hashCode();
+        Integer id = (remoteMessage.getData().get("sender") +  remoteMessage.getData().get("project") + remoteMessage.getData().get("type") + message).hashCode();
         // Send notification to user
         sendNotification(title, message, "unused", id);
     }
@@ -147,43 +147,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (id.charAt(0) != 'P')
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;
-
-                messagingViewModel.singleGetNotifications(id).observe(MainActivity.getInstance(), notifications -> {
-                    MyApplication.getInstance().getApiRepository().setNotification(id, notification);
-                    if (notifications == null) {
-                        boolean flag = true;
-                        for (Notification notif: notifications) {
-                            if (notif.equals(notification)) {
-                                flag = false;
-                                break;
-                            }
-                        }
-                        if (flag)
-                            publishMessage(notification, student.getToken());
-                        else
-                            MyApplication.getInstance().getApiRepository().deleteNotification(id, notification.getId());
-                    }
-                });
+                MyApplication.getInstance().getApiRepository().setNotification(id, notification);
+                publishMessage(notification, student.getToken());
             });
         else messagingViewModel.getTeacher(id).observe(MainActivity.getInstance(), person -> {
             if (person == null) return;
+            MyApplication.getInstance().getApiRepository().setNotification(id, notification);
+            publishMessage(notification, person.getToken());
 
-            messagingViewModel.singleGetNotifications(id).observe(MainActivity.getInstance(), notifications -> {
-                MyApplication.getInstance().getApiRepository().setNotification(id, notification);
-                if (notifications == null) {
-                    boolean flag = true;
-                    for (Notification notif: notifications) {
-                        if (notif.equals(notification)) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag)
-                        publishMessage(notification, person.getToken());
-                    else
-                        MyApplication.getInstance().getApiRepository().deleteNotification(id, notification.getId());
-                }
-            });
         });
     }
 
