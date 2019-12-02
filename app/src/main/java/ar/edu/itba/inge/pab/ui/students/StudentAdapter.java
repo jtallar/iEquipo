@@ -8,7 +8,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
@@ -16,11 +19,12 @@ import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.ui.OnItemClickListener;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
-    private List<Student> data;
+    private List<Student> data, dataBackup;
     private OnItemClickListener<Student> listener;
 
-    public StudentAdapter(List<Student> data, OnItemClickListener<Student> itemClickListener) {
+    public  StudentAdapter(List<Student> data, OnItemClickListener<Student> itemClickListener) {
         this.data = data;
+        this.dataBackup = data;
         this.listener = itemClickListener;
     }
 
@@ -59,5 +63,35 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             tvStudentCareer.setText(student.getCarrera());
             itemView.setOnClickListener(view -> listener.onItemClick(student));
         }
+    }
+
+    public void sort(Comparator<? super Student> comparator){
+        data.sort(comparator);
+        dataBackup.sort(comparator);
+        notifyDataSetChanged();
+    }
+
+    private List<Student> aux;
+
+    public void filterHours(int hours){
+        Predicate<Student> avalHours = e -> e.getCreditos() >= hours;
+        data = data.stream().filter(avalHours).collect(Collectors.toList());
+        notifyDataSetChanged();
+    }
+
+    public void filterPerc(int perc){
+        Predicate<Student> minPerc = e -> e.getPorcentaje() > perc;
+        data = data.stream().filter(minPerc).collect(Collectors.toList());
+        notifyDataSetChanged();
+    }
+
+    public void filterCareer(String careerName){
+        Predicate<Student> career = e -> e.getCarrera().compareTo(careerName)==0;
+        data = data.stream().filter(career).collect(Collectors.toList());
+        notifyDataSetChanged();
+    }
+
+    public void resetData(){
+        data = dataBackup;
     }
 }
