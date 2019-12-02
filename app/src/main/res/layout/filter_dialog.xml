@@ -65,12 +65,12 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
                 <CheckBox
-                    android:id="@+id/cb_indus"
+                    android:id="@+id/cb_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/colorPrimary"/>
                 <TextView
-                    android:id="@+id/txt_indus"
+                    android:id="@+id/txt_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
@@ -88,12 +88,12 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
                 <CheckBox
-                    android:id="@+id/cb_elec"
+                    android:id="@+id/cb_indus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/colorPrimary"/>
                 <TextView
-                    android:id="@+id/txt_elec"
+                    android:id="@+id/txt_indus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
@@ -111,12 +111,12 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
                 <CheckBox
-                    android:id="@+id/cb_info"
+                    android:id="@+id/cb_elec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/colorPrimary"/>
                 <TextView
-                    android:id="@+id/txt_info"
+                    android:id="@+id/txt_elec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
