@@ -49,7 +49,7 @@
     <string name="empty_students_list">No students</string>
     <string name="empty_notifications_list">No notifications</string>
 
-    <string name="activity_title">Title</string>
+    <string name="activity_title">Escriba el nombre del proyecto</string>
     <string name="activity_credits">Credits</string>
     <string name="activity_students">Students</string>
     <string name="activity_student_quantity">Students needed</string>
@@ -128,4 +128,7 @@
     <string name="toast_message_sent">Message sent!</string>
     <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
     <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
+
+    <string name="description">Descripción</string>
+    <string name="name">Nombre</string>
 </resources>
