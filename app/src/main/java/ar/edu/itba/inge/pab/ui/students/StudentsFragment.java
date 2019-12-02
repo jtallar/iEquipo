@@ -1,6 +1,8 @@
 package ar.edu.itba.inge.pab.ui.students;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import ar.edu.itba.inge.pab.MainActivity;
@@ -56,6 +62,9 @@ public class StudentsFragment extends Fragment {
 
     private CardView emptyCard;
     private ProgressBar loading;
+    private ImageButton filter, sort;
+    private final int filter_dialog = R.layout.filter_dialog, order_dialog = R.layout.order_dialog;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +96,9 @@ public class StudentsFragment extends Fragment {
         TextView tvEmptyRoom = emptyCard.findViewById(R.id.card_no_element_text);
         tvEmptyRoom.setText(R.string.empty_students_list);
         loading = root.findViewById(R.id.students_loading_bar);
+        filter = root.findViewById(R.id.action_filter);
+        sort = root.findViewById(R.id.action_sort);
+
 
         getStudentsList();
 
@@ -119,12 +131,97 @@ public class StudentsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() != R.id.action_filter)
+        if (item.getItemId() != R.id.action_filter && item.getItemId() != R.id.action_sort)
             return super.onOptionsItemSelected(item);
 
-        // TODO: OPEN FILTER
-        MyApplication.makeToast(getResources().getString(R.string.filter_button_message));
+        if(item.getItemId() == R.id.action_filter)
+            createDialog(filter_dialog);
+        if(item.getItemId() == R.id.action_sort)
+            createDialog(order_dialog);
 
         return true;
+    }
+
+    private boolean prevCareer = false, prevHoursCB = false, prevPercCB = false, prevInfo = false;
+    private int prevHours = 0, prevPerc = 0;
+
+    private void createDialog(int dialog_view){
+        LayoutInflater inflater = this.getLayoutInflater();
+        View root = inflater.inflate(dialog_view, null);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext()).setView(root);
+        final AlertDialog dialog = dialogBuilder.create();
+
+        if(dialog_view == order_dialog) {
+            root.findViewById(R.id.nombre_btn).setOnClickListener(view -> {
+                adapter.sort((s1, s2) -> s1.getNombre().compareTo(s2.getNombre()));
+                dialog.dismiss();
+            });
+            root.findViewById(R.id.carrera_btn).setOnClickListener(view -> {
+                adapter.sort((s1, s2) -> s1.getCarrera().compareTo(s2.getCarrera()));
+                dialog.dismiss();
+            });
+            root.findViewById(R.id.horas_btn).setOnClickListener(view -> {
+                adapter.sort((s1, s2) -> s1.getCreditos()-s2.getCreditos());
+                dialog.dismiss();
+            });
+            root.findViewById(R.id.porc_carrera_btn).setOnClickListener(view -> {
+                adapter.sort((s1, s2) -> s1.getPorcentaje()- s2.getPorcentaje());
+                dialog.dismiss();
+            });
+        }else{
+            adapter.resetData();
+            EditText editPerc = root.findViewById(R.id.edit_porcentaje), editHours = root.findViewById(R.id.edit_horas);
+            CheckBox boxPerc = root.findViewById(R.id.cb_porcentaje), boxHours = root.findViewById(R.id.cb_horas),
+                    boxCareer = root.findViewById(R.id.cb_carrera), boxInfo = root.findViewById(R.id.cb_info);
+            previousValues(boxPerc, editPerc, boxHours, editHours, boxCareer, boxInfo);
+
+            root.findViewById(R.id.accept_btn).setOnClickListener(view -> {
+                dialog.dismiss();
+                manageFilters(boxPerc, editPerc, boxHours, editHours, boxCareer, boxInfo);
+            });
+
+        }
+
+        dialog.show();
+    }
+
+    private void previousValues(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo){
+        boxHours.setChecked(prevHoursCB);
+        boxPerc.setChecked(prevPercCB);
+        boxCareer.setChecked(prevCareer);
+        boxInfo.setChecked(prevInfo);
+        editHours.setText(String.valueOf(prevHours));
+        editPerc.setText(String.valueOf(prevPerc));
+    }
+
+
+    private void manageFilters(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo) {
+        if(boxHours.isChecked()) {
+            int hours = 0;
+            if(editHours.getText() != null)
+                hours = Integer.parseInt(editHours.getText().toString());
+            adapter.filterHours(hours);
+            prevHoursCB = true;
+            prevHours = hours;
+        } else prevHoursCB = false;
+        if(boxPerc.isChecked()){
+            int perc = 0;
+            if(editPerc.getText() != null)
+                perc =  Integer.parseInt(editPerc.getText().toString());
+            adapter.filterPerc(perc);
+            prevPercCB = true;
+            prevPerc = perc;
+        } else prevPercCB = false;
+        if(boxCareer.isChecked()) prevCareer = true;
+        else prevCareer = false;
+        if(boxCareer.isChecked() && boxInfo.isChecked()){
+            prevInfo = true;
+            adapter.filterCareer("Ingenieria Informatica");
+        }else prevInfo = false;
+        if(!boxCareer.isChecked() && !boxHours.isChecked() && !boxPerc.isChecked()) {
+            adapter.resetData();
+            adapter.notifyDataSetChanged();
+        }
+
     }
 }
