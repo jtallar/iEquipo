@@ -53,6 +53,10 @@ public class Project implements Serializable {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -91,5 +95,14 @@ public class Project implements Serializable {
 
     public void removeStudent(String aluId) {
         alumnos.remove(aluId);
+    }
+
+    public void editProject(String titulo, int creditos, String descripcion, String horarios, String requisitos, int cantidad) {
+        this.titulo = titulo;
+        this.creditos = creditos;
+        this.cantidad = cantidad;
+        this.descripcion = descripcion;
+        this.horarios = horarios;
+        this.requisitos = requisitos;
     }
 }
