@@ -36,7 +36,8 @@ public class StudentFragment extends Fragment {
     private TextView name, career, id, hours;
     private Button actionRight, actionLeft;
     private Student student;
-    private String projectID, notifType;
+    private String projectID;
+    private Notification notification;
     private View root;
 
     private Project selectedProject;
@@ -51,7 +52,7 @@ public class StudentFragment extends Fragment {
             StudentFragmentArgs args = StudentFragmentArgs.fromBundle(getArguments());
             student = args.getStudent();
             projectID = args.getProjectId();
-            notifType = args.getRequestType();
+            notification = args.getNotification();
             if (projectID != null)
                 studentViewModel.setViewModelProject(projectID);
         }
@@ -65,6 +66,8 @@ public class StudentFragment extends Fragment {
         hours = root.findViewById(R.id.student_hours);
         hours.setText(String.valueOf(student.getCreditos()));
 
+        TextView requestMessage = root.findViewById(R.id.student_request_message);
+
         actionLeft = root.findViewById(R.id.student_btn_left_action);
         actionRight = root.findViewById(R.id.student_btn_right_action);
         if (projectID == null) {
@@ -72,24 +75,32 @@ public class StudentFragment extends Fragment {
             actionLeft.setVisibility(View.GONE);
             actionRight.setText(getResources().getString(R.string.button_add_student));
             actionRight.setOnClickListener(v -> getLoggedProjects());
+            requestMessage.setVisibility(View.GONE);
         } else {
             // Called by NotificationsFragment
             studentViewModel.getProject().observe(this, project -> {
                 if (project != null) {
+                    requestMessage.setVisibility(View.VISIBLE);
                     selectedProject = project;
-                    Notification.NotificationType type = Notification.NotificationType.getNotificationType(notifType);
+                    Notification.NotificationType type = Notification.NotificationType.getNotificationType(notification.getType());
                     if (type == null) return;
                     switch (type) {
                         case JOIN:
-                            actionLeft.setText(String.format("%s %s", getResources().getString(R.string.button_reject_join), project.getTitulo()));
+                            requestMessage.setText(String.format("%s %s %s", student.getNombre(), getResources().getString(R.string.student_join_message), project.getTitulo()));
+//                            actionLeft.setText(String.format("%s %s", getResources().getString(R.string.button_reject_join), project.getTitulo()));
+                            actionLeft.setText(getResources().getString(R.string.button_reject));
                             actionLeft.setOnClickListener(v -> rejectRequest(Notification.NotificationType.JOIN));
-                            actionRight.setText(String.format("%s %s", getResources().getString(R.string.button_accept_join), project.getTitulo()));
+//                            actionRight.setText(String.format("%s %s", getResources().getString(R.string.button_accept_join), project.getTitulo()));
+                            actionRight.setText(getResources().getString(R.string.button_accept));
                             actionRight.setOnClickListener(v -> acceptRequest());
                             break;
                         case DOWN:
-                            actionLeft.setText(String.format("%s %s", getResources().getString(R.string.button_reject_out), project.getTitulo()));
+                            requestMessage.setText(String.format("%s %s %s", student.getNombre(), getResources().getString(R.string.student_quit_message), project.getTitulo()));
+//                            actionLeft.setText(String.format("%s %s", getResources().getString(R.string.button_reject_out), project.getTitulo()));
+                            actionLeft.setText(getResources().getString(R.string.button_reject));
                             actionLeft.setOnClickListener(v -> rejectRequest(Notification.NotificationType.DOWN));
-                            actionRight.setText(String.format("%s %s", getResources().getString(R.string.button_accept_out), project.getTitulo()));
+//                            actionRight.setText(String.format("%s %s", getResources().getString(R.string.button_accept_out), project.getTitulo()));
+                            actionRight.setText(getResources().getString(R.string.button_accept));
                             actionRight.setOnClickListener(v -> removeStudent());
                             break;
                         default:
@@ -102,9 +113,23 @@ public class StudentFragment extends Fragment {
         return root;
     }
 
+    private void getLoggedProjects() {
+        List<Project> myProjects = new ArrayList<>();
+        List<String> actIds = MainActivity.getLoggedPerson().getActividades();
+        studentViewModel.getFeed().observe(this, projects -> {
+            if (projects != null) {
+                for (Project project : projects) {
+                    if (actIds.contains(project.getId()) && !myProjects.contains(project) && project.getAlumnos().size() < project.getCantidad() && !project.getAlumnos().contains(student.getId()))
+                        myProjects.add(project);
+                }
+                projectsDialog(myProjects);
+            }
+        });
+    }
+
     private void projectsDialog(List<Project> projects) {
         if (projects.size() == 0) {
-            MyApplication.makeToast(getResources().getString(R.string.student_no_activities_message));
+            MyApplication.makeToast(getResources().getString(R.string.toast_no_activities_message));
             return;
         }
         String[] projectNames = projects.stream().map(Project::getTitulo).toArray(String[]::new);
@@ -119,23 +144,10 @@ public class StudentFragment extends Fragment {
                     Log.e(MainActivity.LOG_TAG, String.format("REQUESTED FOR %s", selectedProject.getTitulo()));
                     dialog.dismiss();
                     Navigation.findNavController(root).navigateUp();
+                    MyApplication.makeToast(getResources().getString(R.string.toast_request_sent));
                 })
                 .setNegativeButton(R.string.button_cancel, (dialog, which) -> dialog.dismiss());
         builder.create().show();
-    }
-
-    private void getLoggedProjects() {
-        List<Project> myProjects = new ArrayList<>();
-        List<String> actIds = MainActivity.getLoggedPerson().getActividades();
-        studentViewModel.getFeed().observe(this, projects -> {
-            if (projects != null) {
-                for (Project project : projects) {
-                    if (actIds.contains(project.getId()) && !myProjects.contains(project))
-                        myProjects.add(project);
-                }
-                projectsDialog(myProjects);
-            }
-        });
     }
 
     // To be called when ACCEPT is pressed
@@ -149,6 +161,7 @@ public class StudentFragment extends Fragment {
             studentViewModel.setStudent(student);
         }
 
+        if (notification != null) studentViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_join), selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();
@@ -160,6 +173,8 @@ public class StudentFragment extends Fragment {
             message = getResources().getString(R.string.notification_info_reject_join);
         else // DOWN
             message = getResources().getString(R.string.notification_info_reject_down);
+
+        if (notification != null) studentViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), message, selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();
@@ -175,6 +190,7 @@ public class StudentFragment extends Fragment {
             studentViewModel.setStudent(student);
         }
 
+        if (notification != null) studentViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_down), selectedProject.getTitulo()), selectedProject.getId(), student.getId());
         Navigation.findNavController(root).navigateUp();

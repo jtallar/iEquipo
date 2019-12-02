@@ -42,4 +42,8 @@ public class StudentViewModel extends RequestViewModel {
     void setProject(Project project) {
         MyApplication.getInstance().getApiRepository().setProject(project);
     }
+
+    void deleteNotification(String userId, String id) {
+        MyApplication.getInstance().getApiRepository().deleteNotification(userId, id);
+    }
 }

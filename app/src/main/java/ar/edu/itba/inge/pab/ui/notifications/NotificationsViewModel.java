@@ -34,13 +34,13 @@ public class NotificationsViewModel extends RequestViewModel {
     }
 
     LiveData<Student> getStudent(String id) {
-        ApiRequest<Student> studentRequest = MyApplication.getInstance().getApiRepository().getStudent(id);
+        ApiRequest<Student> studentRequest = MyApplication.getInstance().getApiRepository().singleGetStudent(id);
         requestListeners.add(studentRequest.getListener());
         return Transformations.map(studentRequest.getLiveData(), MyApplication.getTransformFunction());
     }
 
     LiveData<Project> getProject(String id) {
-        ApiRequest<Project> projectRequest = MyApplication.getInstance().getApiRepository().getProject(id);
+        ApiRequest<Project> projectRequest = MyApplication.getInstance().getApiRepository().singleGetProject(id);
         requestListeners.add(projectRequest.getListener());
         return Transformations.map(projectRequest.getLiveData(), MyApplication.getTransformFunction());
     }

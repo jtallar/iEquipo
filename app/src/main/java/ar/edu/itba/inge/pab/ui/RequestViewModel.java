@@ -19,7 +19,8 @@ public abstract class RequestViewModel extends ViewModel {
     public void cancelRequests() {
         // Any repository can be used to cancel requests, method declared in Repository
         for (ValueEventListener listener : requestListeners)
-            MyApplication.getInstance().getApiRepository().cancelRequest(listener);
+            if (listener != null)
+                MyApplication.getInstance().getApiRepository().cancelRequest(listener);
     }
 }
 

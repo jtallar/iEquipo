@@ -38,6 +38,7 @@
             android:layout_marginEnd="@dimen/card_spacing"
             android:maxLines="4"
             android:isScrollContainer="true"
+            android:scrollbars="vertical"
             android:hint="@string/dialog_message_content_hint"
             android:textIsSelectable="true"
             android:focusable="true"
