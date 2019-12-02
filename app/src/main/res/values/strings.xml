@@ -21,7 +21,7 @@
     <string name="sort_name">Name</string>
     <string name="career">Career</string>
     <string name="sort_percentage">Career percentage</string>
-    <string name="hours">Avaliable hours</string>
+    <string name="hours">Available hours</string>
     <string name="filter_info">Ingenieria Informatica</string>
     <string name="filter_indus">Ingenieria Industrial</string>
     <string name="filter_elec">Ingenieria Electronica</string>
@@ -51,10 +51,12 @@
 
     <string name="activity_title">Title</string>
     <string name="activity_credits">Credits</string>
+    <string name="activity_students">Students</string>
     <string name="activity_student_quantity">Students needed</string>
     <string name="activity_description">Description</string>
     <string name="activity_schedule">Schedule</string>
     <string name="activity_requirements">Requirements</string>
+    <string name="activity_delete_description">Delete student</string>
     <string name="activity_prefix">A</string>
 
     <string name="button_publish">Create</string>

@@ -15,10 +15,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ar.edu.itba.inge.pab.MainActivity;
 import ar.edu.itba.inge.pab.MyApplication;
@@ -27,6 +33,7 @@ import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Project;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.ui.OnItemClickListener;
 import ar.edu.itba.inge.pab.ui.explore.ExploreFragment;
 import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragment;
 import ar.edu.itba.inge.pab.ui.projects.ProjectsFragment;
@@ -35,6 +42,10 @@ import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 public class ProjectFragment extends Fragment {
     private ProjectViewModel projectViewModel;
     private TextView title, credits, studentCant, description, schedule, requirements;
+    private RecyclerView rvStudents;
+    private List<Student> students = new ArrayList<>();
+    private StudentListAdapter adapter;
+
     private Button actionLeft, actionRight;
     private Project project;
     private String callingFragment;
@@ -66,12 +77,19 @@ public class ProjectFragment extends Fragment {
             notificationId = args.getNotificationId();
         }
 
-        title = root.findViewById(R.id.act_title);
+//        title = root.findViewById(R.id.act_title);
         credits = root.findViewById(R.id.act_credits);
         studentCant = root.findViewById(R.id.act_student_cant);
         description = root.findViewById(R.id.act_description);
         schedule = root.findViewById(R.id.act_schedule);
         requirements = root.findViewById(R.id.act_requirements);
+        rvStudents = root.findViewById(R.id.rv_student_list);
+        adapter = new StudentListAdapter(students, student -> {
+            // TODO: HACER DELETE
+            MyApplication.makeToast(String.format("Borrar student %s", student.getNombre()));
+        });
+        rvStudents.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        rvStudents.setAdapter(adapter);
 
         refreshView();
 
@@ -315,12 +333,23 @@ public class ProjectFragment extends Fragment {
     }
 
     private void refreshView() {
-        title.setText(project.getTitulo());
+//        title.setText(project.getTitulo());
+//        getActivity().getActionBar().setTitle(project.getTitulo());
         credits.setText(String.valueOf(project.getCreditos()));
-        studentCant.setText(String.valueOf(project.getCantidad()));
+        studentCant.setText(String.format("%d/%d", project.getAlumnos().size(), project.getCantidad()));
         description.setText(project.getDescripcion());
         schedule.setText(project.getHorarios());
         requirements.setText(project.getRequisitos());
+
+        students.clear();
+        for (String studentId : project.getAlumnos()) {
+            projectViewModel.getStudent(studentId).observe(this, student -> {
+                if (student != null && !students.contains(student)) {
+                    students.add(student);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     @Override
