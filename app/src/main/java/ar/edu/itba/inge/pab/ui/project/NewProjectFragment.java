@@ -29,14 +29,17 @@ public class NewProjectFragment extends Fragment {
     private EditText title, credits, studentCant, description, schedule, requirements;
     private Button cancel, publish;
     private String projectId;
+    private Project existing;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_new_project, container, false);
 
-        if (getArguments() != null)
-            projectId = NewProjectFragmentArgs.fromBundle(getArguments()).getActivityId();
+        if (getArguments() != null) {
+            existing = NewProjectFragmentArgs.fromBundle(getArguments()).getProject();
+            projectId = existing.getId();
+        }
 
         title = root.findViewById(R.id.new_act_title);
         credits = root.findViewById(R.id.new_act_credits);
@@ -47,8 +50,21 @@ public class NewProjectFragment extends Fragment {
         cancel = root.findViewById(R.id.new_act_btn_cancel);
         publish = root.findViewById(R.id.new_act_btn_publish);
 
+        if (existing != null && existing.getIdDocente() != null) {
+            title.setText(existing.getTitulo());
+            credits.setText(String.valueOf(existing.getCreditos()));
+            studentCant.setText(String.valueOf(existing.getCantidad()));
+            description.setText(existing.getDescripcion());
+            schedule.setText(existing.getHorarios());
+            requirements.setText(existing.getRequisitos());
+            publish.setText(getResources().getString(R.string.button_edit));
+        }
+
         cancel.setOnClickListener(v -> Navigation.findNavController(root).navigateUp());
-        publish.setOnClickListener(getPublishListener(root));
+        if (existing != null && existing.getIdDocente() != null)
+            publish.setOnClickListener(getEditListener(root));
+        else
+            publish.setOnClickListener(getPublishListener(root));
 
         return root;
     }
@@ -57,19 +73,30 @@ public class NewProjectFragment extends Fragment {
         return v -> {
             if (credits.getText() == null || studentCant.getText() == null) return;
 
-            Person loggedPerson = MainActivity.getLoggedPerson();
+            Person teacher = MainActivity.getLoggedPerson();
 
-            Project newProject = new Project(projectId, loggedPerson.getId(), title.getText().toString(),
+            Project newProject = new Project(projectId, teacher.getId(), title.getText().toString(),
                     Integer.valueOf(credits.getText().toString()), description.getText().toString(),
                     schedule.getText().toString(), requirements.getText().toString(),
-                    loggedPerson.getEmail(), Integer.valueOf(studentCant.getText().toString()));
+                    teacher.getEmail(), Integer.valueOf(studentCant.getText().toString()));
 
             MyApplication.getInstance().getApiRepository().setProject(newProject);
-            Person teacher = MainActivity.getLoggedPerson();
             teacher.addActivity(projectId);
             MainActivity.setLoggedPerson(teacher);
             MyApplication.getInstance().getApiRepository().setTeacher(teacher);
 
+            Navigation.findNavController(root).navigateUp();
+        };
+    }
+
+    private View.OnClickListener getEditListener(View root) {
+        return v -> {
+            if (credits.getText() == null || studentCant.getText() == null) return;
+
+            existing.editProject(title.getText().toString(), Integer.valueOf(credits.getText().toString()), description.getText().toString(),
+                    schedule.getText().toString(), requirements.getText().toString(), Integer.valueOf(studentCant.getText().toString()));
+
+            MyApplication.getInstance().getApiRepository().setProject(existing);
             Navigation.findNavController(root).navigateUp();
         };
     }

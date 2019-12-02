@@ -3,6 +3,9 @@ package ar.edu.itba.inge.pab.ui.project;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,8 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -42,6 +47,12 @@ public class ProjectFragment extends Fragment {
     private enum ConfirmAction {DELETE, REQUEST_OUT}
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         projectViewModel = ViewModelProviders.of(this).get(ProjectViewModel.class);
@@ -56,17 +67,13 @@ public class ProjectFragment extends Fragment {
         }
 
         title = root.findViewById(R.id.act_title);
-        title.setText(project.getTitulo());
         credits = root.findViewById(R.id.act_credits);
-        credits.setText(String.valueOf(project.getCreditos()));
         studentCant = root.findViewById(R.id.act_student_cant);
-        studentCant.setText(String.valueOf(project.getCantidad()));
         description = root.findViewById(R.id.act_description);
-        description.setText(project.getDescripcion());
         schedule = root.findViewById(R.id.act_schedule);
-        schedule.setText(project.getHorarios());
         requirements = root.findViewById(R.id.act_requirements);
-        requirements.setText(project.getRequisitos());
+
+        refreshView();
 
         actionLeft = root.findViewById(R.id.act_btn_left_action);
         if (callingFragment == null) actionLeft.setVisibility(View.GONE);
@@ -278,6 +285,42 @@ public class ProjectFragment extends Fragment {
     private void sendNotif(Notification.NotificationType type, String message, String body, String projectId, String receiverId) {
         Log.e(MainActivity.LOG_TAG, receiverId);
         MyFirebaseMessagingService.sendMessage(new Notification(type.getTitle(), message, body, projectId, type), receiverId);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        // EDIT only posible if teacher opens it (in My Projects)
+        if (MainActivity.getLoggedPerson().getClass() != Student.class)
+            inflater.inflate(R.menu.appbar_project_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() != R.id.action_project_settings)
+            return super.onOptionsItemSelected(item);
+
+        projectViewModel.getProject(project.getId()).observe(this, newProject -> {
+            if (newProject != null) {
+                // TODO: VER SI EL TITULO DEL PROYECTO ES MODIFICABLE, SI LO ES CAMBIARLO EN LA APP BAR
+                project = newProject;
+                refreshView();
+            }
+        });
+
+        ProjectFragmentDirections.ActionEditProject action = ProjectFragmentDirections.actionEditProject(project, getResources().getString(R.string.title_edit_project));
+        Navigation.findNavController(root).navigate(action);
+
+        return true;
+    }
+
+    private void refreshView() {
+        title.setText(project.getTitulo());
+        credits.setText(String.valueOf(project.getCreditos()));
+        studentCant.setText(String.valueOf(project.getCantidad()));
+        description.setText(project.getDescripcion());
+        schedule.setText(project.getHorarios());
+        requirements.setText(project.getRequisitos());
     }
 
     @Override

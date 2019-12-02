@@ -7,6 +7,7 @@
     <string name="title_students">Students</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_new_project">New Activity</string>
+    <string name="title_edit_project">Edit Activity</string>
     <string name="title_project">Project</string>
     <string name="title_student">Student</string>
 
@@ -15,6 +16,7 @@
     <string name="option_about_us">About Us</string>
     <string name="option_log_out">Log Out</string>
     <string name="option_filter">Filter</string>
+    <string name="option_project_settings">Project settings</string>
 
     <string name="search_button_message">Search not implemented yet!</string>
     <string name="profile_button_message">Profile not implemented yet!</string>
@@ -46,6 +48,7 @@
     <string name="activity_prefix">A</string>
 
     <string name="button_publish">Create</string>
+    <string name="button_edit">Edit</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_add_student">Add to project…</string>
     <string name="button_request">Request</string>
