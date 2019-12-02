@@ -108,9 +108,10 @@ public class NotificationsFragment extends Fragment {
     private void getNotificationsList() {
         notificationsViewModel.getNotifications().observe(this, notifications -> {
             if (notifications != null) {
+                data.clear();
                 for (Notification notification: notifications) {
                     NotificationManager notificationManager = (NotificationManager) MainActivity.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-                    notificationManager.cancel(notification.getId().hashCode());
+                    notificationManager.cancel(notification.hashCode2());
                     if (data.contains(notification))
                         MyApplication.getInstance().getApiRepository().deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
                     else data.add(0, notification);
