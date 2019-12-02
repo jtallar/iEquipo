@@ -50,6 +50,9 @@
     <string name="button_add_student">Add to project…</string>
     <string name="button_request">Request</string>
     <string name="button_send">Send</string>
+    <string name="button_accept">Accept</string>
+    <string name="button_reject">Reject</string>
+
     <!--  ARCHIVAR ABAJO  -->
     <string name="button_store">Store</string>
     <string name="button_accept_join">Accept join to</string>
@@ -75,9 +78,10 @@
     <string name="project_action_btn_contact_students">Contact students</string>
     <string name="project_action_btn_contact_teacher">Contact teacher</string>
 
+    <string name="student_join_message">would like to join</string>
+    <string name="student_quit_message">would like to quit</string>
+
     <string name="dialog_select_project_title">Select an activity</string>
-    <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
-    <string name="student_no_activities_message">No hay actividades válidas para este alumno!</string>
 
     <string name="dialog_message_title_student">Contact teacher</string>
     <string name="dialog_message_title_teacher">Contact students</string>
@@ -107,4 +111,6 @@
     <string name="notification_info_from">de</string>
     <string name="toast_request_sent">Request sent!</string>
     <string name="toast_message_sent">Message sent!</string>
+    <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
+    <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
 </resources>
