@@ -108,22 +108,22 @@ public class ExploreFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.appbar_explore_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() != R.id.action_filter)
-            return super.onOptionsItemSelected(item);
-
-        // TODO: OPEN FILTER
-        MyApplication.makeToast(getResources().getString(R.string.filter_button_message));
-
-        return true;
-    }
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        inflater.inflate(R.menu.appbar_explore_menu, menu);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() != R.id.action_filter)
+//            return super.onOptionsItemSelected(item);
+//
+//
+//        MyApplication.makeToast(getResources().getString(R.string.filter_button_message));
+//
+//        return true;
+//    }
 
     @Override
     public void onStop() {

@@ -8,6 +8,7 @@
     <dimen name="card_elevation">10dp</dimen>
 
     <dimen name="text_size_title_large">24sp</dimen>
+    <dimen name="text_size_title_double_medium">22sp</dimen>
     <dimen name="text_size_title_medium">20sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
