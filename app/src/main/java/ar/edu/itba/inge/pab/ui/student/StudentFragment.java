@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,8 @@ import ar.edu.itba.inge.pab.ui.students.StudentsFragment;
 
 public class StudentFragment extends Fragment {
     private StudentViewModel studentViewModel;
-    private TextView name, career, id, hours;
+    private TextView name, career, id, hours, percentage;
+    private ProgressBar careerProgressBar;
     private Button actionRight, actionLeft;
     private Student student;
     private String projectID;
@@ -58,13 +60,18 @@ public class StudentFragment extends Fragment {
         }
 
         name = root.findViewById(R.id.student_name);
-        name.setText(student.getNombre());
         career = root.findViewById(R.id.student_career);
-        career.setText(student.getCarrera());
         id = root.findViewById(R.id.student_id);
-        id.setText(student.getId());
         hours = root.findViewById(R.id.student_hours);
+        percentage = root.findViewById(R.id.student_percentage);
+        careerProgressBar = root.findViewById(R.id.career_progress_bar);
+
+        name.setText(student.getNombre());
+        career.setText(student.getCarrera());
+        id.setText(student.getId());
         hours.setText(String.valueOf(student.getCreditos()));
+        percentage.setText(String.format("%s%s",(String.valueOf(student.getPorcentaje())),"%"));
+        careerProgressBar.setProgress((student.getPorcentaje()));
 
         TextView requestMessage = root.findViewById(R.id.student_request_message);
 
