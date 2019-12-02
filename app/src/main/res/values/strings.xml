@@ -7,6 +7,7 @@
     <string name="title_students">Students</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_new_project">New Activity</string>
+    <string name="title_edit_project">Edit Activity</string>
     <string name="title_project">Project</string>
     <string name="title_student">Student</string>
 
@@ -15,6 +16,7 @@
     <string name="option_about_us">About Us</string>
     <string name="option_log_out">Log Out</string>
     <string name="option_filter">Filter</string>
+    <string name="option_project_settings">Project settings</string>
 
     <string name="search_button_message">Search not implemented yet!</string>
     <string name="profile_button_message">Profile not implemented yet!</string>
@@ -46,10 +48,14 @@
     <string name="activity_prefix">A</string>
 
     <string name="button_publish">Create</string>
+    <string name="button_edit">Edit</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_add_student">Add to project…</string>
     <string name="button_request">Request</string>
     <string name="button_send">Send</string>
+    <string name="button_accept">Accept</string>
+    <string name="button_reject">Reject</string>
+
     <!--  ARCHIVAR ABAJO  -->
     <string name="button_store">Store</string>
     <string name="button_accept_join">Accept join to</string>
@@ -75,8 +81,10 @@
     <string name="project_action_btn_contact_students">Contact students</string>
     <string name="project_action_btn_contact_teacher">Contact teacher</string>
 
+    <string name="student_join_message">would like to join</string>
+    <string name="student_quit_message">would like to quit</string>
+
     <string name="dialog_select_project_title">Select an activity</string>
-    <string name="student_no_activities_message">You have no activities created!</string>
 
     <string name="dialog_message_title_student">Contact teacher</string>
     <string name="dialog_message_title_teacher">Contact students</string>
@@ -91,11 +99,21 @@
     <string name="notification_request_title">Nueva invitación</string>
     <string name="notification_request_message">lo ha invitado a la actividad</string>
     <string name="notification_info_title">Nuevo mensaje</string>
-    <string name="notification_info_message">le ha mandado un mensaje</string>
+    <string name="notification_info_message">le ha mandado un mensaje en la actividad</string>
     <string name="notification_info_accept_join">ha aceptado su solicitud para la actividad</string>
-    <string name="notification_info_reject_join">ha aceptado su solicitud para la actividad</string>
-    <string name="notification_info_accept_down">ha aceptado su solicitud para la actividad</string>
-    <string name="notification_info_reject_down">ha aceptado su solicitud para la actividad</string>
+    <string name="notification_info_reject_join">ha rechazado su solicitud para la actividad</string>
+    <string name="notification_info_accept_down">ha aceptado su solicitud para dar de baja la actividad</string>
+    <string name="notification_info_reject_down">ha rechazado su solicitud para dar de baja la actividad</string>
     <string name="notification_info_accept_request">ha aceptado su invitación para la actividad</string>
-    <string name="notification_info_reject_request">ha aceptado su invitación para la actividad</string>
+    <string name="notification_info_reject_request">ha rechazado su invitación para la actividad</string>
+
+    <string name="notification_info_delete_project">ha eliminado la actividad</string>
+
+    <string name="notification_info_remove_student">ha rechazado su invitación para la actividad</string>
+
+    <string name="notification_info_from">de</string>
+    <string name="toast_request_sent">Request sent!</string>
+    <string name="toast_message_sent">Message sent!</string>
+    <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
+    <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
 </resources>

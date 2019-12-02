@@ -72,7 +72,9 @@ public class ProjectsFragment extends Fragment {
         else {
             addButton.setVisibility(View.VISIBLE);
             addButton.setOnClickListener(v -> {
-                ProjectsFragmentDirections.ActionNewProject action = ProjectsFragmentDirections.actionNewProject(nextId);
+                Project aux = new Project();
+                aux.setId(nextId);
+                ProjectsFragmentDirections.ActionNewProject action = ProjectsFragmentDirections.actionNewProject(aux, getResources().getString(R.string.title_new_project));
                 Navigation.findNavController(root).navigate(action);
             });
         }
@@ -82,7 +84,7 @@ public class ProjectsFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutAutofitManager(this.getContext(), (int) getResources().getDimension(R.dimen.card_width), LinearLayoutManager.VERTICAL, false);
         rvProjects.setLayoutManager(gridLayoutManager);
         adapter = new ProjectAdapter(data, project -> {
-            ProjectsFragmentDirections.ActionSelectProject action = ProjectsFragmentDirections.actionSelectProject(project, className, project.getTitulo());
+            ProjectsFragmentDirections.ActionSelectProject action = ProjectsFragmentDirections.actionSelectProject(project, className, null, project.getTitulo());
             Navigation.findNavController(root).navigate(action);
         });
         rvProjects.setAdapter(adapter);

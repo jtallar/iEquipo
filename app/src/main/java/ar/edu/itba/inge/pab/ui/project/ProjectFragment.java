@@ -3,6 +3,9 @@ package ar.edu.itba.inge.pab.ui.project;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,8 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -33,12 +38,19 @@ public class ProjectFragment extends Fragment {
     private Button actionLeft, actionRight;
     private Project project;
     private String callingFragment;
+    private String notificationId;
 
     private View root;
 
     private int deleteCount = 0;
 
-    private enum ConfirmAction {DELETE, REQUEST_OUT, REQUEST_IN, ACCEPT}
+    private enum ConfirmAction {DELETE, REQUEST_OUT}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,20 +63,17 @@ public class ProjectFragment extends Fragment {
             ProjectFragmentArgs args = ProjectFragmentArgs.fromBundle(getArguments());
             project = args.getProject();
             callingFragment = args.getCallingFragment();
+            notificationId = args.getNotificationId();
         }
 
         title = root.findViewById(R.id.act_title);
-        title.setText(project.getTitulo());
         credits = root.findViewById(R.id.act_credits);
-        credits.setText(String.valueOf(project.getCreditos()));
         studentCant = root.findViewById(R.id.act_student_cant);
-        studentCant.setText(String.valueOf(project.getCantidad()));
         description = root.findViewById(R.id.act_description);
-        description.setText(project.getDescripcion());
         schedule = root.findViewById(R.id.act_schedule);
-        schedule.setText(project.getHorarios());
         requirements = root.findViewById(R.id.act_requirements);
-        requirements.setText(project.getRequisitos());
+
+        refreshView();
 
         actionLeft = root.findViewById(R.id.act_btn_left_action);
         if (callingFragment == null) actionLeft.setVisibility(View.GONE);
@@ -138,6 +147,7 @@ public class ProjectFragment extends Fragment {
             switch (action) {
                 case DELETE:
                     confirmationText.setText(getResources().getString(R.string.dialog_message_delete_project));
+                    runButton.setText(getResources().getString(R.string.dialog_delete));
                     runButton.setOnClickListener(v -> {
                         deleteProject();
                         dialog.dismiss();
@@ -145,14 +155,12 @@ public class ProjectFragment extends Fragment {
                     break;
                 case REQUEST_OUT:
                     confirmationText.setText(getResources().getString(R.string.dialog_message_delete_request_out));
+                    runButton.setText(getResources().getString(R.string.project_action_btn_request_out));
                     runButton.setOnClickListener(v -> {
                         requestOut();
                         dialog.dismiss();
                     });
                     break;
-                default:
-                    confirmationText.setText("NOTHING");
-                    runButton.setOnClickListener(v -> dialog.dismiss());
             }
         }
 
@@ -175,9 +183,11 @@ public class ProjectFragment extends Fragment {
         if (sendButton != null) {
             if (loggedPerson.getClass() == Student.class) {
                 sendButton.setOnClickListener(v -> {
-                    if (input.getText() != null)
+                    if (input.getText() != null) {
                         sendNotif(Notification.NotificationType.INFO,
                                 String.format("%s %s %s", loggedPerson.getNombre(), getResources().getString(R.string.notification_info_message), project.getTitulo()), input.getText().toString(), project.getId(), project.getIdDocente());
+                        MyApplication.makeToast(getResources().getString(R.string.toast_message_sent));
+                    }
                     dialog.dismiss();
                 });
             } else {
@@ -186,6 +196,7 @@ public class ProjectFragment extends Fragment {
                         for (String studentId : project.getAlumnos())
                             sendNotif(Notification.NotificationType.INFO,
                                     String.format("%s %s %s", loggedPerson.getNombre(), getResources().getString(R.string.notification_info_message), project.getTitulo()), input.getText().toString(), project.getId(), studentId);
+                        MyApplication.makeToast(getResources().getString(R.string.toast_message_sent));
                     }
                     dialog.dismiss();
                 });
@@ -195,18 +206,20 @@ public class ProjectFragment extends Fragment {
     }
 
     private void deleteProject() {
+        Person teacher = MainActivity.getLoggedPerson();
         for (String studentId : project.getAlumnos()) {
             projectViewModel.getStudent(studentId).observe(this, student -> {
                 if (student != null) {
                     student.addCreditos(project.getCreditos());
                     student.removeActivity(project.getId());
                     projectViewModel.setStudent(student);
+                    sendNotif(Notification.NotificationType.INFO,
+                            String.format("%s %s %s", teacher.getNombre(), getResources().getString(R.string.notification_info_delete_project), project.getTitulo()), project.getId(), student.getId());
                 }
                 increaseDeleteCount(root);
             });
         }
 
-        Person teacher = MainActivity.getLoggedPerson();
         teacher.removeActivity(project.getId());
         MainActivity.setLoggedPerson(teacher);
         projectViewModel.setTeacher(teacher);
@@ -220,12 +233,14 @@ public class ProjectFragment extends Fragment {
         sendNotif(Notification.NotificationType.JOIN,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_join_message), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
+        MyApplication.makeToast(getResources().getString(R.string.toast_request_sent));
     }
 
     private void requestOut() {
         sendNotif(Notification.NotificationType.DOWN,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_down_message), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
+        MyApplication.makeToast(getResources().getString(R.string.toast_request_sent));
     }
 
     private void acceptRequest() {
@@ -244,12 +259,14 @@ public class ProjectFragment extends Fragment {
         MainActivity.setLoggedPerson(student);
         projectViewModel.setStudent(student);
 
+        if (notificationId != null) projectViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notificationId);
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_accept_request), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
     }
 
     private void rejectRequest() {
+        if (notificationId != null) projectViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notificationId);
         sendNotif(Notification.NotificationType.INFO,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_reject_request), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
@@ -268,6 +285,42 @@ public class ProjectFragment extends Fragment {
     private void sendNotif(Notification.NotificationType type, String message, String body, String projectId, String receiverId) {
         Log.e(MainActivity.LOG_TAG, receiverId);
         MyFirebaseMessagingService.sendMessage(new Notification(type.getTitle(), message, body, projectId, type), receiverId);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        // EDIT only posible if teacher opens it (in My Projects)
+        if (MainActivity.getLoggedPerson().getClass() != Student.class)
+            inflater.inflate(R.menu.appbar_project_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() != R.id.action_project_settings)
+            return super.onOptionsItemSelected(item);
+
+        projectViewModel.getProject(project.getId()).observe(this, newProject -> {
+            if (newProject != null) {
+                // TODO: VER SI EL TITULO DEL PROYECTO ES MODIFICABLE, SI LO ES CAMBIARLO EN LA APP BAR
+                project = newProject;
+                refreshView();
+            }
+        });
+
+        ProjectFragmentDirections.ActionEditProject action = ProjectFragmentDirections.actionEditProject(project, getResources().getString(R.string.title_edit_project));
+        Navigation.findNavController(root).navigate(action);
+
+        return true;
+    }
+
+    private void refreshView() {
+        title.setText(project.getTitulo());
+        credits.setText(String.valueOf(project.getCreditos()));
+        studentCant.setText(String.valueOf(project.getCantidad()));
+        description.setText(project.getDescripcion());
+        schedule.setText(project.getHorarios());
+        requirements.setText(project.getRequisitos());
     }
 
     @Override

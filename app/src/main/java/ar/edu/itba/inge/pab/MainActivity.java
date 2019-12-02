@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = "ar.edu.itba.hci.hoh";
     private static MainActivity instance;
     private static Person loggedPerson;
+    private MainData mainData;
 //    private static Person loggedPerson = new Student("Julian Tallar", "59356", "jtallar@itba.edu.ar");
 
     public synchronized static MainActivity getInstance() {
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null) {
             loggedPerson = (Person) intent.getSerializableExtra(LoginActivity.EXTRA_PERSON);
             if (loggedPerson != null) {
+                mainData = new MainData(loggedPerson);
+                observeLogged();
                 Log.e(LOG_TAG, String.format("%s %s %s", loggedPerson.getNombre(), loggedPerson.getId(), loggedPerson.getEmail()));
                 for (String a : loggedPerson.getActividades())
                     Log.e(LOG_TAG, String.format("ACT %s", a));
@@ -162,10 +166,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void observeLogged() {
+        mainData.getLoggedPerson().observe(this, person -> {
+            if (person != null)
+                loggedPerson = person;
+        });
+    }
+
     // TODO: VER SI ACA DEBO DESLOGUEARME O NO
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mainData != null)
+            mainData.cancelRequests();
 //        logOut();
     }
 }
