@@ -131,6 +131,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/button_cancel"
+                android:textColor="@color/colorPrimaryDark"
                 style="?android:attr/buttonBarButtonStyle"/>
 
             <Button
@@ -142,6 +143,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/button_publish"
+                android:textColor="@color/colorPrimaryDark"
                 style="?android:attr/buttonBarButtonStyle"/>
         </LinearLayout>
     </LinearLayout>
