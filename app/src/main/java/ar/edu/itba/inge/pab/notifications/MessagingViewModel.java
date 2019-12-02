@@ -3,7 +3,10 @@ package ar.edu.itba.inge.pab.notifications;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
+import java.util.List;
+
 import ar.edu.itba.inge.pab.MyApplication;
+import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.firebase.ApiRequest;
@@ -27,4 +30,9 @@ public class MessagingViewModel extends RequestViewModel {
         return Transformations.map(studentRequest.getLiveData(), MyApplication.getTransformFunction());
     }
 
+    LiveData<List<Notification>> singleGetNotifications(String id) {
+        ApiRequest<List<Notification>> notificationRequest = MyApplication.getInstance().getApiRepository().singleGetNotifications(id);
+        requestListeners.add(notificationRequest.getListener());
+        return Transformations.map(notificationRequest.getLiveData(), MyApplication.getTransformFunction());
+    }
 }
