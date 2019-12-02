@@ -39,7 +39,7 @@ public class ProjectFragment extends Fragment {
 
     private int deleteCount = 0;
 
-    private enum ConfirmAction {DELETE, REQUEST_OUT, REQUEST_IN, ACCEPT}
+    private enum ConfirmAction {DELETE, REQUEST_OUT}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -140,6 +140,7 @@ public class ProjectFragment extends Fragment {
             switch (action) {
                 case DELETE:
                     confirmationText.setText(getResources().getString(R.string.dialog_message_delete_project));
+                    runButton.setText(getResources().getString(R.string.dialog_delete));
                     runButton.setOnClickListener(v -> {
                         deleteProject();
                         dialog.dismiss();
@@ -147,14 +148,12 @@ public class ProjectFragment extends Fragment {
                     break;
                 case REQUEST_OUT:
                     confirmationText.setText(getResources().getString(R.string.dialog_message_delete_request_out));
+                    runButton.setText(getResources().getString(R.string.project_action_btn_request_out));
                     runButton.setOnClickListener(v -> {
                         requestOut();
                         dialog.dismiss();
                     });
                     break;
-                default:
-                    confirmationText.setText("NOTHING");
-                    runButton.setOnClickListener(v -> dialog.dismiss());
             }
         }
 
@@ -234,6 +233,7 @@ public class ProjectFragment extends Fragment {
         sendNotif(Notification.NotificationType.DOWN,
                 String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_down_message), project.getTitulo()), project.getId(), project.getIdDocente());
         Navigation.findNavController(root).navigateUp();
+        MyApplication.makeToast(getResources().getString(R.string.toast_request_sent));
     }
 
     private void acceptRequest() {
