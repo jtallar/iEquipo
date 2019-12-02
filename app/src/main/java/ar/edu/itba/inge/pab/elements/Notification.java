@@ -57,6 +57,7 @@ public class Notification implements Serializable {
             notificationData.put("body", body);
             notificationData.put("title", title);
             notificationData.put("message", message);
+            notificationData.put("id", id);
             Log.d(TAG, "Notification: " + notificationData.toString());
         } catch (JSONException e) {
             Log.e(TAG, "On create: " + e.getMessage());
