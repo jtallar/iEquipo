@@ -58,9 +58,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Get the notification and save it on database
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
-
+        Integer id = remoteMessage.getData().get("id").hashCode();
         // Send notification to user
-        sendNotification(title, message, "unused");
+        sendNotification(title, message, "unused", id);
     }
 
     /**
@@ -87,7 +87,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      * @param extra FCM extra received. Used for intent extra.
      */
-    private void sendNotification(String messageTitle, String messageBody, String extra) {
+    private void sendNotification(String messageTitle, String messageBody, String extra, Integer id) {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("data", extra);
@@ -113,7 +113,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(id, notificationBuilder.build());
     }
 
     /**
