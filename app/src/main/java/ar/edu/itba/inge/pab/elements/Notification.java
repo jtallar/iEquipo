@@ -120,10 +120,6 @@ public class Notification implements Serializable {
         return body;
     }
 
-    public int hashCode2() {
-        return (project +  sender + type + message).hashCode();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
