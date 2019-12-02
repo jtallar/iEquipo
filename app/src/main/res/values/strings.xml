@@ -50,13 +50,13 @@
     <string name="empty_students_list">No students</string>
     <string name="empty_notifications_list">No notifications</string>
 
-    <string name="activity_title">Escriba el nombre del proyecto</string>
-    <string name="activity_credits">Credits</string>
-    <string name="activity_students">Students</string>
-    <string name="activity_student_quantity">Students needed</string>
-    <string name="activity_description">Description</string>
-    <string name="activity_schedule">Schedule</string>
-    <string name="activity_requirements">Requirements</string>
+    <string name="activity_title">Nombre</string>
+    <string name="activity_credits">Créditos</string>
+    <string name="activity_students">Estudiantes</string>
+    <string name="activity_student_quantity">Estudiantes necesarios</string>
+    <string name="activity_description">Breve descripción</string>
+    <string name="activity_schedule">Horarios</string>
+    <string name="activity_requirements">Condiciones mínimas</string>
     <string name="activity_delete_description">Delete student</string>
     <string name="activity_prefix">A</string>
 
