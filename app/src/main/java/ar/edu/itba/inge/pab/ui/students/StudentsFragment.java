@@ -142,7 +142,7 @@ public class StudentsFragment extends Fragment {
         return true;
     }
 
-    private boolean prevCareer = false, prevHoursCB = false, prevPercCB = false, prevInfo = false;
+    private boolean prevCareer = false, prevHoursCB = false, prevPercCB = false, prevInfo = false, prevElec = false, prevIndus = false;
     private int prevHours = 0, prevPerc = 0;
 
     private void createDialog(int dialog_view){
@@ -172,12 +172,13 @@ public class StudentsFragment extends Fragment {
             adapter.resetData();
             EditText editPerc = root.findViewById(R.id.edit_porcentaje), editHours = root.findViewById(R.id.edit_horas);
             CheckBox boxPerc = root.findViewById(R.id.cb_porcentaje), boxHours = root.findViewById(R.id.cb_horas),
-                    boxCareer = root.findViewById(R.id.cb_carrera), boxInfo = root.findViewById(R.id.cb_info);
-            previousValues(boxPerc, editPerc, boxHours, editHours, boxCareer, boxInfo);
+                    boxCareer = root.findViewById(R.id.cb_carrera), boxInfo = root.findViewById(R.id.cb_info),
+                    boxIndus = root.findViewById(R.id.cb_indus), boxElec = root.findViewById(R.id.cb_elec);
+            previousValues(boxPerc, editPerc, boxHours, editHours, boxCareer, boxInfo, boxIndus, boxElec);
 
             root.findViewById(R.id.accept_btn).setOnClickListener(view -> {
                 dialog.dismiss();
-                manageFilters(boxPerc, editPerc, boxHours, editHours, boxCareer, boxInfo);
+                manageFilters(boxPerc, editPerc, boxHours, editHours, boxCareer, boxInfo, boxIndus, boxElec);
             });
 
         }
@@ -185,17 +186,18 @@ public class StudentsFragment extends Fragment {
         dialog.show();
     }
 
-    private void previousValues(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo){
+    private void previousValues(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo, CheckBox boxIndus, CheckBox boxElec){
         boxHours.setChecked(prevHoursCB);
         boxPerc.setChecked(prevPercCB);
         boxCareer.setChecked(prevCareer);
         boxInfo.setChecked(prevInfo);
+        boxElec.setChecked(prevElec);
+        boxIndus.setChecked(prevIndus);
         editHours.setText(String.valueOf(prevHours));
         editPerc.setText(String.valueOf(prevPerc));
     }
 
-
-    private void manageFilters(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo) {
+    private void manageFilters(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo, CheckBox boxIndus, CheckBox boxElec) {
         if(boxHours.isChecked()) {
             int hours = 0;
             if(editHours.getText() != null)
@@ -218,6 +220,14 @@ public class StudentsFragment extends Fragment {
             prevInfo = true;
             adapter.filterCareer("Ingenieria Informatica");
         }else prevInfo = false;
+        if(boxCareer.isChecked() && boxIndus.isChecked()){
+            prevIndus = true;
+            adapter.filterCareer("Ingenieria Industrial");
+        }else prevIndus = false;
+        if(boxCareer.isChecked() && boxElec.isChecked()){
+            prevElec = true;
+            adapter.filterCareer("Ingenieria Electronica");
+        }else prevElec = false;
         if(!boxCareer.isChecked() && !boxHours.isChecked() && !boxPerc.isChecked()) {
             adapter.resetData();
             adapter.notifyDataSetChanged();

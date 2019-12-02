@@ -14,9 +14,18 @@
     <string name="option_profile">My profile</string>
     <string name="option_about_us">About Us</string>
     <string name="option_log_out">Log Out</string>
-    <string name="option_filter">Filter</string>
-    <string name="option_sort">Sort by</string>
 
+    <string name="option_filter">Filter by:</string>
+    <string name="option_sort">Sort by:</string>
+    <string name="sort_name">Name</string>
+    <string name="career">Career</string>
+    <string name="sort_percentage">Career percentage</string>
+    <string name="hours">Avaliable hours</string>
+    <string name="filter_info">Ingenieria Informatica</string>
+    <string name="filter_indus">Ingenieria Industrial</string>
+    <string name="filter_elec">Ingenieria Electronica</string>
+    <string name="filter_percentage">Career % higher than</string>
+    <string name="accept_button">Apply</string>
 
     <string name="search_button_message">Search not implemented yet!</string>
     <string name="profile_button_message">Profile not implemented yet!</string>
