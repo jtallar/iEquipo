@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -71,8 +72,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         notifyDataSetChanged();
     }
 
-    private List<Student> aux;
-
     public void filterHours(int hours){
         Predicate<Student> avalHours = e -> e.getCreditos() >= hours;
         data = data.stream().filter(avalHours).collect(Collectors.toList());
@@ -85,8 +84,14 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         notifyDataSetChanged();
     }
 
-    public void filterCareer(String careerName){
-        Predicate<Student> career = e -> e.getCarrera().compareTo(careerName)==0;
+    public void filterCareer(ArrayList<String> careers){
+        Predicate<Student> career = student -> {
+            for(String c : careers){
+                if(student.getCarrera().contains(c))
+                    return true;
+            }
+            return false;
+        };
         data = data.stream().filter(career).collect(Collectors.toList());
         notifyDataSetChanged();
     }

@@ -214,20 +214,25 @@ public class StudentsFragment extends Fragment {
             prevPercCB = true;
             prevPerc = perc;
         } else prevPercCB = false;
-        if(boxCareer.isChecked()) prevCareer = true;
+        if(boxCareer.isChecked()) {
+            prevCareer = true;
+            ArrayList<String> careers = new ArrayList<>();
+            if(boxInfo.isChecked())
+                careers.add("Informatica");
+            if(boxIndus.isChecked())
+                careers.add("Industrial");
+            if(boxElec.isChecked())
+                careers.add("Electronica");
+            adapter.filterCareer(careers);
+        }
         else prevCareer = false;
-        if(boxCareer.isChecked() && boxInfo.isChecked()){
-            prevInfo = true;
-            adapter.filterCareer("Ingenieria Informatica");
-        }else prevInfo = false;
-        if(boxCareer.isChecked() && boxIndus.isChecked()){
-            prevIndus = true;
-            adapter.filterCareer("Ingenieria Industrial");
-        }else prevIndus = false;
-        if(boxCareer.isChecked() && boxElec.isChecked()){
-            prevElec = true;
-            adapter.filterCareer("Ingenieria Electronica");
-        }else prevElec = false;
+        if(boxInfo.isChecked()) prevInfo = true;
+        else prevInfo = false;
+        if(boxIndus.isChecked()) prevIndus = true;
+        else prevIndus = false;
+        if(boxElec.isChecked()) prevElec = true;
+        else prevElec = false;
+
         if(!boxCareer.isChecked() && !boxHours.isChecked() && !boxPerc.isChecked()) {
             adapter.resetData();
             adapter.notifyDataSetChanged();
