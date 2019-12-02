@@ -42,6 +42,7 @@
     <string name="description_pab_logo">PAB Logo</string>
     <string name="description_login_button">Login button</string>
 
+    <string name="student_profile_career_progress">Porcentaje de carrera</string>
     <string name="student_free_hours">Available hours</string>
     <string name="project_required_hours">Weekly hours</string>
 
