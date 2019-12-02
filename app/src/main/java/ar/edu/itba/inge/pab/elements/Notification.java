@@ -131,6 +131,10 @@ public class Notification implements Serializable {
                                     && type.equals(that.type));
     }
 
+    public int hashCode2() {
+        return (sender + project + type + message).hashCode();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
