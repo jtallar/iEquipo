@@ -18,6 +18,10 @@
             android:id="@+id/action_select_project"
             app:destination="@id/navigation_project"
             app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_navigation_projects_to_studentProfileFragment"
+            app:destination="@id/studentProfileFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
 
     <fragment
@@ -28,6 +32,10 @@
         <action
             android:id="@+id/action_select_project"
             app:destination="@id/navigation_project"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_navigation_explore_to_studentProfileFragment"
+            app:destination="@id/studentProfileFragment"
             app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
 
@@ -54,6 +62,10 @@
         <action
             android:id="@+id/action_select_student"
             app:destination="@id/navigation_student"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_studentProfileFragment"
+            app:destination="@id/studentProfileFragment"
             app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
 
@@ -109,4 +121,9 @@
             android:name="appbar_title"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/studentProfileFragment"
+        android:name="ar.edu.itba.inge.pab.ui.student_profile.StudentProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/fragment_student_profile" />
 </navigation>

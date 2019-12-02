@@ -17,8 +17,8 @@
     <string name="option_filter">Filter</string>
 
     <string name="search_button_message">Search not implemented yet!</string>
-    <string name="profile_button_message">Profile not implemented yet!</string>
     <string name="filter_button_message">Filter not implemented yet!</string>
+    <string name="teacher_profile_button_message">Teacher\'s profile not implemented yet</string>
 
     <string name="about_us_title">About Us</string>
     <string name="close_dialog_description">Close dialog</string>
@@ -101,4 +101,5 @@
 
     <string name="notification_info_from">de</string>
     <string name="message_request_sent">Request sent!</string>
+    <string name="student_profile_avance_de_la_carrera">Avance de la carrera:</string>
 </resources>

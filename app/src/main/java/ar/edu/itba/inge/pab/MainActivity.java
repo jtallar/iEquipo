@@ -1,5 +1,8 @@
 package ar.edu.itba.inge.pab;
 
+import android.annotation.SuppressLint;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,14 +37,19 @@ import ar.edu.itba.inge.pab.elements.Student;
 import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragment;
 import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragmentDirections;
+import ar.edu.itba.inge.pab.ui.student_profile.StudentProfileFragment;
+import ar.edu.itba.inge.pab.ui.student_profile.StudentProfileViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String LOG_TAG = "ar.edu.itba.hci.hoh";
-    private static MainActivity instance;
-    private static Person loggedPerson;
-//    private static Person loggedPerson = new Student("Julian Tallar", "59356", "jtallar@itba.edu.ar");
+    public static final String       LOG_TAG = "ar.edu.itba.hci.hoh";
+    private static      MainActivity instance;
+    private static      Person       loggedPerson;
 
+
+    private NavController navController;
+
+    public static StudentProfileFragment studentProfileFragment;
     public synchronized static MainActivity getInstance() {
         return instance;
     }
@@ -59,7 +68,16 @@ public class MainActivity extends AppCompatActivity {
                 MyApplication.makeToast(this.getResources().getString(R.string.search_button_message));
                 break;
             case R.id.kebab_profile:
-                MyApplication.makeToast(this.getResources().getString(R.string.profile_button_message));
+                Intent intent = getIntent();
+                if (intent != null) {
+                    if (loggedPerson.getClass() == Student.class) {
+
+                        navController.navigate(R.id.studentProfileFragment);
+
+                        }
+
+                    } else
+                        MyApplication.makeToast(this.getResources().getString(R.string.teacher_profile_button_message));
                 break;
             case R.id.kebab_about_us:
                 aboutUsDialog(item.getActionView());
@@ -78,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        studentProfileFragment = new StudentProfileFragment();
         Intent intent = getIntent();
         if (intent != null) {
             loggedPerson = (Person) intent.getSerializableExtra(LoginActivity.EXTRA_PERSON);
@@ -108,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             navView.inflateMenu(R.menu.bottom_nav_menu_student);
             appBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.navigation_projects, R.id.navigation_explore, R.id.navigation_notifications)
-            .build();
+                    .build();
         } else {
             // TEACHER
             navView.inflateMenu(R.menu.bottom_nav_menu_teacher);
@@ -116,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     R.id.navigation_projects, R.id.navigation_students, R.id.navigation_notifications)
                     .build();
         }
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
@@ -156,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         // Google sign out
-        GoogleSignIn.getClient(this,tempgso).signOut().addOnCompleteListener(this, task -> {
+        GoogleSignIn.getClient(this, tempgso).signOut().addOnCompleteListener(this, task -> {
             Intent myIntent = new Intent(this, LoginActivity.class);
             startActivity(myIntent);
         });
@@ -168,4 +186,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 //        logOut();
     }
+
+
+
 }

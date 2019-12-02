@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_marginTop="-75dp"
+    >
 
     <ImageView
         android:id="@+id/itba_photo"
@@ -12,18 +14,18 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/itba_photo2" />
+        app:srcCompat="@drawable/itba_photo" />
     <TextView
-        android:id="@+id/student_name"
+        android:id="@+id/student_profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/student_career"
+        android:layout_above="@id/student_profile_career"
         android:layout_marginBottom="10dp"
         android:textSize="@dimen/text_size_title_large"
         android:textColor="@color/Black" />
     <TextView
-        android:id="@+id/student_career"
+        android:id="@+id/student_profile_career"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -32,7 +34,7 @@
         android:textSize="@dimen/text_size_title_large"
         android:textColor="@color/Black"/>
     <TextView
-        android:id="@+id/student_id"
+        android:id="@+id/student_profile_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -41,20 +43,20 @@
         android:textSize="@dimen/text_size_large"
         android:textColor="@color/colorProfileContent" />
     <TextView
-        android:id="@+id/student_hours"
+        android:id="@+id/student_profile_hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/student_id"
+        android:layout_below="@id/student_profile_id"
         android:layout_marginTop="30dp"
         android:textSize="@dimen/text_size_large"
         android:textColor="@color/colorProfileContent" />
     <TextView
-        android:id="@+id/student_percentage_avance"
+        android:id="@+id/student_profile_percentage_avance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/student_hours"
+        android:layout_below="@id/student_profile_hours"
         android:layout_marginTop="30dp"
         android:textSize="@dimen/text_size_large"
         android:textColor="@color/colorProfileContent"
@@ -65,7 +67,7 @@
         android:layout_height="150dp"
         android:indeterminate="false"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/student_percentage_avance"
+        android:layout_below="@id/student_profile_percentage_avance"
         android:layout_marginTop="20dp"
         android:progressDrawable="@drawable/career_circular_progress_bar"
         android:background="@drawable/career_progress_circle_shape"
@@ -74,7 +76,7 @@
         android:progress="45" />
 
     <TextView
-        android:id="@+id/student_percentage"
+        android:id="@+id/student_profile_percentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_title_large"
@@ -84,37 +86,15 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/Black" />
 
-    <LinearLayout
-        android:layout_below="@id/career_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        style="?android:attr/buttonBarStyle">
-        <Button
-            android:id="@+id/student_btn_left_action"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/button_cancel"
-            android:textColor="@color/colorPrimaryDark"
-            style="?android:attr/buttonBarButtonStyle"/>
 
-        <Button
-            android:id="@+id/student_btn_right_action"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/button_publish"
-            android:textColor="@color/colorPrimaryDark"
-            style="?android:attr/buttonBarButtonStyle"/>
-    </LinearLayout>
+<!--        <ImageView-->
+<!--        android:id="@+id/avatar"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:layout_above="@id/student_profile_name"-->
+<!--        tools:srcCompat="@tools:sample/avatars"/>-->
+
 
 </RelativeLayout>

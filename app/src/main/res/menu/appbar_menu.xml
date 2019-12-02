@@ -8,11 +8,11 @@
         app:showAsAction="ifRoom|collapseActionView"
         android:orderInCategory="2"
         />
+
     <item
         android:id="@+id/kebab_profile"
         android:title="@string/option_profile"
-        app:showAsAction="never"/>
-
+        app:showAsAction="never" />
     <item
         android:id="@+id/kebab_about_us"
         android:title="@string/option_about_us"

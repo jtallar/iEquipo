@@ -19,4 +19,5 @@
     <color name="colorEditTextHint">#8F8F8F</color>
 
     <color name="colorProfileContent">#FFFFFF</color>
+    <color name="Black">#FF000000</color>
 </resources>
