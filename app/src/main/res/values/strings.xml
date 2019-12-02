@@ -7,6 +7,7 @@
     <string name="title_students">Students</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_new_project">New Activity</string>
+    <string name="title_edit_project">Edit Activity</string>
     <string name="title_project">Project</string>
     <string name="title_student">Student</string>
 
@@ -14,7 +15,7 @@
     <string name="option_profile">My profile</string>
     <string name="option_about_us">About Us</string>
     <string name="option_log_out">Log Out</string>
-
+    <string name="option_project_settings">Project settings</string>
     <string name="option_filter">Filter by:</string>
     <string name="option_sort">Sort by:</string>
     <string name="sort_name">Name</string>
@@ -57,10 +58,14 @@
     <string name="activity_prefix">A</string>
 
     <string name="button_publish">Create</string>
+    <string name="button_edit">Edit</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_add_student">Add to project…</string>
     <string name="button_request">Request</string>
     <string name="button_send">Send</string>
+    <string name="button_accept">Accept</string>
+    <string name="button_reject">Reject</string>
+
     <!--  ARCHIVAR ABAJO  -->
     <string name="button_store">Store</string>
     <string name="button_accept_join">Accept join to</string>
@@ -86,8 +91,10 @@
     <string name="project_action_btn_contact_students">Contact students</string>
     <string name="project_action_btn_contact_teacher">Contact teacher</string>
 
+    <string name="student_join_message">would like to join</string>
+    <string name="student_quit_message">would like to quit</string>
+
     <string name="dialog_select_project_title">Select an activity</string>
-    <string name="student_no_activities_message">You have no activities with free space!</string>
 
     <string name="dialog_message_title_student">Contact teacher</string>
     <string name="dialog_message_title_teacher">Contact students</string>
@@ -116,5 +123,7 @@
 
     <string name="notification_info_from">de</string>
     <string name="toast_request_sent">Request sent!</string>
-    <string name="toast_message_sent">Request sent!</string>
+    <string name="toast_message_sent">Message sent!</string>
+    <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
+    <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
 </resources>

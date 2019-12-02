@@ -72,7 +72,9 @@ public class ProjectsFragment extends Fragment {
         else {
             addButton.setVisibility(View.VISIBLE);
             addButton.setOnClickListener(v -> {
-                ProjectsFragmentDirections.ActionNewProject action = ProjectsFragmentDirections.actionNewProject(nextId);
+                Project aux = new Project();
+                aux.setId(nextId);
+                ProjectsFragmentDirections.ActionNewProject action = ProjectsFragmentDirections.actionNewProject(aux, getResources().getString(R.string.title_new_project));
                 Navigation.findNavController(root).navigate(action);
             });
         }

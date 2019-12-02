@@ -237,6 +237,11 @@ public class StudentsFragment extends Fragment {
             adapter.resetData();
             adapter.notifyDataSetChanged();
         }
-
+    }
+  
+    @Override
+    public void onStop() {
+        super.onStop();
+        studentsViewModel.cancelRequests();
     }
 }
