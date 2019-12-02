@@ -124,7 +124,10 @@ public class Notification implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Notification)) return false;
         Notification that = (Notification) o;
-        return id.equals(that.id);
+        return id.equals(that.id) || (project.equals(that.project)
+                                    && sender.equals(that.sender)
+                                    && that.type != NotificationType.INFO.getType()
+                                    && type.equals(that.type));
     }
 
     @Override
