@@ -20,8 +20,7 @@ public class Project implements Serializable {
 
     public Project() { }
 
-    public Project(String id, String idDocente, String titulo, int creditos, String descripcion, String horarios, String requisitos, String contacto, int cantidad) {
-        this.id = id;
+    public Project(String idDocente, String titulo, int creditos, String descripcion, String horarios, String requisitos, String contacto, int cantidad) {
         this.idDocente = idDocente;
         this.titulo = titulo;
         this.creditos = creditos;
