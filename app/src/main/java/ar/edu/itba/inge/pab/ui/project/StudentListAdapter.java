@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ar.edu.itba.inge.pab.MainActivity;
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.elements.Project;
@@ -51,6 +52,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             super(itemView);
             tvStudentName = itemView.findViewById(R.id.project_student_name);
             deleteIcon = itemView.findViewById(R.id.project_student_delete);
+            if (MainActivity.getLoggedPerson().getClass() == Student.class)
+                deleteIcon.setVisibility(View.GONE);
         }
 
         public void bind(final Student student, final OnItemClickListener<Student> listener) {

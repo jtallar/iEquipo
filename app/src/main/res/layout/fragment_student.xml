@@ -158,23 +158,27 @@
             android:id="@+id/student_request_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:textColor="@color/colorProfileContent"
             android:textSize="@dimen/text_size_large"
-            android:visibility="gone"/>
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_below="@id/career_progress_bar"/>
 
         <LinearLayout
-            android:layout_below="@id/career_progress_bar"
+            android:layout_below="@id/student_request_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
             style="?android:attr/buttonBarStyle">
             <Button
                 android:id="@+id/student_btn_left_action"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -187,7 +191,7 @@
 
             <Button
                 android:id="@+id/student_btn_right_action"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
