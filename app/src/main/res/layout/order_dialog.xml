@@ -43,7 +43,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textAllCaps="false"
                 android:background="@drawable/border_button"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
             <Button
                 android:id="@+id/carrera_btn"
                 android:layout_width="200dp"
@@ -54,7 +54,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textAllCaps="false"
                 android:background="@drawable/border_button"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/black"/>
             <Button
                 android:id="@+id/porc_carrera_btn"
                 android:layout_width="200dp"
@@ -65,7 +65,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textAllCaps="false"
                 android:background="@drawable/border_button"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/black"/>
             <Button
                 android:id="@+id/horas_btn"
                 android:layout_width="200dp"
@@ -76,7 +76,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textAllCaps="false"
                 android:background="@drawable/border_button"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
         </LinearLayout>
     </LinearLayout>
     <!--</androidx.cardview.widget.CardView>-->
