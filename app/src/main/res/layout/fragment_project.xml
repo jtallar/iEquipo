@@ -100,15 +100,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_professor"
+                android:text="@string/activity_credits"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="@dimen/text_size_title_medium"
-                android:drawableStart="@drawable/ic_id"
+                android:drawableStart="@drawable/ic_credits"
                 android:drawablePadding="8dp"
                 />
 
             <TextView
-                android:id="@+id/act_professor"
+                android:id="@+id/act_credits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -128,15 +128,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_credits"
+                android:text="@string/activity_professor"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="@dimen/text_size_title_medium"
-                android:drawableStart="@drawable/ic_credits"
+                android:drawableStart="@drawable/ic_id"
                 android:drawablePadding="8dp"
                 />
 
             <TextView
-                android:id="@+id/act_credits"
+                android:id="@+id/act_professor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
