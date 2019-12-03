@@ -8,103 +8,164 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/act_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/activity_description"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="@dimen/text_size_title_medium"
+            android:drawableStart="@drawable/ic_description"
+            android:drawablePadding="8dp"
+            />
+
+        <TextView
+            android:id="@+id/act_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:isScrollContainer="true"
+            android:maxLines="4"
+            android:scrollbars="vertical"
+            android:textColor="@color/colorEditTextContent"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/activity_requirements"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="@dimen/text_size_title_medium"
+            android:drawableStart="@drawable/ic_requirements"
+            android:drawablePadding="8dp"
+            />
+
+        <TextView
+            android:id="@+id/act_requirements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:isScrollContainer="true"
+            android:maxLines="3"
+            android:scrollbars="vertical"
+            android:textColor="@color/colorEditTextContent"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_box"
-            android:padding="20dp"
+            android:text="@string/activity_schedule"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="@dimen/text_size_title_medium"
+            android:drawableStart="@drawable/ic_schedule"
+            android:drawablePadding="8dp"
+            />
+
+        <TextView
+            android:id="@+id/act_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="20dp"
+            android:isScrollContainer="true"
+            android:maxLines="3"
+            android:scrollbars="vertical"
             android:textColor="@color/colorEditTextContent"
-            android:textColorHint="@color/colorEditTextHint" />
+            android:textSize="@dimen/text_size_medium" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_credits"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_credits"
+                android:drawablePadding="8dp"
+                />
 
             <TextView
                 android:id="@+id/act_credits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_text_box"
-                android:padding="20dp"
+                android:gravity="end"
                 android:textColor="@color/colorEditTextContent"
-                android:textColorHint="@color/colorEditTextHint" />
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_students"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_graduate"
+                android:drawablePadding="8dp"
+                />
 
             <TextView
                 android:id="@+id/act_student_cant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_text_box"
-                android:padding="20dp"
+                android:gravity="end"
                 android:textColor="@color/colorEditTextContent"
-                android:textColorHint="@color/colorEditTextHint" />
+                android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/act_description"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
 
-            android:layout_marginStart="20dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_student_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_box"
-            android:padding="20dp"
-            android:textColor="@color/colorEditTextContent"
-            android:textColorHint="@color/colorEditTextHint" />
+            android:layout_marginEnd="45dp"/>
 
-        <TextView
-            android:id="@+id/act_schedule"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_box"
-            android:padding="20dp"
-            android:textColor="@color/colorEditTextContent"
-            android:textColorHint="@color/colorEditTextHint" />
-
-        <TextView
-            android:id="@+id/act_requirements"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_box"
-            android:padding="20dp"
-            android:textColor="@color/colorEditTextContent"
-            android:textColorHint="@color/colorEditTextHint" />
+            android:layout_height="1dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:background="@android:color/white"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
-            android:layout_marginEnd="10dp"
             android:layout_gravity="center"
             style="?android:attr/buttonBarStyle">
 
@@ -113,9 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
                 android:text="@string/button_cancel"
                 android:textColor="@color/colorPrimaryDark"
                 style="?android:attr/buttonBarButtonStyle"/>
@@ -125,9 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
                 android:text="@string/button_publish"
                 android:textColor="@color/colorPrimaryDark"
                 style="?android:attr/buttonBarButtonStyle"/>

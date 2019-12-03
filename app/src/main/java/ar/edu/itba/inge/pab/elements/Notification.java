@@ -57,6 +57,7 @@ public class Notification implements Serializable {
             notificationData.put("body", body);
             notificationData.put("title", title);
             notificationData.put("message", message);
+            notificationData.put("id", id);
             Log.d(TAG, "Notification: " + notificationData.toString());
         } catch (JSONException e) {
             Log.e(TAG, "On create: " + e.getMessage());
@@ -124,7 +125,14 @@ public class Notification implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Notification)) return false;
         Notification that = (Notification) o;
-        return id.equals(that.id);
+        return id.equals(that.id) || (project.equals(that.project)
+                                    && sender.equals(that.sender)
+                                    && that.type != NotificationType.INFO.getType()
+                                    && type.equals(that.type));
+    }
+
+    public int hashCode2() {
+        return (sender + project + type + message).hashCode();
     }
 
     @Override
