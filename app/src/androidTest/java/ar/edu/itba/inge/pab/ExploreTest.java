@@ -27,8 +27,7 @@ public class ExploreTest {
     public void exploreTest() {
         onView(allOf(withId(R.id.navigation_explore))).perform(click());
         onView(allOf(withId(R.id.rv_explore))).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
-        onView(withId(R.id.act_title)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        onView(withId(R.id.act_title)).check(matches(withText("Ayudantia EDA")));
+        onView(withId(R.id.act_description)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
     }
 }
