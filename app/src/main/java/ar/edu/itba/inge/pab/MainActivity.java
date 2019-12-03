@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -61,7 +62,11 @@ public class MainActivity extends AppCompatActivity {
                 MyApplication.makeToast(this.getResources().getString(R.string.search_button_message));
                 break;
             case R.id.kebab_profile:
-                MyApplication.makeToast(this.getResources().getString(R.string.profile_button_message));
+                NavDestination current = Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination();
+                if (current != null && current.getId() == R.id.navigation_profile)
+                    MyApplication.makeToast(this.getResources().getString(R.string.profile_button_message));
+                else
+                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_open_profile);
                 break;
             case R.id.kebab_about_us:
                 aboutUsDialog(item.getActionView());
