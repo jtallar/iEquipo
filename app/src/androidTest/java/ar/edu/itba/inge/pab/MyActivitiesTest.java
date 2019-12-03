@@ -28,8 +28,7 @@ public class MyActivitiesTest {
     @Test
     public void myActivitiesTest() {
         onView(allOf(withId(R.id.rv_projects))).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
-        onView(withId(R.id.act_title)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        onView(withId(R.id.act_title)).check(matches(withText("Ayudantia PI 2")));
+        onView(withId(R.id.act_description)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
     }
 }

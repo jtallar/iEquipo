@@ -27,8 +27,7 @@ public class NavigationStudentTest {
     @Test
     public void navigationStudentTest() {
         //checkear que el navigation explore te lleve al explore
-        onView(allOf(withId(R.id.navigation_explore)))
-                .perform(click());
+        onView(allOf(withId(R.id.navigation_explore))).perform(click());
         onView(allOf(withId(R.id.rv_explore))).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
         //checkear que el navigation notifications te lleve al notifications
