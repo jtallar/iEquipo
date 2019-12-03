@@ -43,6 +43,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TYPE = "application/json";
     private static final String KEY = "";
     private static RequestQueue requestQueue;
+    // TODO: BORRAMOS ESTA VARIABLE CONTEXT? NO SE USA
     private static Context context;
     private static String userToken;
     private static MessagingViewModel messagingViewModel;
@@ -146,7 +147,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static void sendMessage(Notification notification, String id) {
         Log.d(TAG, "Request for message to: " + id);
 
-        // TODO: VER COMO QUEDA EL LEGADO DOCENTE
         if (id.charAt(0) != 'P')
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;
