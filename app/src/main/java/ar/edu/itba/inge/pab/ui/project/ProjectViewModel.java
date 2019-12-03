@@ -24,6 +24,12 @@ public class ProjectViewModel extends RequestViewModel {
         return Transformations.map(teacherRequest.getLiveData(), MyApplication.getTransformFunction());
     }
 
+    LiveData<Person> signleGetTeacher(String id) {
+        ApiRequest<Person> teacherRequest = MyApplication.getInstance().getApiRepository().singleGetTeacher(id);
+        requestListeners.add(teacherRequest.getListener());
+        return Transformations.map(teacherRequest.getLiveData(), MyApplication.getTransformFunction());
+    }
+
     LiveData<Project> getProject(String id) {
         ApiRequest<Project> projectRequest = MyApplication.getInstance().getApiRepository().getProject(id);
         requestListeners.add(projectRequest.getListener());

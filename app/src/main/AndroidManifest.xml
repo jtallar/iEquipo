@@ -39,6 +39,3 @@
     </application>
 
 </manifest>
-
-<!-- TODO: VER SI HACE FALTA PONER ESTO DE ABAJO EN MAIN ACTIVITY -->
-<!--    android:launchMode="singleTop"-->

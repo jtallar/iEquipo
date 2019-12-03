@@ -42,7 +42,7 @@ import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 
 public class ProjectFragment extends Fragment {
     private ProjectViewModel projectViewModel;
-    private TextView title, credits, studentCant, description, schedule, requirements;
+    private TextView title, credits, studentCant, description, schedule, requirements, professor;
     private RecyclerView rvStudents;
     private List<Student> students = new ArrayList<>();
     private StudentListAdapter adapter;
@@ -91,6 +91,11 @@ public class ProjectFragment extends Fragment {
         adapter = new StudentListAdapter(students, student -> openConfirmationDialog(ConfirmAction.DELETE_STUDENT, student));
         rvStudents.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rvStudents.setAdapter(adapter);
+        professor = root.findViewById(R.id.act_professor);
+        projectViewModel.signleGetTeacher(project.getIdDocente()).observe(this, professor -> {
+            if (professor == null) return;
+            this.professor.setText(professor.getNombre());
+        });
 
         refreshView();
 
@@ -137,14 +142,7 @@ public class ProjectFragment extends Fragment {
                     actionRight.setOnClickListener(v -> acceptRequest());
                     break;
                 default:
-                    // TODO lo que sigue es para probar nomas
-                    actionRight.setText("PROBAR NOTIF");
-                    actionRight.setOnClickListener(v -> {
-                        MyFirebaseMessagingService.sendMessage(new Notification("Request to join", "Join " + title.getText(), "A01", Notification.NotificationType.JOIN)
-                                , MainActivity.getLoggedPerson().getId());
-                        Navigation.findNavController(root).navigateUp();
-                    });
-                    //actionRight.setVisibility(View.GONE);
+                    actionRight.setVisibility(View.GONE);
             }
         }
 
@@ -160,7 +158,6 @@ public class ProjectFragment extends Fragment {
         if (cancelButton != null) cancelButton.setOnClickListener(v -> dialog.dismiss());
         Button runButton = dialogView.findViewById(R.id.dialog_confirmation_ok);
 
-        // TODO: VER SI ALGUIEN MAS ABRE EL CONFIRMATION DIALOG
         if (runButton != null) {
             switch (action) {
                 case DELETE_PROJECT:
@@ -233,18 +230,6 @@ public class ProjectFragment extends Fragment {
 
     private void deleteProject() {
         Person teacher = MainActivity.getLoggedPerson();
-//        for (String studentId : project.getAlumnos()) {
-//            projectViewModel.getStudent(studentId).observe(this, student -> {
-//                if (student != null) {
-//                    student.addCreditos(project.getCreditos());
-//                    student.removeActivity(project.getId());
-//                    projectViewModel.setStudent(student);
-//                    sendNotif(Notification.NotificationType.INFO,
-//                            String.format("%s %s %s", teacher.getNombre(), getResources().getString(R.string.notification_info_delete_project), project.getTitulo()), project.getId(), student.getId());
-//                }
-//                increaseDeleteCount(root);
-//            });
-//        }
 
         for (Student student : students) {
             student.addCreditos(project.getCreditos());
