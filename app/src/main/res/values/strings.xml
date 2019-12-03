@@ -44,7 +44,7 @@
 
     <string name="student_id">Legajo</string>
     <string name="student_profile_career_progress">Porcentaje de carrera</string>
-    <string name="student_free_hours">Horas disponibles</string>
+    <string name="student_free_hours">Hs disponibles</string>
     <string name="project_required_hours">Horas semanales</string>
 
     <string name="empty_projects_list">Sin actividades</string>
