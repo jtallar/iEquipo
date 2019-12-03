@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                MyApplication.makeToast(this.getResources().getString(R.string.search_button_message));
-                break;
             case R.id.kebab_profile:
                 NavDestination current = Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination();
                 if (current != null && current.getId() == R.id.navigation_profile)
@@ -129,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        if (intent.getExtras().getString("data") != null) {
+        if (intent != null && intent.getExtras().getString("data") != null) {
             navController.navigate(R.id.navigation_notifications);
         }
     }
