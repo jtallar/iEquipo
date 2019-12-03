@@ -1,8 +1,12 @@
 package ar.edu.itba.inge.pab.ui;
 
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,18 +47,33 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     class ProjectViewHolder extends RecyclerView.ViewHolder {
         TextView tvProjectName;
-        TextView tvProjectHours;
+        TextView tvProjectText;
+        LinearLayout tvProjectExp;
+        ImageButton arrowButton;
 
         public ProjectViewHolder (View itemView) {
             super(itemView);
             tvProjectName = itemView.findViewById(R.id.tv_project_name);
-            tvProjectHours = itemView.findViewById(R.id.tv_project_hours);
+            tvProjectText = itemView.findViewById(R.id.tv_project_text);
+            tvProjectExp = itemView.findViewById(R.id.tv_project_exp);
+            arrowButton = itemView.findViewById(R.id.arrow_down);
         }
 
         public void bind(final Project project, final OnItemClickListener<Project> listener) {
             tvProjectName.setText(project.getTitulo());
-            tvProjectHours.setText(String.format("%d %s", project.getCreditos(), MyApplication.getStringResource(R.string.project_required_hours)));
+            tvProjectText.setText(project.getDescripcion());
+
             itemView.setOnClickListener(view -> listener.onItemClick(project));
+            arrowButton.setOnClickListener(view -> {
+                TransitionManager.beginDelayedTransition((ViewGroup) view.getRootView());
+                if (tvProjectExp.getVisibility() != View.VISIBLE) {
+                    tvProjectExp.setVisibility(View.VISIBLE);
+                    arrowButton.setImageResource(R.drawable.ic_arrow_up_black_24dp);
+                } else {
+                    tvProjectExp.setVisibility(View.GONE);
+                    arrowButton.setImageResource(R.drawable.ic_arrow_down_black_24dp);
+                }
+            });
         }
     }
 }
