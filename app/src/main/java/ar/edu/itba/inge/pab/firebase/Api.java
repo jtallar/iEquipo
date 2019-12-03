@@ -76,6 +76,13 @@ public class Api {
         database.child("Notificaciones").child(id).addListenerForSingleValueEvent(listener);
     }
 
+    String createProject(Project project) {
+        String key = database.child("Feed").push().getKey();
+        project.setId(key);
+        database.child("Feed").child(project.getId()).setValue(project);
+        return key;
+    }
+
     void setProject(Project project) {
         database.child("Feed").child(project.getId()).setValue(project);
     }

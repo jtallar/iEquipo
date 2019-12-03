@@ -114,6 +114,9 @@ public class StudentFragment extends Fragment {
                             actionLeft.setVisibility(View.GONE);
                             actionRight.setVisibility(View.GONE);
                     }
+                } else {
+                    actionLeft.setVisibility(View.GONE);
+                    actionRight.setVisibility(View.GONE);
                 }
             });
         }
