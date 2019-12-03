@@ -10,8 +10,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.concurrent.RecursiveAction;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -22,14 +20,15 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MyActivitiesTest {
+public class ExploreTest {
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
     @Test
-    public void myActivitiesTest() {
-        onView(allOf(withId(R.id.rv_projects))).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+    public void exploreTest() {
+        onView(allOf(withId(R.id.navigation_explore))).perform(click());
+        onView(allOf(withId(R.id.rv_explore))).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.act_title)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        onView(withId(R.id.act_title)).check(matches(withText("Ayudantia PI 2")));
+        onView(withId(R.id.act_title)).check(matches(withText("Ayudantia EDA")));
 
     }
 }
