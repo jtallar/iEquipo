@@ -1,6 +1,7 @@
 package ar.edu.itba.inge.pab.ui.project;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -81,8 +82,11 @@ public class ProjectFragment extends Fragment {
         credits = root.findViewById(R.id.act_credits);
         studentCant = root.findViewById(R.id.act_student_cant);
         description = root.findViewById(R.id.act_description);
+        description.setMovementMethod(new ScrollingMovementMethod());
         schedule = root.findViewById(R.id.act_schedule);
+        schedule.setMovementMethod(new ScrollingMovementMethod());
         requirements = root.findViewById(R.id.act_requirements);
+        requirements.setMovementMethod(new ScrollingMovementMethod());
         rvStudents = root.findViewById(R.id.rv_student_list);
         adapter = new StudentListAdapter(students, student -> {
             // TODO: HACER DELETE
@@ -98,12 +102,11 @@ public class ProjectFragment extends Fragment {
         else {
             switch (callingFragment) {
                 case ProjectsFragment.className:
-                    if (MainActivity.getLoggedPerson().getClass() == Student.class)
-                        actionLeft.setVisibility(View.GONE);
-                    else {
+                    if (MainActivity.getLoggedPerson().getClass() != Student.class && project.getAlumnos().size() > 0) {
                         actionLeft.setText(getResources().getString(R.string.project_action_btn_contact_students));
                         actionLeft.setOnClickListener(v -> openMessageDialog(MainActivity.getLoggedPerson()));
-                    }
+                    } else
+                        actionLeft.setVisibility(View.GONE);
                     break;
                 case NotificationsFragment.className:
                     actionLeft.setText(getResources().getString(R.string.project_action_btn_reject_request));
@@ -317,14 +320,6 @@ public class ProjectFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() != R.id.action_project_settings)
             return super.onOptionsItemSelected(item);
-
-        projectViewModel.getProject(project.getId()).observe(this, newProject -> {
-            if (newProject != null) {
-                // TODO: VER SI EL TITULO DEL PROYECTO ES MODIFICABLE, SI LO ES CAMBIARLO EN LA APP BAR
-                project = newProject;
-                refreshView();
-            }
-        });
 
         ProjectFragmentDirections.ActionEditProject action = ProjectFragmentDirections.actionEditProject(project, getResources().getString(R.string.title_edit_project));
         Navigation.findNavController(root).navigate(action);
