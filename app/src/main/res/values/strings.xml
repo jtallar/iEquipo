@@ -28,8 +28,9 @@
     <string name="filter_percentage">% carrera ></string>
     <string name="accept_button">Aplicar</string>
 
+    <string name="profile_button_message">Ya se encuentra en su perfil!</string>
+
     <string name="search_button_message">Búsqueda no implementada!</string>
-    <string name="profile_button_message">Perfil no implementado!</string>
     <string name="filter_button_message">Filtro no implementado!</string>
 
     <string name="about_us_title">Quiénes somos</string>

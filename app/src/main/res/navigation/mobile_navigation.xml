@@ -9,37 +9,41 @@
         android:id="@+id/navigation_projects"
         android:name="ar.edu.itba.inge.pab.ui.projects.ProjectsFragment"
         android:label="@string/title_projects"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_projects" >
         <action
             android:id="@+id/action_new_project"
             app:destination="@id/navigation_new_project"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_select_project"
             app:destination="@id/navigation_project"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_explore"
         android:name="ar.edu.itba.inge.pab.ui.explore.ExploreFragment"
         android:label="@string/title_explore"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_explore" >
         <action
             android:id="@+id/action_select_project"
             app:destination="@id/navigation_project"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_students"
         android:name="ar.edu.itba.inge.pab.ui.students.StudentsFragment"
         android:label="@string/title_students"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_students" >
         <action
             android:id="@+id/action_select_student"
             app:destination="@id/navigation_student"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -50,11 +54,13 @@
         <action
             android:id="@+id/action_select_project"
             app:destination="@id/navigation_project"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_select_student"
             app:destination="@id/navigation_student"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -71,7 +77,8 @@
         <action
             android:id="@+id/action_finish_edit_project"
             app:destination="@id/navigation_projects"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -96,7 +103,8 @@
         <action
             android:id="@+id/action_edit_project"
             app:destination="@id/navigation_new_project"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -120,4 +128,16 @@
             android:name="appbar_title"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="ar.edu.itba.inge.pab.ui.profile.ProfileFragment"
+        android:label="@string/option_profile"
+        tools:layout="@layout/fragment_student" />
+
+    <action
+        android:id="@+id/action_open_profile"
+        app:destination="@id/navigation_profile"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
 </navigation>
