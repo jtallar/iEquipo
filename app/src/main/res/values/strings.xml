@@ -82,6 +82,7 @@
     <string name="error_mail_not_found">Mail no registrado!</string>
     <string name="error_firebase_failed">Falló la autenticación de Firebase!</string>
     <string name="error_project_full">Ups! Actividad lleno</string>
+    <string name="error_project_incomplete_entry">Por favor complete la cantidad de créditos y estudiantes de la actividad</string>
 
     <string name="dialog_message_delete_project">Está seguro que quiere borrar esta actividad?</string>
     <string name="dialog_message_delete_request_out">Está seguro que quiere darse de baja de esta actividad?</string>
