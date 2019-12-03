@@ -46,4 +46,10 @@ public class StudentViewModel extends RequestViewModel {
     void deleteNotification(String userId, String id) {
         MyApplication.getInstance().getApiRepository().deleteNotification(userId, id);
     }
+
+    LiveData<Project> singleGetProject(String id) {
+        ApiRequest<Project> projectRequest = MyApplication.getInstance().getApiRepository().getProject(id);
+        requestListeners.add(projectRequest.getListener());
+        return Transformations.map(projectRequest.getLiveData(), MyApplication.getTransformFunction());
+    }
 }

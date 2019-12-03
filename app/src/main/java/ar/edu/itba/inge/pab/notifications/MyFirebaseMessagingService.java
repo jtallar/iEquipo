@@ -12,6 +12,7 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.android.volley.RequestQueue;
@@ -34,6 +35,7 @@ import ar.edu.itba.inge.pab.MainActivity;
 import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragment;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "ar.edu.itba.inge.pab.firebase_messaging";
@@ -60,6 +62,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String message = remoteMessage.getData().get("message");
         Integer id = (remoteMessage.getData().get("sender") +  remoteMessage.getData().get("project") + remoteMessage.getData().get("type") + message).hashCode();
         // Send notification to user
+//        Fragment fragment = MainActivity.getInstance().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        if (fragment.getClass().equals(NotificationsFragment.class))
+
+
         sendNotification(title, message, "unused", id);
     }
 
