@@ -1,6 +1,7 @@
 package ar.edu.itba.inge.pab.ui.project;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,8 +46,11 @@ public class NewProjectFragment extends Fragment {
         credits = root.findViewById(R.id.new_act_credits);
         studentCant = root.findViewById(R.id.new_act_student_cant);
         description = root.findViewById(R.id.new_act_description);
+        description.setMovementMethod(new ScrollingMovementMethod());
         schedule = root.findViewById(R.id.new_act_schedule);
+        schedule.setMovementMethod(new ScrollingMovementMethod());
         requirements = root.findViewById(R.id.new_act_requirements);
+        requirements.setMovementMethod(new ScrollingMovementMethod());
         cancel = root.findViewById(R.id.new_act_btn_cancel);
         publish = root.findViewById(R.id.new_act_btn_publish);
 
@@ -97,7 +101,8 @@ public class NewProjectFragment extends Fragment {
                     schedule.getText().toString(), requirements.getText().toString(), Integer.valueOf(studentCant.getText().toString()));
 
             MyApplication.getInstance().getApiRepository().setProject(existing);
-            Navigation.findNavController(root).navigateUp();
+            Navigation.findNavController(root).navigate(NewProjectFragmentDirections.actionFinishEditProject());
+            MyApplication.makeToast(getResources().getString(R.string.toast_edited_project));
         };
     }
 }
