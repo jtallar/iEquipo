@@ -29,7 +29,6 @@ import ar.edu.itba.inge.pab.ui.projects.ProjectsFragment;
 public class NewProjectFragment extends Fragment {
     private EditText title, credits, studentCant, description, schedule, requirements;
     private Button cancel, publish;
-    private String projectId;
     private Project existing;
 
     @Override
@@ -39,7 +38,6 @@ public class NewProjectFragment extends Fragment {
 
         if (getArguments() != null) {
             existing = NewProjectFragmentArgs.fromBundle(getArguments()).getProject();
-            projectId = existing.getId();
         }
 
         title = root.findViewById(R.id.new_act_title);
@@ -79,12 +77,12 @@ public class NewProjectFragment extends Fragment {
 
             Person teacher = MainActivity.getLoggedPerson();
 
-            Project newProject = new Project(projectId, teacher.getId(), title.getText().toString(),
+            Project newProject = new Project(teacher.getId(), title.getText().toString(),
                     Integer.valueOf(credits.getText().toString()), description.getText().toString(),
                     schedule.getText().toString(), requirements.getText().toString(),
                     teacher.getEmail(), Integer.valueOf(studentCant.getText().toString()));
 
-            MyApplication.getInstance().getApiRepository().setProject(newProject);
+            String projectId = MyApplication.getInstance().getApiRepository().createProject(newProject);
             teacher.addActivity(projectId);
             MainActivity.setLoggedPerson(teacher);
             MyApplication.getInstance().getApiRepository().setTeacher(teacher);

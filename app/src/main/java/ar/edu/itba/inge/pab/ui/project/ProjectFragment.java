@@ -56,7 +56,7 @@ public class ProjectFragment extends Fragment {
 
     private int deleteCount = 0;
 
-    private enum ConfirmAction {DELETE, REQUEST_OUT}
+    private enum ConfirmAction {DELETE_STUDENT, DELETE_PROJECT, REQUEST_OUT}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,10 +88,7 @@ public class ProjectFragment extends Fragment {
         requirements = root.findViewById(R.id.act_requirements);
         requirements.setMovementMethod(new ScrollingMovementMethod());
         rvStudents = root.findViewById(R.id.rv_student_list);
-        adapter = new StudentListAdapter(students, student -> {
-            // TODO: HACER DELETE
-            MyApplication.makeToast(String.format("Borrar student %s", student.getNombre()));
-        });
+        adapter = new StudentListAdapter(students, student -> openConfirmationDialog(ConfirmAction.DELETE_STUDENT, student));
         rvStudents.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rvStudents.setAdapter(adapter);
 
@@ -125,10 +122,10 @@ public class ProjectFragment extends Fragment {
                 case ProjectsFragment.className:
                     if (MainActivity.getLoggedPerson().getClass() == Student.class) {
                         actionRight.setText(getResources().getString(R.string.project_action_btn_request_out));
-                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.REQUEST_OUT));
+                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.REQUEST_OUT, null));
                     } else {
                         actionRight.setText(getResources().getString(R.string.project_action_btn_delete));
-                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.DELETE));
+                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.DELETE_PROJECT, null));
                     }
                     break;
                 case ExploreFragment.className:
@@ -154,7 +151,7 @@ public class ProjectFragment extends Fragment {
         return root;
     }
 
-    private void openConfirmationDialog(ConfirmAction action) {
+    private void openConfirmationDialog(ConfirmAction action, Student student) {
         View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_confirmation, null);
         AlertDialog dialog = new AlertDialog.Builder(root.getContext()).setView(dialogView).create();
 
@@ -166,7 +163,7 @@ public class ProjectFragment extends Fragment {
         // TODO: VER SI ALGUIEN MAS ABRE EL CONFIRMATION DIALOG
         if (runButton != null) {
             switch (action) {
-                case DELETE:
+                case DELETE_PROJECT:
                     confirmationText.setText(getResources().getString(R.string.dialog_message_delete_project));
                     runButton.setText(getResources().getString(R.string.dialog_delete));
                     runButton.setOnClickListener(v -> {
@@ -179,6 +176,14 @@ public class ProjectFragment extends Fragment {
                     runButton.setText(getResources().getString(R.string.project_action_btn_request_out));
                     runButton.setOnClickListener(v -> {
                         requestOut();
+                        dialog.dismiss();
+                    });
+                    break;
+                case DELETE_STUDENT:
+                    confirmationText.setText(String.format("%s %s %s", getResources().getString(R.string.dialog_message_delete_student), student.getNombre(), getResources().getString(R.string.dialog_message_from_this_project)));
+                    runButton.setText(getResources().getString(R.string.dialog_delete));
+                    runButton.setOnClickListener(v -> {
+                        removeStudent(student);
                         dialog.dismiss();
                     });
                     break;
@@ -228,17 +233,26 @@ public class ProjectFragment extends Fragment {
 
     private void deleteProject() {
         Person teacher = MainActivity.getLoggedPerson();
-        for (String studentId : project.getAlumnos()) {
-            projectViewModel.getStudent(studentId).observe(this, student -> {
-                if (student != null) {
-                    student.addCreditos(project.getCreditos());
-                    student.removeActivity(project.getId());
-                    projectViewModel.setStudent(student);
-                    sendNotif(Notification.NotificationType.INFO,
-                            String.format("%s %s %s", teacher.getNombre(), getResources().getString(R.string.notification_info_delete_project), project.getTitulo()), project.getId(), student.getId());
-                }
-                increaseDeleteCount(root);
-            });
+//        for (String studentId : project.getAlumnos()) {
+//            projectViewModel.getStudent(studentId).observe(this, student -> {
+//                if (student != null) {
+//                    student.addCreditos(project.getCreditos());
+//                    student.removeActivity(project.getId());
+//                    projectViewModel.setStudent(student);
+//                    sendNotif(Notification.NotificationType.INFO,
+//                            String.format("%s %s %s", teacher.getNombre(), getResources().getString(R.string.notification_info_delete_project), project.getTitulo()), project.getId(), student.getId());
+//                }
+//                increaseDeleteCount(root);
+//            });
+//        }
+
+        for (Student student : students) {
+            student.addCreditos(project.getCreditos());
+            student.removeActivity(project.getId());
+            projectViewModel.setStudent(student);
+            sendNotif(Notification.NotificationType.INFO,
+                    String.format("%s %s %s", teacher.getNombre(), getResources().getString(R.string.notification_info_delete_project), project.getTitulo()), project.getId(), student.getId());
+            increaseDeleteCount(root);
         }
 
         teacher.removeActivity(project.getId());
@@ -248,6 +262,23 @@ public class ProjectFragment extends Fragment {
         projectViewModel.deleteProject(project.getId());
 
         increaseDeleteCount(root);
+    }
+
+    private void removeStudent(Student student) {
+        student.addCreditos(project.getCreditos());
+        student.removeActivity(project.getId());
+        projectViewModel.setStudent(student);
+        sendNotif(Notification.NotificationType.INFO,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_delete_student), project.getTitulo()), project.getId(), student.getId());
+
+        project.removeStudent(student.getId());
+        projectViewModel.setProject(project);
+        studentCant.setText(String.format("%d/%d", project.getAlumnos().size(), project.getCantidad()));
+        students.remove(student);
+        adapter.notifyDataSetChanged();
+
+        if (actionLeft.getVisibility() == View.VISIBLE && students.size() == 0)
+            actionLeft.setVisibility(View.GONE);
     }
 
     private void requestIn() {
