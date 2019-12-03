@@ -42,6 +42,7 @@
     <string name="description_pab_logo">PAB Logo</string>
     <string name="description_login_button">Botón de login</string>
 
+    <string name="student_id">Legajo</string>
     <string name="student_profile_career_progress">Porcentaje de carrera</string>
     <string name="student_free_hours">Horas disponibles</string>
     <string name="project_required_hours">Horas semanales</string>
@@ -123,9 +124,12 @@
     <string name="notification_info_from">de</string>
     <string name="toast_request_sent">Pedido enviado!</string>
     <string name="toast_message_sent">Mensaje enviado!</string>
+    <string name="toast_edited_project">Cambos aplicados!</string>
     <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
     <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
 
     <string name="description">Descripción</string>
     <string name="name">Nombre</string>
+    <string name="image_description_foto_itba">Foto ITBA</string>
+    <string name="image_description_default_user">Imagen defecto de usuario</string>
 </resources>

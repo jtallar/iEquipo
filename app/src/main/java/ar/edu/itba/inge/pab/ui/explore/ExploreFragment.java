@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import ar.edu.itba.inge.pab.MainActivity;
@@ -98,6 +99,12 @@ public class ExploreFragment extends Fragment {
                     if (!MainActivity.getLoggedPerson().getActividades().contains(project.getId()) && !data.contains(project) && project.getAlumnos().size() < project.getCantidad())
                         data.add(project);
                 }
+                data.sort((p1, p2) -> {
+                    int ret = p1.getTitulo().compareTo(p2.getTitulo());
+                    if (ret == 0)
+                        ret = p1.getCreditos() - p2.getCreditos();
+                    return ret;
+                });
                 adapter.notifyDataSetChanged();
             }
             loading.setVisibility(View.GONE);

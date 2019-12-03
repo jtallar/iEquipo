@@ -68,6 +68,10 @@
         <argument
             android:name="appbar_title"
             app:argType="string" />
+        <action
+            android:id="@+id/action_finish_edit_project"
+            app:destination="@id/navigation_projects"
+            app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
 
     <fragment
