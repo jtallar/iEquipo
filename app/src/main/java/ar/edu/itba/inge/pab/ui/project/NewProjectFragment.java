@@ -53,6 +53,7 @@ public class NewProjectFragment extends Fragment {
         publish = root.findViewById(R.id.new_act_btn_publish);
 
         if (existing != null && existing.getIdDocente() != null) {
+            // EDIT PROJECT
             title.setText(existing.getTitulo());
             credits.setText(String.valueOf(existing.getCreditos()));
             studentCant.setText(String.valueOf(existing.getCantidad()));
@@ -60,6 +61,11 @@ public class NewProjectFragment extends Fragment {
             schedule.setText(existing.getHorarios());
             requirements.setText(existing.getRequisitos());
             publish.setText(getResources().getString(R.string.button_edit));
+
+            if (existing.getAlumnos().size() > 0) {
+                credits.setEnabled(false);
+                studentCant.setEnabled(false);
+            }
         }
 
         cancel.setOnClickListener(v -> Navigation.findNavController(root).navigateUp());
@@ -73,7 +79,11 @@ public class NewProjectFragment extends Fragment {
 
     private View.OnClickListener getPublishListener(View root) {
         return v -> {
-            if (credits.getText() == null || studentCant.getText() == null) return;
+            if (credits.getText() == null || credits.getText().length() == 0 ||
+                    studentCant.getText() == null || studentCant.getText().length() == 0) {
+                MyApplication.makeToast(getResources().getString(R.string.error_project_incomplete_entry));
+                return;
+            }
 
             Person teacher = MainActivity.getLoggedPerson();
 

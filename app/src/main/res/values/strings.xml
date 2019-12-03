@@ -28,8 +28,9 @@
     <string name="filter_percentage">% carrera ></string>
     <string name="accept_button">Aplicar</string>
 
+    <string name="profile_button_message">Ya se encuentra en su perfil!</string>
+
     <string name="search_button_message">Búsqueda no implementada!</string>
-    <string name="profile_button_message">Perfil no implementado!</string>
     <string name="filter_button_message">Filtro no implementado!</string>
 
     <string name="about_us_title">Quiénes somos</string>
@@ -56,9 +57,13 @@
     <string name="activity_students">Estudiantes</string>
     <string name="activity_student_quantity">Cantidad</string>
     <string name="activity_description">Descripción</string>
+    <string name="activity_activities">Actividades</string>
+    <string name="activity_mail" >Mail</string>
     <string name="activity_schedule">Horarios</string>
+    <string name="activity_professor">Profesor</string>
     <string name="activity_requirements">Condiciones mínimas</string>
     <string name="activity_delete_description">Borrar estudiante</string>
+    <string name="activity_empty">Sin actividades en curso</string>
     <string name="activity_prefix">A</string>
 
     <string name="button_publish">Crear</string>
@@ -77,6 +82,7 @@
     <string name="error_mail_not_found">Mail no registrado!</string>
     <string name="error_firebase_failed">Falló la autenticación de Firebase!</string>
     <string name="error_project_full">Ups! Actividad lleno</string>
+    <string name="error_project_incomplete_entry">Por favor complete la cantidad de créditos y estudiantes de la actividad</string>
 
     <string name="dialog_message_delete_project">Está seguro que quiere borrar esta actividad?</string>
     <string name="dialog_message_delete_request_out">Está seguro que quiere darse de baja de esta actividad?</string>
@@ -129,7 +135,7 @@
     <string name="toast_message_sent">Mensaje enviado!</string>
     <string name="toast_edited_project">Cambos aplicados!</string>
     <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
-    <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
+    <string name="toast_no_activities_message">Sin actividades válidas para alumno!</string>
     <string name="project_professor_desc" >estudiantes anotados</string>
 
     <string name="description">Descripción</string>
