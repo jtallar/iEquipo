@@ -203,16 +203,20 @@
             android:id="@+id/new_act_requirements"
             style="@style/Base.Widget.MaterialComponents.TextInputEditText"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:inputType="text"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
             android:layout_marginStart="@dimen/edit_horizontal_margin"
             android:layout_marginEnd="@dimen/edit_horizontal_margin"
             android:layout_marginTop="@dimen/edit_vertical_margin"
             android:layout_marginBottom="@dimen/edit_vertical_margin"
+            android:isScrollContainer="true"
+            android:minLines="2"
+            android:maxLines="2"
+            android:scrollbars="vertical"
             android:background="@drawable/edit_text_box"
             android:hint="@string/activity_requirements"
             android:padding="@dimen/edit_padding"
-            android:textColor="@color/colorEditTextContent"
+            android:textColor="@color/colorEditContent"
             android:textColorHint="@color/colorEditTextHint" />
 
         <LinearLayout

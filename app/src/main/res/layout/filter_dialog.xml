@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:textSize="@dimen/text_size_title_medium"
-                    android:text="Career"
+                    android:text="@string/career"
                     android:textColor="@android:color/white" />
             </LinearLayout>
             <LinearLayout
@@ -152,7 +152,7 @@
                     android:layout_width="72dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginLeft="35dp"
+                    android:layout_marginLeft="70dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/colorPrimary"
                     android:textColor="@android:color/white" />
@@ -161,6 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="%"
+                    android:layout_marginEnd="10dp"
                     android:fontFamily="sans-serif"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_title_medium" />
@@ -195,12 +196,13 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorPrimary"
                     android:textColor="@android:color/white"
-                    android:layout_marginLeft="80dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="hs"
+                    android:layout_marginEnd="5dp"
                     android:fontFamily="sans-serif"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_title_medium" />
