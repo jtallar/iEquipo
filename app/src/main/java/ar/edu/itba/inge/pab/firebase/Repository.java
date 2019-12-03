@@ -107,6 +107,12 @@ public class Repository {
         return new ApiRequest<>(listener, result);
     }
 
+    public ApiRequest<List<Notification>> singleGetNotifications(String id) {
+        final MutableLiveData<Result<List<Notification>>> result = new MutableLiveData<>();
+        api.singleGetNotifications(id, getListListener(result, Notification.class));
+        return new ApiRequest<>(null, result);
+    }
+
     public ApiRequest<Student> singleGetStudent(String id) {
         final MutableLiveData<Result<Student>> result = new MutableLiveData<>();
         api.singleGetStudent(id, getListener(result, Student.class));

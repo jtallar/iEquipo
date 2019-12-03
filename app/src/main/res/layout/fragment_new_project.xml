@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,27 +11,122 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/name"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="@dimen/text_size_title_medium"
+            android:drawableStart="@drawable/ic_edit_24dp"
+            android:drawablePadding="8dp"
+            />
+
         <EditText
             android:id="@+id/new_act_title"
             style="@style/Base.Widget.MaterialComponents.TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="@dimen/edit_horizontal_margin"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:layout_marginTop="@dimen/edit_vertical_margin"
+            android:layout_marginBottom="@dimen/edit_vertical_margin"
             android:inputType="text"
             android:background="@drawable/edit_text_box"
             android:hint="@string/activity_title"
-            android:padding="20dp"
-            android:textColor="@color/colorEditTextContent"
+            android:padding="@dimen/edit_padding"
+            android:textColor="@color/colorEditContent"
+            android:textColorHint="@color/colorEditTextHint" />
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/description"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="@dimen/text_size_title_medium"
+            android:drawableStart="@drawable/ic_description"
+            android:drawablePadding="8dp" />
+
+        <EditText
+            android:id="@+id/new_act_description"
+            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_marginStart="@dimen/edit_horizontal_margin"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:layout_marginTop="@dimen/edit_vertical_margin"
+            android:layout_marginBottom="@dimen/edit_vertical_margin"
+            android:isScrollContainer="true"
+            android:minLines="2"
+            android:maxLines="4"
+            android:scrollbars="vertical"
+            android:background="@drawable/edit_text_box"
+            android:hint="@string/activity_description"
+            android:padding="@dimen/edit_padding"
+            android:textColor="@color/colorEditContent"
+            android:textColorHint="@color/colorEditTextHint" />
+
+        <!-- Schedule -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/activity_schedule"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="@dimen/text_size_title_medium"
+            android:drawableStart="@drawable/ic_schedule"
+            android:drawablePadding="8dp"
+            />
+
+        <EditText
+            android:id="@+id/new_act_schedule"
+            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_marginStart="@dimen/edit_horizontal_margin"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:layout_marginTop="@dimen/edit_vertical_margin"
+            android:layout_marginBottom="@dimen/edit_vertical_margin"
+            android:background="@drawable/edit_text_box"
+            android:isScrollContainer="true"
+            android:minLines="2"
+            android:maxLines="2"
+            android:scrollbars="vertical"
+            android:hint="@string/activity_schedule"
+            android:padding="@dimen/edit_padding"
+            android:textColor="@color/colorEditContent"
             android:textColorHint="@color/colorEditTextHint" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" >
+
+            <!-- Credits -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_horizontal_margin"
+                android:text="@string/activity_credits"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_credits"
+                android:drawablePadding="8dp"
+                />
 
             <EditText
                 android:id="@+id/new_act_credits"
@@ -39,15 +134,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="@dimen/edit_horizontal_margin"
+                android:layout_marginTop="@dimen/edit_vertical_margin"
+                android:layout_marginBottom="@dimen/edit_vertical_margin"
                 android:background="@drawable/edit_text_box"
                 android:hint="@string/activity_credits"
-                android:padding="20dp"
-                android:textColor="@color/colorEditTextContent"
+                android:padding="@dimen/edit_padding"
+                android:textColor="@color/colorEditContent"
                 android:textColorHint="@color/colorEditTextHint" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" >
+
+            <!-- MaxStudents -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_horizontal_margin"
+                android:text="@string/activity_students"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_graduate"
+                android:drawablePadding="8dp"
+                />
 
             <EditText
                 android:id="@+id/new_act_student_cant"
@@ -55,48 +174,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="@dimen/edit_horizontal_margin"
+                android:layout_marginTop="@dimen/edit_vertical_margin"
+                android:layout_marginBottom="@dimen/edit_vertical_margin"
                 android:background="@drawable/edit_text_box"
                 android:hint="@string/activity_student_quantity"
-                android:padding="20dp"
-                android:textColor="@color/colorEditTextContent"
+                android:padding="@dimen/edit_padding"
+                android:textColor="@color/colorEditContent"
                 android:textColorHint="@color/colorEditTextHint" />
+
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/new_act_description"
-            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:inputType="text"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_box"
-            android:hint="@string/activity_description"
-            android:padding="20dp"
-            android:textColor="@color/colorEditTextContent"
-            android:textColorHint="@color/colorEditTextHint" />
-
-        <EditText
-            android:id="@+id/new_act_schedule"
-            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:inputType="text"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_box"
-            android:hint="@string/activity_schedule"
-            android:padding="20dp"
-            android:textColor="@color/colorEditTextContent"
-            android:textColorHint="@color/colorEditTextHint" />
+        <!-- Requirements -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/edit_horizontal_margin"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:text="@string/activity_requirements"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="@dimen/text_size_title_medium"
+            android:drawableStart="@drawable/ic_requirements"
+            android:drawablePadding="8dp"
+            />
 
         <EditText
             android:id="@+id/new_act_requirements"
@@ -104,13 +205,13 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:inputType="text"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="@dimen/edit_horizontal_margin"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:layout_marginTop="@dimen/edit_vertical_margin"
+            android:layout_marginBottom="@dimen/edit_vertical_margin"
             android:background="@drawable/edit_text_box"
             android:hint="@string/activity_requirements"
-            android:padding="20dp"
+            android:padding="@dimen/edit_padding"
             android:textColor="@color/colorEditTextContent"
             android:textColorHint="@color/colorEditTextHint" />
 
@@ -119,7 +220,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="end"
+            android:layout_gravity="center"
             style="?android:attr/buttonBarStyle">
 
             <Button
@@ -131,6 +232,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/button_cancel"
+                android:textColor="@color/colorPrimaryDark"
                 style="?android:attr/buttonBarButtonStyle"/>
 
             <Button
@@ -142,6 +244,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/button_publish"
+                android:textColor="@color/colorPrimaryDark"
                 style="?android:attr/buttonBarButtonStyle"/>
         </LinearLayout>
     </LinearLayout>

@@ -15,8 +15,18 @@
     <string name="option_profile">My profile</string>
     <string name="option_about_us">About Us</string>
     <string name="option_log_out">Log Out</string>
-    <string name="option_filter">Filter</string>
     <string name="option_project_settings">Project settings</string>
+    <string name="option_filter">Filter by:</string>
+    <string name="option_sort">Sort by:</string>
+    <string name="sort_name">Name</string>
+    <string name="career">Career</string>
+    <string name="sort_percentage">Career percentage</string>
+    <string name="hours">Available hours</string>
+    <string name="filter_info">Ingenieria Informatica</string>
+    <string name="filter_indus">Ingenieria Industrial</string>
+    <string name="filter_elec">Ingenieria Electronica</string>
+    <string name="filter_percentage">Career % higher than</string>
+    <string name="accept_button">Apply</string>
 
     <string name="search_button_message">Search not implemented yet!</string>
     <string name="profile_button_message">Profile not implemented yet!</string>
@@ -32,6 +42,7 @@
     <string name="description_pab_logo">PAB Logo</string>
     <string name="description_login_button">Login button</string>
 
+    <string name="student_profile_career_progress">Porcentaje de carrera</string>
     <string name="student_free_hours">Available hours</string>
     <string name="project_required_hours">Weekly hours</string>
 
@@ -39,12 +50,14 @@
     <string name="empty_students_list">No students</string>
     <string name="empty_notifications_list">No notifications</string>
 
-    <string name="activity_title">Title</string>
-    <string name="activity_credits">Credits</string>
-    <string name="activity_student_quantity">Students needed</string>
-    <string name="activity_description">Description</string>
-    <string name="activity_schedule">Schedule</string>
-    <string name="activity_requirements">Requirements</string>
+    <string name="activity_title">Nombre</string>
+    <string name="activity_credits">Créditos</string>
+    <string name="activity_students">Estudiantes</string>
+    <string name="activity_student_quantity"># Estudiantes</string>
+    <string name="activity_description">Descripción</string>
+    <string name="activity_schedule">Horarios</string>
+    <string name="activity_requirements">Condiciones mínimas</string>
+    <string name="activity_delete_description">Delete student</string>
     <string name="activity_prefix">A</string>
 
     <string name="button_publish">Create</string>
@@ -116,4 +129,7 @@
     <string name="toast_message_sent">Message sent!</string>
     <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
     <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
+
+    <string name="description">Descripción</string>
+    <string name="name">Nombre</string>
 </resources>
