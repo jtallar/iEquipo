@@ -7,6 +7,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -98,6 +100,8 @@ public class Api {
     void setNotification(String userId, Notification notification) {
         String key = database.child("Notificaciones").child(userId).push().getKey();
         notification.setId(key);
+        String date[] = Calendar.getInstance().getTime().toString().split(" ");
+        notification.setDate(date[1] + " " + date[2]);
         database.child("Notificaciones").child(userId).child(key).setValue(notification);
     }
 
