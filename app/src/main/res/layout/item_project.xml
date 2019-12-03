@@ -21,26 +21,58 @@
         android:layout_margin="10dp"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_project_name"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size_title_medium"
-            android:textColor="@color/colorCardContent"
-            android:fontFamily="sans-serif"
-            />
-        <TextView
-            android:id="@+id/tv_project_hours"
+            android:baselineAligned="true"
+            android:layout_gravity="end"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_project_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/colorCardContent"
+                android:fontFamily="sans-serif"
+                />
+
+            <ImageButton
+                android:id="@+id/arrow_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_arrow_down_black_24dp"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/tv_project_exp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textStyle="italic"
-            android:textSize="@dimen/text_size_large"
-            android:textColor="@color/colorCardContent"
-            android:fontFamily="sans-serif" />
+            android:visibility="gone"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorDialogText"/>
+
+            <TextView
+                android:id="@+id/tv_project_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textStyle="italic"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/colorCardContent"
+                android:fontFamily="sans-serif" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
