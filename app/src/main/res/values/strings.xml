@@ -53,7 +53,7 @@
     <string name="activity_title">Nombre</string>
     <string name="activity_credits">Créditos</string>
     <string name="activity_students">Estudiantes</string>
-    <string name="activity_student_quantity">Estudiantes necesarios</string>
+    <string name="activity_student_quantity">Estudiantes</string>
     <string name="activity_description">Breve descripción</string>
     <string name="activity_schedule">Horarios</string>
     <string name="activity_requirements">Condiciones mínimas</string>

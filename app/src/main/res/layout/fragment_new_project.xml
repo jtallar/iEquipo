@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,76 +91,107 @@
             android:id="@+id/new_act_schedule"
             style="@style/Base.Widget.MaterialComponents.TextInputEditText"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:inputType="text"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
             android:layout_marginStart="@dimen/edit_horizontal_margin"
             android:layout_marginEnd="@dimen/edit_horizontal_margin"
             android:layout_marginTop="@dimen/edit_vertical_margin"
             android:layout_marginBottom="@dimen/edit_vertical_margin"
             android:background="@drawable/edit_text_box"
+            android:isScrollContainer="true"
+            android:minLines="2"
+            android:maxLines="2"
+            android:scrollbars="vertical"
             android:hint="@string/activity_schedule"
             android:padding="@dimen/edit_padding"
             android:textColor="@color/colorEditTextContent"
             android:textColorHint="@color/colorEditTextHint" />
 
-        <!-- Credits -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_credits"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="@dimen/text_size_title_medium"
-            android:drawableStart="@drawable/ic_credits"
-            android:drawablePadding="8dp"
-            />
-
-        <EditText
-            android:id="@+id/new_act_credits"
-            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_marginStart="@dimen/edit_horizontal_margin"
-            android:layout_marginEnd="@dimen/edit_horizontal_margin"
-            android:layout_marginTop="@dimen/edit_vertical_margin"
-            android:layout_marginBottom="@dimen/edit_vertical_margin"
-            android:background="@drawable/edit_text_box"
-            android:hint="@string/activity_credits"
-            android:padding="@dimen/edit_padding"
-            android:textColor="@color/colorEditTextContent"
-            android:textColorHint="@color/colorEditTextHint" />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" >
 
-        <!-- MaxStudents -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_students"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="@dimen/text_size_title_medium"
-            android:drawableStart="@drawable/ic_graduate"
-            android:drawablePadding="8dp"
-            />
+            <!-- Credits -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_horizontal_margin"
+                android:text="@string/activity_credits"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_credits"
+                android:drawablePadding="8dp"
+                />
 
-        <EditText
-            android:id="@+id/new_act_student_cant"
-            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+            <EditText
+                android:id="@+id/new_act_credits"
+                style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="@dimen/edit_horizontal_margin"
+                android:layout_marginTop="@dimen/edit_vertical_margin"
+                android:layout_marginBottom="@dimen/edit_vertical_margin"
+                android:background="@drawable/edit_text_box"
+                android:hint="@string/activity_credits"
+                android:padding="@dimen/edit_padding"
+                android:textColor="@color/colorEditTextContent"
+                android:textColorHint="@color/colorEditTextHint" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_marginStart="@dimen/edit_horizontal_margin"
-            android:layout_marginEnd="@dimen/edit_horizontal_margin"
-            android:layout_marginTop="@dimen/edit_vertical_margin"
-            android:layout_marginBottom="@dimen/edit_vertical_margin"
-            android:background="@drawable/edit_text_box"
-            android:hint="@string/activity_student_quantity"
-            android:padding="@dimen/edit_padding"
-            android:textColor="@color/colorEditTextContent"
-            android:textColorHint="@color/colorEditTextHint" />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" >
+
+            <!-- MaxStudents -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_horizontal_margin"
+                android:text="@string/activity_students"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_graduate"
+                android:drawablePadding="8dp"
+                />
+
+            <EditText
+                android:id="@+id/new_act_student_cant"
+                style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="@dimen/edit_horizontal_margin"
+                android:layout_marginTop="@dimen/edit_vertical_margin"
+                android:layout_marginBottom="@dimen/edit_vertical_margin"
+                android:background="@drawable/edit_text_box"
+                android:hint="@string/activity_student_quantity"
+                android:padding="@dimen/edit_padding"
+                android:textColor="@color/colorEditTextContent"
+                android:textColorHint="@color/colorEditTextHint" />
+
+        </LinearLayout>
 
         <!-- Requirements -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/edit_horizontal_margin"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
             android:text="@string/activity_requirements"
             android:textColor="@color/colorTextTitle"
             android:textSize="@dimen/text_size_title_medium"
