@@ -1,193 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/project_button_panel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/activity_description"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="@dimen/text_size_title_medium"
-            android:drawableStart="@drawable/ic_description"
-            android:drawablePadding="8dp"
-            />
-
-        <TextView
-            android:id="@+id/act_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:isScrollContainer="true"
-            android:maxLines="4"
-            android:scrollbars="vertical"
-            android:textColor="@color/colorEditTextContent"
-            android:textSize="@dimen/text_size_medium" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/activity_requirements"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="@dimen/text_size_title_medium"
-            android:drawableStart="@drawable/ic_requirements"
-            android:drawablePadding="8dp"
-            />
-
-        <TextView
-            android:id="@+id/act_requirements"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:isScrollContainer="true"
-            android:maxLines="3"
-            android:scrollbars="vertical"
-            android:textColor="@color/colorEditTextContent"
-            android:textSize="@dimen/text_size_medium" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/activity_schedule"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="@dimen/text_size_title_medium"
-            android:drawableStart="@drawable/ic_schedule"
-            android:drawablePadding="8dp"
-            />
-
-        <TextView
-            android:id="@+id/act_schedule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="20dp"
-            android:isScrollContainer="true"
-            android:maxLines="3"
-            android:scrollbars="vertical"
-            android:textColor="@color/colorEditTextContent"
-            android:textSize="@dimen/text_size_medium" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="50dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_credits"
-                android:textColor="@color/colorTextTitle"
-                android:textSize="@dimen/text_size_title_medium"
-                android:drawableStart="@drawable/ic_credits"
-                android:drawablePadding="8dp"
-                />
-
-            <TextView
-                android:id="@+id/act_credits"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textColor="@color/colorEditTextContent"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="50dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_students"
-                android:textColor="@color/colorTextTitle"
-                android:textSize="@dimen/text_size_title_medium"
-                android:drawableStart="@drawable/ic_graduate"
-                android:drawablePadding="8dp"
-                />
-
-            <TextView
-                android:id="@+id/act_student_cant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textColor="@color/colorEditTextContent"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_student_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="45dp"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
         <View
+            android:id="@+id/project_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:background="@android:color/white"/>
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            style="?android:attr/buttonBarStyle">
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/project_divider">
 
             <Button
                 android:id="@+id/act_btn_left_action"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:text="@string/button_cancel"
                 android:textColor="@color/colorPrimaryDark"
                 style="?android:attr/buttonBarButtonStyle"/>
 
             <Button
                 android:id="@+id/act_btn_right_action"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:text="@string/button_publish"
                 android:textColor="@color/colorPrimaryDark"
                 style="?android:attr/buttonBarButtonStyle"/>
         </LinearLayout>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/project_button_panel">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/activity_description"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_description"
+                android:drawablePadding="8dp"
+                />
+
+            <TextView
+                android:id="@+id/act_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:isScrollContainer="true"
+                android:maxLines="4"
+                android:scrollbars="vertical"
+                android:textColor="@color/colorEditTextContent"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/activity_requirements"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_requirements"
+                android:drawablePadding="8dp"
+                />
+
+            <TextView
+                android:id="@+id/act_requirements"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:isScrollContainer="true"
+                android:maxLines="3"
+                android:scrollbars="vertical"
+                android:textColor="@color/colorEditTextContent"
+                android:textSize="@dimen/text_size_medium" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/activity_schedule"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_schedule"
+                android:drawablePadding="8dp"
+                />
+
+            <TextView
+                android:id="@+id/act_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="20dp"
+                android:isScrollContainer="true"
+                android:maxLines="3"
+                android:scrollbars="vertical"
+                android:textColor="@color/colorEditTextContent"
+                android:textSize="@dimen/text_size_medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_credits"
+                    android:textColor="@color/colorTextTitle"
+                    android:textSize="@dimen/text_size_title_medium"
+                    android:drawableStart="@drawable/ic_credits"
+                    android:drawablePadding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/act_credits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorEditTextContent"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_professor"
+                    android:textColor="@color/colorTextTitle"
+                    android:textSize="@dimen/text_size_title_medium"
+                    android:drawableStart="@drawable/ic_id"
+                    android:drawablePadding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/act_professor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorEditTextContent"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_students"
+                    android:textColor="@color/colorTextTitle"
+                    android:textSize="@dimen/text_size_title_medium"
+                    android:drawableStart="@drawable/ic_graduate"
+                    android:drawablePadding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/act_student_cant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorEditTextContent"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_student_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="45dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

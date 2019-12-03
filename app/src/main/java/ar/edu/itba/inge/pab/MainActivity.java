@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -57,11 +58,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                MyApplication.makeToast(this.getResources().getString(R.string.search_button_message));
-                break;
             case R.id.kebab_profile:
-                MyApplication.makeToast(this.getResources().getString(R.string.profile_button_message));
+                NavDestination current = Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination();
+                if (current != null && current.getId() == R.id.navigation_profile)
+                    MyApplication.makeToast(this.getResources().getString(R.string.profile_button_message));
+                else
+                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_open_profile);
                 break;
             case R.id.kebab_about_us:
                 aboutUsDialog(item.getActionView());
@@ -124,14 +126,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        if (intent.getExtras().getString("data") != null) {
+        if (intent != null && intent.getExtras().getString("data") != null) {
             navController.navigate(R.id.navigation_notifications);
         }
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        // TODO: ADD NAVIGATE UP LISTENERS TO UPDATE VALUES
         return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp() || super.onSupportNavigateUp();
     }
 
@@ -173,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // TODO: VER SI ACA DEBO DESLOGUEARME O NO
+    // TODO: VER SI ACA DEBO DESLOGUEARME O NO. VER SI ES ON STOP O ONDESTROY
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         if (mainData != null)
             mainData.cancelRequests();
 //        logOut();

@@ -7,11 +7,11 @@ public class Student extends Person {
 
     public Student() { }
 
-    public Student(String nombre, String legajo, int porcentaje, int creditos, String email) {
+    public Student(String nombre, String legajo, int porcentaje, int creditos, String email, String carrera) {
         super(nombre, legajo, email);
         this.porcentaje = porcentaje;
         this.creditos = creditos;
-        this.carrera = "Ingenieria Informatica"; // TODO; HARDCODEARLO EN FIREBASE< no Aca
+        this.carrera = carrera;
     }
 
     public Student(String nombre, String id, String email) {
