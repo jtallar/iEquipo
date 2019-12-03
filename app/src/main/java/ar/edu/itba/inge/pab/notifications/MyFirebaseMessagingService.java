@@ -61,11 +61,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
         Integer id = (remoteMessage.getData().get("sender") +  remoteMessage.getData().get("project") + remoteMessage.getData().get("type") + message).hashCode();
-        // Send notification to user
-//        Fragment fragment = MainActivity.getInstance().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-//        if (fragment.getClass().equals(NotificationsFragment.class))
 
-
+        // Send notification to user only if not on fragment notifications
         sendNotification(title, message, "unused", id);
     }
 
