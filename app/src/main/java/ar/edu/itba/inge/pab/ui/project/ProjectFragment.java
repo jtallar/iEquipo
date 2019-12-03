@@ -42,7 +42,7 @@ import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 
 public class ProjectFragment extends Fragment {
     private ProjectViewModel projectViewModel;
-    private TextView title, credits, studentCant, description, schedule, requirements;
+    private TextView title, credits, studentCant, description, schedule, requirements, professor;
     private RecyclerView rvStudents;
     private List<Student> students = new ArrayList<>();
     private StudentListAdapter adapter;
@@ -91,6 +91,11 @@ public class ProjectFragment extends Fragment {
         adapter = new StudentListAdapter(students, student -> openConfirmationDialog(ConfirmAction.DELETE_STUDENT, student));
         rvStudents.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rvStudents.setAdapter(adapter);
+        professor = root.findViewById(R.id.act_professor);
+        projectViewModel.signleGetTeacher(project.getIdDocente()).observe(this, professor -> {
+            if (professor == null) return;
+            this.professor.setText(professor.getNombre());
+        });
 
         refreshView();
 
