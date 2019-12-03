@@ -42,8 +42,9 @@
     <string name="description_pab_logo">PAB Logo</string>
     <string name="description_login_button">Botón de login</string>
 
+    <string name="student_id">Legajo</string>
     <string name="student_profile_career_progress">Porcentaje de carrera</string>
-    <string name="student_free_hours">Horas disponibles</string>
+    <string name="student_free_hours">Hs disponibles</string>
     <string name="project_required_hours">Horas semanales</string>
 
     <string name="empty_projects_list">Sin actividades</string>
@@ -70,7 +71,7 @@
     <string name="button_reject">Rechazar</string>
 
     <!--  ARCHIVAR ABAJO  -->
-    <string name="button_store">Archivar</string>
+    <string name="button_store">Borrar</string>
 
     <string name="error_login_failed">Falló el logeo en Google!</string>
     <string name="error_mail_not_found">Mail no registrado!</string>
@@ -78,7 +79,9 @@
     <string name="error_project_full">Ups! Actividad lleno</string>
 
     <string name="dialog_message_delete_project">Está seguro que quiere borrar esta actividad?</string>
-    <string name="dialog_message_delete_request_out">Está seguro que quiere datse de baja de esta actividad?</string>
+    <string name="dialog_message_delete_request_out">Está seguro que quiere darse de baja de esta actividad?</string>
+    <string name="dialog_message_delete_student">Está seguro que quiere borrar al alumno</string>
+    <string name="dialog_message_from_this_project">de este proyecto?</string>
     <string name="dialog_delete">Borrar</string>
     <string name="dialog_cancel">Cancelar</string>
 
@@ -90,8 +93,8 @@
     <string name="project_action_btn_contact_students">Anuncio</string>
     <string name="project_action_btn_contact_teacher">Contactar</string>
 
-    <string name="student_join_message">le gustaría unirse a</string>
-    <string name="student_quit_message">le gustarí dejar</string>
+    <string name="student_join_message">desea unirse a</string>
+    <string name="student_quit_message">desea dejar</string>
 
     <string name="dialog_select_project_title">Seleccione una actividad</string>
 
@@ -117,15 +120,20 @@
     <string name="notification_info_reject_request">ha rechazado su invitación para la actividad</string>
 
     <string name="notification_info_delete_project">ha eliminado la actividad</string>
+    <string name="notification_info_delete_student">lo ha eliminado de la actividad</string>
 
     <string name="notification_info_remove_student">ha rechazado su invitación para la actividad</string>
 
     <string name="notification_info_from">de</string>
     <string name="toast_request_sent">Pedido enviado!</string>
     <string name="toast_message_sent">Mensaje enviado!</string>
+    <string name="toast_edited_project">Cambos aplicados!</string>
     <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
     <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
+    <string name="project_professor_desc" >estudiantes anotados</string>
 
     <string name="description">Descripción</string>
     <string name="name">Nombre</string>
+    <string name="image_description_foto_itba">Foto ITBA</string>
+    <string name="image_description_default_user">Imagen defecto de usuario</string>
 </resources>

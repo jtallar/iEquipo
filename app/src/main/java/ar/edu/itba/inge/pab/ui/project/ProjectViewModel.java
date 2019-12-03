@@ -13,7 +13,7 @@ import ar.edu.itba.inge.pab.ui.RequestViewModel;
 public class ProjectViewModel extends RequestViewModel {
 
     LiveData<Student> getStudent(String id) {
-        ApiRequest<Student> studentRequest = MyApplication.getInstance().getApiRepository().getStudent(id);
+        ApiRequest<Student> studentRequest = MyApplication.getInstance().getApiRepository().singleGetStudent(id);
         requestListeners.add(studentRequest.getListener());
         return Transformations.map(studentRequest.getLiveData(), MyApplication.getTransformFunction());
     }
