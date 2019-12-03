@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        // TODO: ADD NAVIGATE UP LISTENERS TO UPDATE VALUES
         return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp() || super.onSupportNavigateUp();
     }
 
@@ -175,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // TODO: VER SI ACA DEBO DESLOGUEARME O NO
+    // TODO: VER SI ACA DEBO DESLOGUEARME O NO. VER SI ES ON STOP O ONDESTROY
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         if (mainData != null)
             mainData.cancelRequests();
 //        logOut();
