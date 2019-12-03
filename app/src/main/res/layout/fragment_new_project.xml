@@ -216,7 +216,7 @@
             android:background="@drawable/edit_text_box"
             android:hint="@string/activity_requirements"
             android:padding="@dimen/edit_padding"
-            android:textColor="@color/colorEditTextContent"
+            android:textColor="@color/colorEditContent"
             android:textColorHint="@color/colorEditTextHint" />
 
         <LinearLayout
