@@ -15,17 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import java.util.Locale;
 
+import ar.edu.itba.inge.pab.MainActivity;
 import ar.edu.itba.inge.pab.MyApplication;
 import ar.edu.itba.inge.pab.R;
 import ar.edu.itba.inge.pab.elements.Project;
+import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.ui.explore.ExploreFragment;
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
     private List<Project> data;
     private OnItemClickListener<Project> listener;
+    private String fragment;
 
-    public ProjectAdapter(List<Project> data, OnItemClickListener<Project> itemClickListener) {
+    public ProjectAdapter(List<Project> data, String fragment, OnItemClickListener<Project> itemClickListener) {
         this.data = data;
         this.listener = itemClickListener;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -61,7 +66,20 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
         public void bind(final Project project, final OnItemClickListener<Project> listener) {
             tvProjectName.setText(project.getTitulo());
-            tvProjectText.setText(project.getDescripcion());
+            if (MainActivity.getLoggedPerson().getClass() == Student.class) {
+                if (fragment == ExploreFragment.className) {
+                    tvProjectText.setText(project.getDescripcion());
+                } else {
+                    tvProjectText.setText(project.getHorarios());
+                    tvProjectExp.setVisibility(View.VISIBLE);
+                    arrowButton.setVisibility(View.GONE);
+                }
+            } else {
+                tvProjectText.setText(String.format("%d de %d %s", project.getAlumnos().size(), project.getCantidad(), MyApplication.getStringResource(R.string.project_professor_desc)));
+                tvProjectExp.setVisibility(View.VISIBLE);
+                arrowButton.setVisibility(View.GONE);
+            }
+
 
             itemView.setOnClickListener(view -> listener.onItemClick(project));
             arrowButton.setOnClickListener(view -> {

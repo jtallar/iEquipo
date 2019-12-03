@@ -75,7 +75,7 @@ public class ExploreFragment extends Fragment {
         // GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 1, RecyclerView.VERTICAL, false);
         GridLayoutManager gridLayoutManager = new GridLayoutAutofitManager(this.getContext(), (int) getResources().getDimension(R.dimen.card_width), LinearLayoutManager.VERTICAL, false);
         rvExplore.setLayoutManager(gridLayoutManager);
-        adapter = new ProjectAdapter(data, project -> {
+        adapter = new ProjectAdapter(data, className, project -> {
             ExploreFragmentDirections.ActionSelectProject action = ExploreFragmentDirections.actionSelectProject(project, className, null, project.getTitulo());
             Navigation.findNavController(root).navigate(action);
         });

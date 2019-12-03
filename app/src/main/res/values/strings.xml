@@ -71,7 +71,7 @@
     <string name="button_reject">Rechazar</string>
 
     <!--  ARCHIVAR ABAJO  -->
-    <string name="button_store">Archivar</string>
+    <string name="button_store">Borrar</string>
 
     <string name="error_login_failed">Falló el logeo en Google!</string>
     <string name="error_mail_not_found">Mail no registrado!</string>
@@ -130,6 +130,7 @@
     <string name="toast_edited_project">Cambos aplicados!</string>
     <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
     <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
+    <string name="project_professor_desc" >estudiantes anotados</string>
 
     <string name="description">Descripción</string>
     <string name="name">Nombre</string>
