@@ -61,6 +61,7 @@
             android:textColor="@color/colorEditTextContent"
             android:textSize="@dimen/text_size_medium" />
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,6 +87,34 @@
             android:scrollbars="vertical"
             android:textColor="@color/colorEditTextContent"
             android:textSize="@dimen/text_size_medium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_professor"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title_medium"
+                android:drawableStart="@drawable/ic_id"
+                android:drawablePadding="8dp"
+                />
+
+            <TextView
+                android:id="@+id/act_professor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/colorEditTextContent"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

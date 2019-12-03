@@ -59,6 +59,7 @@
     <string name="activity_activities">Actividades</string>
     <string name="activity_mail" >Mail</string>
     <string name="activity_schedule">Horarios</string>
+    <string name="activity_professor">Profesor</string>
     <string name="activity_requirements">Condiciones mínimas</string>
     <string name="activity_delete_description">Borrar estudiante</string>
     <string name="activity_empty">Sin actividades en curso</string>
