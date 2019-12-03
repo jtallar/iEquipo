@@ -133,7 +133,7 @@
     <string name="toast_message_sent">Mensaje enviado!</string>
     <string name="toast_edited_project">Cambos aplicados!</string>
     <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
-    <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
+    <string name="toast_no_activities_message">Sin actividades válidas para alumno!</string>
     <string name="project_professor_desc" >estudiantes anotados</string>
 
     <string name="description">Descripción</string>
