@@ -43,16 +43,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     class AlertViewHolder extends RecyclerView.ViewHolder {
         TextView tvNotificationType;
         TextView tvNotificationContent;
+        TextView tvNotificationDate;
 
         public AlertViewHolder (View itemView) {
             super(itemView);
             tvNotificationType = itemView.findViewById(R.id.tv_notification_type);
             tvNotificationContent = itemView.findViewById(R.id.tv_notification_content);
+            tvNotificationDate = itemView.findViewById(R.id.tv_notification_date);
         }
 
         public void bind(final Notification notification, final OnItemClickListener<Notification> listener) {
             tvNotificationType.setText(notification.getTitle());
             tvNotificationContent.setText(notification.getMessage());
+            tvNotificationDate.setText(notification.getDate());
             itemView.setOnClickListener(view -> listener.onItemClick(notification));
         }
     }
