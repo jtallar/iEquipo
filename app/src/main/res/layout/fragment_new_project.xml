@@ -38,7 +38,7 @@
             android:background="@drawable/edit_text_box"
             android:hint="@string/activity_title"
             android:padding="@dimen/edit_padding"
-            android:textColor="@color/colorEditTextContent"
+            android:textColor="@color/colorEditContent"
             android:textColorHint="@color/colorEditTextHint" />
 
         <!-- Description -->
@@ -70,7 +70,7 @@
             android:background="@drawable/edit_text_box"
             android:hint="@string/activity_description"
             android:padding="@dimen/edit_padding"
-            android:textColor="@color/colorEditTextContent"
+            android:textColor="@color/colorEditContent"
             android:textColorHint="@color/colorEditTextHint" />
 
         <!-- Schedule -->
@@ -104,7 +104,7 @@
             android:scrollbars="vertical"
             android:hint="@string/activity_schedule"
             android:padding="@dimen/edit_padding"
-            android:textColor="@color/colorEditTextContent"
+            android:textColor="@color/colorEditContent"
             android:textColorHint="@color/colorEditTextHint" />
 
         <LinearLayout
@@ -141,7 +141,7 @@
                 android:background="@drawable/edit_text_box"
                 android:hint="@string/activity_credits"
                 android:padding="@dimen/edit_padding"
-                android:textColor="@color/colorEditTextContent"
+                android:textColor="@color/colorEditContent"
                 android:textColorHint="@color/colorEditTextHint" />
 
         </LinearLayout>
@@ -181,7 +181,7 @@
                 android:background="@drawable/edit_text_box"
                 android:hint="@string/activity_student_quantity"
                 android:padding="@dimen/edit_padding"
-                android:textColor="@color/colorEditTextContent"
+                android:textColor="@color/colorEditContent"
                 android:textColorHint="@color/colorEditTextHint" />
 
         </LinearLayout>
@@ -195,7 +195,7 @@
             android:text="@string/activity_requirements"
             android:textColor="@color/colorTextTitle"
             android:textSize="@dimen/text_size_title_medium"
-            android:drawableStart="@drawable/ic_check_24dp"
+            android:drawableStart="@drawable/ic_requirements"
             android:drawablePadding="8dp"
             />
 
