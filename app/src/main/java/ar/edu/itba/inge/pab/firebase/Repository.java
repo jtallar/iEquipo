@@ -135,6 +135,10 @@ public class Repository {
         api.setProject(project);
     }
 
+    public String createProject(Project project) {
+        return api.createProject(project);
+    }
+
     public void setStudent(Student student) {
         api.setStudent(student);
     }
