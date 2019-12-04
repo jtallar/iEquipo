@@ -1,6 +1,7 @@
 package ar.edu.itba.inge.pab;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.arch.core.util.Function;
@@ -10,9 +11,14 @@ import ar.edu.itba.inge.pab.firebase.Error;
 import ar.edu.itba.inge.pab.firebase.Repository;
 import ar.edu.itba.inge.pab.firebase.Result;
 
+import static com.google.android.gms.common.api.CommonStatusCodes.API_NOT_CONNECTED;
+import static com.google.android.gms.common.api.CommonStatusCodes.NETWORK_ERROR;
+
 public class MyApplication extends Application {
     private static final float toastHorizontalMargin = 0;
     private static final float toastVerticalMargin = (float) 0.08;
+
+    private static final int windowClosed = 12501;
 
     private static MyApplication instance;
     private Repository apiRepository;
@@ -48,7 +54,16 @@ public class MyApplication extends Application {
         Toast toast;
         String errorMessage = error.getDescription();
         // Recognize errors
-        toast = Toast.makeText(instance, errorMessage, Toast.LENGTH_SHORT);
+        switch (error.getCode()) {
+            case windowClosed:
+                return;
+            case NETWORK_ERROR:
+                toast = Toast.makeText(instance, getStringResource(R.string.error_network), Toast.LENGTH_SHORT);
+                break;
+            default:
+                toast = Toast.makeText(instance, String.format("%s %d", getStringResource(R.string.error_unexpected), error.getCode()), Toast.LENGTH_SHORT);
+        }
+
         toast.setMargin(toastHorizontalMargin, toastVerticalMargin);
         toast.show();
     }

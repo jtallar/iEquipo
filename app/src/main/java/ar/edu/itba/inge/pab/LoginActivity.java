@@ -33,6 +33,7 @@ import java.util.List;
 
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.firebase.Error;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String LOG_TAG = "ar.edu.itba.inge.pab.LoginActivity";
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In failed, update UI appropriately
 //                MyApplication.makeToast(getResources().getString(R.string.error_login_failed));
                 if (e.getMessage() != null) Log.e(LOG_TAG, e.getMessage());
-                MyApplication.makeToast(e.getMessage());
+                MyApplication.makeToast(new Error(e.getStatusCode(), e.getMessage()));
             }
         }
     }
@@ -148,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 MyApplication.makeToast(getResources().getString(R.string.error_mail_not_found));
+                logOut();
             });
         });
     }
@@ -159,6 +161,17 @@ public class LoginActivity extends AppCompatActivity {
         if (data != null) myIntent.putExtra("data", data);
         startActivity(myIntent);
         finish();
+    }
+
+    private void logOut() {
+        // Firebase sign out
+        FirebaseAuth.getInstance().signOut();
+        GoogleSignInOptions tempgso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        // Google sign out
+        GoogleSignIn.getClient(this,tempgso).signOut();
     }
 
     @Override

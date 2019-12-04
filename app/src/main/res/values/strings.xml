@@ -82,6 +82,9 @@
     <string name="error_login_failed">Falló el loggeo en Google!</string>
     <string name="error_mail_not_found">Mail no registrado!</string>
     <string name="error_firebase_failed">Falló la autenticación de Firebase!</string>
+    <string name="error_network">Ha ocurrido un error de conexión!</string>
+    <string name="error_unexpected">Ha ocurrido un error inesperado! Código</string>
+
     <string name="error_project_full">Ups! Actividad llena</string>
     <string name="error_project_incomplete_entry">Por favor complete la cantidad de créditos y estudiantes de la actividad</string>
 
@@ -131,6 +134,7 @@
 
     <string name="notification_info_from">de</string>
     <string name="toast_request_sent">Pedido enviado!</string>
+    <string name="toast_deleted_project">Actividad borrada!</string>
     <string name="toast_message_sent">Mensaje enviado!</string>
     <string name="toast_edited_project">Cambios aplicados!</string>
     <string name="toast_no_activities_message">Sin actividades válidas para alumno!</string>
