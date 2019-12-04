@@ -1,1 +1,1 @@
-# iEquipo
+# ![jtallar](logo.png)
