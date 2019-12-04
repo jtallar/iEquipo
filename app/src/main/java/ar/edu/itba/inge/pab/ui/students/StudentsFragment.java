@@ -115,6 +115,7 @@ public class StudentsFragment extends Fragment {
                         data.add(student);
                 }
                 adapter.sort(getComparator(prevSort));
+                manageFilters(prevPercCB, String.valueOf(prevPerc), prevHoursCB, String.valueOf(prevHours), prevCareer, prevInfo, prevIndus, prevElec);
             }
             loading.setVisibility(View.GONE);
             if (!data.isEmpty())
@@ -190,7 +191,7 @@ public class StudentsFragment extends Fragment {
 
             root.findViewById(R.id.accept_btn).setOnClickListener(view -> {
                 dialog.dismiss();
-                manageFilters(boxPerc, editPerc, boxHours, editHours, boxCareer, boxInfo, boxIndus, boxElec);
+                manageFilters(boxPerc.isChecked(), (editPerc.getText() != null) ? editPerc.getText().toString() : null, boxHours.isChecked(), (editHours.getText() != null) ? editHours.getText().toString() : null, boxCareer.isChecked(), boxInfo.isChecked(), boxIndus.isChecked(), boxElec.isChecked());
             });
 
         }
@@ -225,41 +226,41 @@ public class StudentsFragment extends Fragment {
         editPerc.setText(String.valueOf(prevPerc));
     }
 
-    private void manageFilters(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo, CheckBox boxIndus, CheckBox boxElec) {
-        if(boxHours.isChecked()) {
+    private void manageFilters(boolean boxPerc, String editPerc, boolean boxHours, String editHours, boolean boxCareer, boolean boxInfo, boolean boxIndus, boolean boxElec) {
+        if(boxHours) {
             int hours = 0;
-            if(editHours.getText() != null)
-                hours = Integer.parseInt(editHours.getText().toString());
+            if(editHours != null)
+                hours = Integer.parseInt(editHours);
             adapter.filterHours(hours);
             prevHoursCB = true;
             prevHours = hours;
         } else prevHoursCB = false;
-        if(boxPerc.isChecked()){
+        if(boxPerc){
             int perc = 0;
-            if(editPerc.getText() != null)
-                perc =  Integer.parseInt(editPerc.getText().toString());
+            if(editPerc != null)
+                perc =  Integer.parseInt(editPerc);
             adapter.filterPerc(perc);
             prevPercCB = true;
             prevPerc = perc;
         } else prevPercCB = false;
-        if(boxCareer.isChecked()) {
+        if(boxCareer) {
             prevCareer = true;
             ArrayList<String> careers = new ArrayList<>();
-            if(boxInfo.isChecked())
+            if(boxInfo)
                 careers.add(getResources().getString(R.string.filter_info));
-            if(boxIndus.isChecked())
+            if(boxIndus)
                 careers.add(getResources().getString(R.string.filter_indus));
-            if(boxElec.isChecked())
+            if(boxElec)
                 careers.add(getResources().getString(R.string.filter_elec));
             adapter.filterCareer(careers);
         }
         else prevCareer = false;
 
-        prevInfo = boxInfo.isChecked();
-        prevIndus = boxIndus.isChecked();
-        prevElec = boxElec.isChecked();
+        prevInfo = boxInfo;
+        prevIndus = boxIndus;
+        prevElec = boxElec;
 
-        if(!boxCareer.isChecked() && !boxHours.isChecked() && !boxPerc.isChecked()) {
+        if(!boxCareer && !boxHours && !boxPerc) {
             adapter.resetData();
             adapter.notifyDataSetChanged();
         }
