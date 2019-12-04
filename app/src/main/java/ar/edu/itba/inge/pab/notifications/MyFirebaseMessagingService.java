@@ -43,8 +43,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TYPE = "application/json";
     private static final String KEY = "";
     private static RequestQueue requestQueue;
-    // TODO: BORRAMOS ESTA VARIABLE CONTEXT? NO SE USA
-    private static Context context;
     private static String userToken;
     private static MessagingViewModel messagingViewModel;
 
@@ -206,7 +204,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param contextIn Context given to run the queue.
      */
     public static void setParameters(Context contextIn) {
-        if (context == null) context = contextIn;
         if (requestQueue == null) requestQueue = Volley.newRequestQueue(contextIn);
         if (messagingViewModel == null) messagingViewModel = new MessagingViewModel();
     }
