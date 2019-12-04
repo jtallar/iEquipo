@@ -11,8 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBackUnconditionally;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.pressBack;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -29,5 +32,8 @@ public class ExploreTest {
         onView(allOf(withId(R.id.rv_explore))).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.act_description)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
+        onView(isRoot()).perform(pressBack());
+
+        onView(withId(R.id.rv_explore)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 }
