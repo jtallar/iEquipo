@@ -76,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // TODO: EN TODOS LOS ONSTOP, CANCEL REQUESTS
-    // TODO: VER SI EN TODOS LOS ON DESTROY DE LOS FRAGMENTOS DEBO PONER REMOVE EVENT LISTENER
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,12 +172,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // TODO: VER SI ACA DEBO DESLOGUEARME O NO. VER SI ES ON STOP O ONDESTROY
     @Override
     protected void onStop() {
         super.onStop();
         if (mainData != null)
             mainData.cancelRequests();
-//        logOut();
     }
 }
