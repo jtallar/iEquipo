@@ -6,7 +6,7 @@
 Nuestra propuesta como equipo es centralizar la información y brindar mayor comodidad y practicidad, tanto a los profesores como a los alumnos, evitando solapamiento de solicitudes, errores en las asignaciones y problemas de comunicación.
 Así nace PAB, Programa para Alumnos Becados, una plataforma completa para el control de las tareas de apoyo no remuneradas de los alumnos becados de una universidad. Permite conectar adecuadamente a los alumnos becados con las tareas de apoyo propuestas por profesores u otros solicitantes, organizando toda la información necesaria mediante perfiles personales, notificaciones, solicitudes directas y listas homogéneas. 
 
-## Nadie se salva
+## "Nadie se salva"
 Encontrar un becario libre adecuado para que colabore con una actividad es muy difícil con el sistema actual. Surgen conflictos en la verificación de sus capacidades, sus proyectos actuales y la cantidad de horas sin asignar, lo que produce solapamientos de solicitudes y renovaciones mensuales incómodas de becarios asignados. Por el lado del alumno becado, éste suele recibir propuestas de manera individual, por lo que puede sentirse presionado a tomar horas en una actividad que no le interese mucho, a falta de otras opciones. 
 
 ## Tecnologías utilizadas
