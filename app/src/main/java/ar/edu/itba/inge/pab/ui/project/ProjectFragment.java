@@ -311,8 +311,10 @@ public class ProjectFragment extends Fragment {
 
     private void increaseDeleteCount(View root) {
         deleteCount++;
-        if (deleteCount >= project.getAlumnos().size() + 1)
+        if (deleteCount >= project.getAlumnos().size() + 1) {
             Navigation.findNavController(root).navigateUp();
+            MyApplication.makeToast(getResources().getString(R.string.toast_deleted_project));
+        }
     }
 
     private void sendNotif(Notification.NotificationType type, String message, String projectId, String receiverId) {
