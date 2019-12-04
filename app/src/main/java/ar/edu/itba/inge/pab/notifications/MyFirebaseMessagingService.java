@@ -137,6 +137,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     /**
+     * Delete token to third-party servers.
+     *
+     * Modify this method to associate the user's FCM InstanceID token with any server-side account
+     * maintained by your application.
+     */
+    public static void deleteRegistrationToServer() {
+        Person user = MainActivity.getLoggedPerson();
+        if (user == null) return;
+
+        Log.d(TAG, "Delete token for: " + user.getNombre());
+
+        user.setToken("");
+        if (user.getClass() == Student.class)
+            MyApplication.getInstance().getApiRepository().setStudent((Student) user);
+        else MyApplication.getInstance().getApiRepository().setTeacher(user);
+    }
+
+    /**
      * Sends a message to a particular device, having its ID.
      *
      * @param notification The FCM message to send.

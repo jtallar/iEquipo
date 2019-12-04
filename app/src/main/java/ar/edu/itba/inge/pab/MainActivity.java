@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logOut() {
+        MyFirebaseMessagingService.deleteRegistrationToServer();
         // Firebase sign out
         FirebaseAuth.getInstance().signOut();
         GoogleSignInOptions tempgso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
