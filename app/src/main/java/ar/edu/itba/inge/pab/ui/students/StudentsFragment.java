@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -144,6 +145,7 @@ public class StudentsFragment extends Fragment {
 
     private boolean prevCareer = false, prevHoursCB = false, prevPercCB = false, prevInfo = false, prevElec = false, prevIndus = false;
     private int prevHours = 0, prevPerc = 0;
+    private int prevSort = R.id.legajo_btn;
 
     private void createDialog(int dialog_view){
         LayoutInflater inflater = this.getLayoutInflater();
@@ -151,21 +153,32 @@ public class StudentsFragment extends Fragment {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext()).setView(root);
         final AlertDialog dialog = dialogBuilder.create();
 
+        root.findViewById(prevSort).setEnabled(false);
+
         if(dialog_view == order_dialog) {
+            root.findViewById(R.id.legajo_btn).setOnClickListener(view -> {
+                adapter.sort((s1, s2) -> s1.getId().compareTo(s2.getId()));
+                prevSort = R.id.legajo_btn;
+                dialog.dismiss();
+            });
             root.findViewById(R.id.nombre_btn).setOnClickListener(view -> {
                 adapter.sort((s1, s2) -> s1.getNombre().compareTo(s2.getNombre()));
+                prevSort = R.id.nombre_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.carrera_btn).setOnClickListener(view -> {
                 adapter.sort((s1, s2) -> s1.getCarrera().compareTo(s2.getCarrera()));
+                prevSort = R.id.carrera_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.horas_btn).setOnClickListener(view -> {
                 adapter.sort((s1, s2) -> s1.getCreditos()-s2.getCreditos());
+                prevSort = R.id.horas_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.porc_carrera_btn).setOnClickListener(view -> {
                 adapter.sort((s1, s2) -> s1.getPorcentaje()- s2.getPorcentaje());
+                prevSort = R.id.porc_carrera_btn;
                 dialog.dismiss();
             });
         }else{
@@ -226,12 +239,10 @@ public class StudentsFragment extends Fragment {
             adapter.filterCareer(careers);
         }
         else prevCareer = false;
-        if(boxInfo.isChecked()) prevInfo = true;
-        else prevInfo = false;
-        if(boxIndus.isChecked()) prevIndus = true;
-        else prevIndus = false;
-        if(boxElec.isChecked()) prevElec = true;
-        else prevElec = false;
+
+        prevInfo = boxInfo.isChecked();
+        prevIndus = boxIndus.isChecked();
+        prevElec = boxElec.isChecked();
 
         if(!boxCareer.isChecked() && !boxHours.isChecked() && !boxPerc.isChecked()) {
             adapter.resetData();
