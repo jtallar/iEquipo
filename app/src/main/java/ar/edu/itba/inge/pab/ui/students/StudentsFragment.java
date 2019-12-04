@@ -153,9 +153,8 @@ public class StudentsFragment extends Fragment {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext()).setView(root);
         final AlertDialog dialog = dialogBuilder.create();
 
-        root.findViewById(prevSort).setEnabled(false);
-
         if(dialog_view == order_dialog) {
+            root.findViewById(prevSort).setEnabled(false);
             root.findViewById(R.id.legajo_btn).setOnClickListener(view -> {
                 adapter.sort((s1, s2) -> s1.getId().compareTo(s2.getId()));
                 prevSort = R.id.legajo_btn;

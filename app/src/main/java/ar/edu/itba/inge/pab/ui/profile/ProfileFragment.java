@@ -50,7 +50,8 @@ public class ProfileFragment extends Fragment {
 
             id.setText(loggedPerson.getId());
             career.setText(student.getCarrera());
-            hours.setText(String.valueOf(student.getCreditos()));
+            int credits = student.getCreditos();
+            hours.setText(String.valueOf((credits >= 0) ? credits : 0));
             percentage.setText(String.format("%s%s",(String.valueOf(student.getPorcentaje())),"%"));
             careerProgressBar.setProgress((student.getPorcentaje()));
         } else {

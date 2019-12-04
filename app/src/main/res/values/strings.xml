@@ -138,6 +138,8 @@
     <string name="toast_message_sent">Mensaje enviado!</string>
     <string name="toast_edited_project">Cambios aplicados!</string>
     <string name="toast_no_activities_message">Sin actividades válidas para alumno!</string>
+    <string name="toast_activity_gone">La actividad no se encuentra disponible!</string>
+    <string name="toast_student_gone">El alumno  no se encuentra disponible!</string>
     <string name="project_professor_desc" >estudiantes anotados</string>
 
     <string name="description">Descripción</string>
