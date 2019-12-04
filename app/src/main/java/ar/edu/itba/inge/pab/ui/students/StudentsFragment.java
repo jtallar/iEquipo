@@ -246,11 +246,11 @@ public class StudentsFragment extends Fragment {
             prevCareer = true;
             ArrayList<String> careers = new ArrayList<>();
             if(boxInfo.isChecked())
-                careers.add("Informatica");
+                careers.add(getResources().getString(R.string.filter_info));
             if(boxIndus.isChecked())
-                careers.add("Industrial");
+                careers.add(getResources().getString(R.string.filter_indus));
             if(boxElec.isChecked())
-                careers.add("Electronica");
+                careers.add(getResources().getString(R.string.filter_elec));
             adapter.filterCareer(careers);
         }
         else prevCareer = false;
