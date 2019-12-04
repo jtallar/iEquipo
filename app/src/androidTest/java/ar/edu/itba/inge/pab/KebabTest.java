@@ -1,8 +1,6 @@
 package ar.edu.itba.inge.pab;
 
 
-import android.app.Activity;
-
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -13,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -24,15 +21,20 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AboutUsTest {
+public class KebabTest {
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
     @Test
-    public void exploreTest() {
+    public void kebabTest() {
         //Recordar desabilitar animaciones para esto
         onView(withId(R.id.navigation_notifications)).perform(click());
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
         onView(withText(R.string.option_about_us)).perform(click());
         onView(withId(R.id.close_dialog_about_us)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+        onView(withId(R.id.close_dialog_about_us)).perform(click());
+
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        onView(withText(R.string.option_profile)).perform(click());
+        onView(withId(R.id.itba_photo)).check(matches(withEffectiveVisibility( ViewMatchers.Visibility.VISIBLE)));
     }
 }
