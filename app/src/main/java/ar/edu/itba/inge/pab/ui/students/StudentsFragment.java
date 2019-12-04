@@ -114,7 +114,7 @@ public class StudentsFragment extends Fragment {
                     if (!data.contains(student) && student.getCreditos() > 0)
                         data.add(student);
                 }
-                adapter.notifyDataSetChanged();
+                adapter.sort(getComparator(prevSort));
             }
             loading.setVisibility(View.GONE);
             if (!data.isEmpty())
@@ -156,27 +156,27 @@ public class StudentsFragment extends Fragment {
         if(dialog_view == order_dialog) {
             root.findViewById(prevSort).setEnabled(false);
             root.findViewById(R.id.legajo_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getId().compareTo(s2.getId()));
+                adapter.sort(getComparator(R.id.legajo_btn));
                 prevSort = R.id.legajo_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.nombre_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getNombre().compareTo(s2.getNombre()));
+                adapter.sort(getComparator(R.id.nombre_btn));
                 prevSort = R.id.nombre_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.carrera_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getCarrera().compareTo(s2.getCarrera()));
+                adapter.sort(getComparator(R.id.carrera_btn));
                 prevSort = R.id.carrera_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.horas_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getCreditos()-s2.getCreditos());
+                adapter.sort(getComparator(R.id.horas_btn));
                 prevSort = R.id.horas_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.porc_carrera_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getPorcentaje()- s2.getPorcentaje());
+                adapter.sort(getComparator(R.id.porc_carrera_btn));
                 prevSort = R.id.porc_carrera_btn;
                 dialog.dismiss();
             });
@@ -196,6 +196,22 @@ public class StudentsFragment extends Fragment {
         }
 
         dialog.show();
+    }
+
+    private Comparator<Student> getComparator(int sort) {
+        switch (sort) {
+            case R.id.nombre_btn:
+                return (s1, s2) -> s1.getNombre().compareTo(s2.getNombre());
+            case R.id.carrera_btn:
+                return (s1, s2) -> s1.getCarrera().compareTo(s2.getCarrera());
+            case R.id.horas_btn:
+                return (s1, s2) -> s1.getCreditos() - s2.getCreditos();
+            case R.id.porc_carrera_btn:
+                return (s1, s2) -> s1.getPorcentaje()- s2.getPorcentaje();
+            case R.id.legajo_btn:
+            default:
+                return (s1, s2) -> s1.getId().compareTo(s2.getId());
+        }
     }
 
     private void previousValues(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo, CheckBox boxIndus, CheckBox boxElec){
