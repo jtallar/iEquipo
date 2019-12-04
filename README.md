@@ -19,7 +19,7 @@ Encontrar un becario libre adecuado para que colabore con una actividad es muy d
 El sistema de comunicacón instantáneo, la interfaz simple, intuitiva y de fácil uso, son la diferencia entre PAB y los sistemas actuales de manejo de los becarios y su flujo de información.
 
 ## Testeos
-La aplicación se encuentra testeada bajo el sistema de testeo de Espresso, herramienta de caja blanca, cuyo objetivo es simular el uso de la aplicación. Para probar la aplicación simplemente (acá poner como hacer el testeo).
+La aplicación se encuentra testeada bajo el sistema de testeo de Espresso, herramienta de caja blanca, cuyo objetivo es simular el uso de la aplicación. Para probar la aplicación con los testing de Espresso, conectar un celular, desactivar las animaciones, y correr desde la clase testing (puede ser necesario abrir la aplicación).
 
 ## Cómo usar?
 Para utilizar la aplicación simplemente descarge e instale el APK de la rama de releases del repositorio actual.
