@@ -1,0 +1,27 @@
+Manual de uso
+
+1.	Ingrese con su cuenta de ITBA a través de Google, el sistema identificará si usted es docente o alumno de la institución.
+2.	Si usted es alumno, continúe en el paso 10.
+3.	Ingresando como docente: en primer lugar, tendrá una barra de navegación la cual le dará acceso a sus actividades, a la lista de 
+becarios y a las notificaciones. 
+4.	Desde Actividades, podrá navegar y ver los detalles de estas. Para agregar una nueva debe presionar en el icono de ‘+’ abajo a la 
+derecha, y completar el formulario. Luego al confirmar, se publicará y todos los alumnos podrán verla.
+5.	Ingresando en Estudiantes, se le ofrece una lista de los becarios con horas disponibles. Arriba a la derecha se le ofrece por un 
+lado el mecanismo de filtrado y por el otro el de ordenamiento. Abrirán diálogos respectivamente en los que podrá administrar la lista 
+de becarios a gusto.
+6.	Por último, podrá acceder al alumno que le interese presionando sobre él, ofreciéndole luego participar de cualquiera de sus 
+actividades ya creadas.
+7.	El alumno podrá decidir si aceptar o rechazar su petición, y lo sabrá con un mensaje en notificaciones.
+8.	Accediendo a Notificaciones, verá todo lo que no ha leído aun, y podrá, presionando en ellas, archivarlas o dejarlas allí.
+9.	Por último, tendrá siempre un botón de opciones en la esquina derecha superior. Esto le ofrecerá el acceso a visitar su perfil,
+saber más sobre iEquipo y PAB, y cerrar sesión.
+10.	Ingresando como alumno: en primer lugar, tendrá una barra de navegación la cual le dará acceso a sus actividades, a explorar las 
+actividades que buscan becarios y a las notificaciones. 
+11.	Desde Actividades, podrá navegar y ver los detalles de las mismas. Además, desde ahí mismo, tendrá la posibilidad de darse de baja 
+si así lo deseara.
+12.	Accediendo a Explorar, podrá ver todas las tareas y programas que buscan becarios. Tendrá la opción de ver la descripción tocando
+en la flecha hacia abajo sobre la derecha de la tarjeta. Presionando sobre el nombre, accederá a una nueva ventana con todos sus 
+detalles y podrá elegir postularse. Deberá en ese caso aguardar por una respuesta que aparecerá en notificaciones llegado el momento. 
+13.	Accediendo a sus notificaciones, verá todo lo que no ha leído aun, y podrá, presionando en ellas, archivarlas o dejarlas allí.
+14.	Por último, tendrá siempre un botón de opciones en la esquina derecha superior. Esto le ofrecerá el acceso a visitar su perfil, 
+saber más sobre iEquipo y PAB, y cerrar sesión.
