@@ -132,6 +132,10 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel.getStudent(notification.getSender()).observe(this, student -> {
             if (student != null) {
                 goToStudent(student, notification.getProject(), notification);
+            } else {
+                notificationsViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
+                data.remove(notification);
+                MyApplication.makeToast(getString(R.string.toast_student_gone));
             }
         });
     }
@@ -140,6 +144,10 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel.getProject(notification.getProject()).observe(this, project -> {
             if (project != null) {
                 goToProject(project, notification);
+            } else {
+                notificationsViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
+                data.remove(notification);
+                MyApplication.makeToast(getString(R.string.toast_activity_gone));
             }
         });
     }
