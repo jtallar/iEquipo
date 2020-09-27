@@ -2,6 +2,7 @@ package ar.edu.itba.inge.pab.ui.notifications;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.media.audiofx.NoiseSuppressor;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -96,11 +97,13 @@ public class NotificationsFragment extends Fragment {
 
     /* FUNCIONES PARA USAR ENTRE LAS POSIBLES ACCIONES */
     private void goToProject(Project project, Notification notification) {
+        cancelNotification(notification);
         NotificationsFragmentDirections.ActionSelectProject action = NotificationsFragmentDirections.actionSelectProject(project, className, notification.getId(), project.getTitulo());
         Navigation.findNavController(root).navigate(action);
     }
 
     private void goToStudent(Student student, String projectId, Notification notification) {
+        cancelNotification(notification);
         NotificationsFragmentDirections.ActionSelectStudent action = NotificationsFragmentDirections.actionSelectStudent(student, projectId, notification, student.getNombre());
         Navigation.findNavController(root).navigate(action);
     }
@@ -110,8 +113,7 @@ public class NotificationsFragment extends Fragment {
             if (notifications != null) {
                 data.clear();
                 for (Notification notification: notifications) {
-                    NotificationManager notificationManager = (NotificationManager) MainActivity.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-                    notificationManager.cancel(notification.hashCode2());
+                    cancelNotification(notification);
                     if (data.contains(notification))
                         MyApplication.getInstance().getApiRepository().deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
                      else data.add(0, notification);
@@ -130,6 +132,10 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel.getStudent(notification.getSender()).observe(this, student -> {
             if (student != null) {
                 goToStudent(student, notification.getProject(), notification);
+            } else {
+                notificationsViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
+                data.remove(notification);
+                MyApplication.makeToast(getString(R.string.toast_student_gone));
             }
         });
     }
@@ -138,6 +144,10 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel.getProject(notification.getProject()).observe(this, project -> {
             if (project != null) {
                 goToProject(project, notification);
+            } else {
+                notificationsViewModel.deleteNotification(MainActivity.getLoggedPerson().getId(), notification.getId());
+                data.remove(notification);
+                MyApplication.makeToast(getString(R.string.toast_activity_gone));
             }
         });
     }
@@ -145,6 +155,7 @@ public class NotificationsFragment extends Fragment {
     private void openMessageDialog(Notification notification) {
         View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_recieve_message, null);
         AlertDialog dialog = new AlertDialog.Builder(root.getContext()).setView(dialogView).create();
+        cancelNotification(notification);
 
         TextView tvTitle = dialogView.findViewById(R.id.dialog_message_title);
         if (tvTitle != null) tvTitle.setText(notification.getTitle());
@@ -184,5 +195,10 @@ public class NotificationsFragment extends Fragment {
     public void onStop() {
         super.onStop();
         notificationsViewModel.cancelRequests();
+    }
+
+    private void cancelNotification(Notification notification) {
+        NotificationManager notificationManager = (NotificationManager) MainActivity.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(notification.hashCode2());
     }
 }

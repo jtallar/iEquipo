@@ -1,0 +1,4 @@
+Para ejecutar la aplicación desde un archivo APK
+1.	Transfiera el archivo APK al dispositivo donde se desea instalar la aplicación.
+2.	Abra el archivo APK desde su dispositivo. Presione instalar y siga las instrucciones brindadas por el sistema operativo. Aceptar la instalación, aunque no provenga de una fuente verificada.
+3.	Una vez finalizada la instalación, busque la aplicación PAB en su app drawer y ábrala.

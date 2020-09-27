@@ -22,6 +22,7 @@ public class Notification implements Serializable {
     private String title;
     private String message;
     private String body;
+    private String date;
 
     private String sender;
     private String type = "";
@@ -58,6 +59,7 @@ public class Notification implements Serializable {
             notificationData.put("title", title);
             notificationData.put("message", message);
             notificationData.put("id", id);
+            notificationData.put("date", date);
             Log.d(TAG, "Notification: " + notificationData.toString());
         } catch (JSONException e) {
             Log.e(TAG, "On create: " + e.getMessage());
@@ -87,6 +89,10 @@ public class Notification implements Serializable {
     public String getTitle() {
         return title;
     }
+
+    public String getDate() { return date; }
+
+    public void setDate(String date) { this.date = date; }
 
     public String getMessage() {
         return message;

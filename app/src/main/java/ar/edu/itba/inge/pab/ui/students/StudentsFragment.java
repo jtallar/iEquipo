@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -113,7 +114,8 @@ public class StudentsFragment extends Fragment {
                     if (!data.contains(student) && student.getCreditos() > 0)
                         data.add(student);
                 }
-                adapter.notifyDataSetChanged();
+                adapter.sort(getComparator(prevSort));
+                manageFilters(prevPercCB, String.valueOf(prevPerc), prevHoursCB, String.valueOf(prevHours), prevCareer, prevInfo, prevIndus, prevElec);
             }
             loading.setVisibility(View.GONE);
             if (!data.isEmpty())
@@ -144,6 +146,7 @@ public class StudentsFragment extends Fragment {
 
     private boolean prevCareer = false, prevHoursCB = false, prevPercCB = false, prevInfo = false, prevElec = false, prevIndus = false;
     private int prevHours = 0, prevPerc = 0;
+    private int prevSort = R.id.legajo_btn;
 
     private void createDialog(int dialog_view){
         LayoutInflater inflater = this.getLayoutInflater();
@@ -152,20 +155,30 @@ public class StudentsFragment extends Fragment {
         final AlertDialog dialog = dialogBuilder.create();
 
         if(dialog_view == order_dialog) {
+            root.findViewById(prevSort).setEnabled(false);
+            root.findViewById(R.id.legajo_btn).setOnClickListener(view -> {
+                adapter.sort(getComparator(R.id.legajo_btn));
+                prevSort = R.id.legajo_btn;
+                dialog.dismiss();
+            });
             root.findViewById(R.id.nombre_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getNombre().compareTo(s2.getNombre()));
+                adapter.sort(getComparator(R.id.nombre_btn));
+                prevSort = R.id.nombre_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.carrera_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getCarrera().compareTo(s2.getCarrera()));
+                adapter.sort(getComparator(R.id.carrera_btn));
+                prevSort = R.id.carrera_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.horas_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getCreditos()-s2.getCreditos());
+                adapter.sort(getComparator(R.id.horas_btn));
+                prevSort = R.id.horas_btn;
                 dialog.dismiss();
             });
             root.findViewById(R.id.porc_carrera_btn).setOnClickListener(view -> {
-                adapter.sort((s1, s2) -> s1.getPorcentaje()- s2.getPorcentaje());
+                adapter.sort(getComparator(R.id.porc_carrera_btn));
+                prevSort = R.id.porc_carrera_btn;
                 dialog.dismiss();
             });
         }else{
@@ -178,12 +191,28 @@ public class StudentsFragment extends Fragment {
 
             root.findViewById(R.id.accept_btn).setOnClickListener(view -> {
                 dialog.dismiss();
-                manageFilters(boxPerc, editPerc, boxHours, editHours, boxCareer, boxInfo, boxIndus, boxElec);
+                manageFilters(boxPerc.isChecked(), (editPerc.getText() != null) ? editPerc.getText().toString() : null, boxHours.isChecked(), (editHours.getText() != null) ? editHours.getText().toString() : null, boxCareer.isChecked(), boxInfo.isChecked(), boxIndus.isChecked(), boxElec.isChecked());
             });
 
         }
 
         dialog.show();
+    }
+
+    private Comparator<Student> getComparator(int sort) {
+        switch (sort) {
+            case R.id.nombre_btn:
+                return (s1, s2) -> s1.getNombre().compareTo(s2.getNombre());
+            case R.id.carrera_btn:
+                return (s1, s2) -> s1.getCarrera().compareTo(s2.getCarrera());
+            case R.id.horas_btn:
+                return (s1, s2) -> s1.getCreditos() - s2.getCreditos();
+            case R.id.porc_carrera_btn:
+                return (s1, s2) -> s1.getPorcentaje()- s2.getPorcentaje();
+            case R.id.legajo_btn:
+            default:
+                return (s1, s2) -> s1.getId().compareTo(s2.getId());
+        }
     }
 
     private void previousValues(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo, CheckBox boxIndus, CheckBox boxElec){
@@ -197,43 +226,41 @@ public class StudentsFragment extends Fragment {
         editPerc.setText(String.valueOf(prevPerc));
     }
 
-    private void manageFilters(CheckBox boxPerc, EditText editPerc, CheckBox boxHours, EditText editHours, CheckBox boxCareer, CheckBox boxInfo, CheckBox boxIndus, CheckBox boxElec) {
-        if(boxHours.isChecked()) {
+    private void manageFilters(boolean boxPerc, String editPerc, boolean boxHours, String editHours, boolean boxCareer, boolean boxInfo, boolean boxIndus, boolean boxElec) {
+        if(boxHours) {
             int hours = 0;
-            if(editHours.getText() != null)
-                hours = Integer.parseInt(editHours.getText().toString());
+            if(editHours != null)
+                hours = Integer.parseInt(editHours);
             adapter.filterHours(hours);
             prevHoursCB = true;
             prevHours = hours;
         } else prevHoursCB = false;
-        if(boxPerc.isChecked()){
+        if(boxPerc){
             int perc = 0;
-            if(editPerc.getText() != null)
-                perc =  Integer.parseInt(editPerc.getText().toString());
+            if(editPerc != null)
+                perc =  Integer.parseInt(editPerc);
             adapter.filterPerc(perc);
             prevPercCB = true;
             prevPerc = perc;
         } else prevPercCB = false;
-        if(boxCareer.isChecked()) {
+        if(boxCareer) {
             prevCareer = true;
             ArrayList<String> careers = new ArrayList<>();
-            if(boxInfo.isChecked())
-                careers.add("Informatica");
-            if(boxIndus.isChecked())
-                careers.add("Industrial");
-            if(boxElec.isChecked())
-                careers.add("Electronica");
+            if(boxInfo)
+                careers.add(getResources().getString(R.string.filter_info));
+            if(boxIndus)
+                careers.add(getResources().getString(R.string.filter_indus));
+            if(boxElec)
+                careers.add(getResources().getString(R.string.filter_elec));
             adapter.filterCareer(careers);
         }
         else prevCareer = false;
-        if(boxInfo.isChecked()) prevInfo = true;
-        else prevInfo = false;
-        if(boxIndus.isChecked()) prevIndus = true;
-        else prevIndus = false;
-        if(boxElec.isChecked()) prevElec = true;
-        else prevElec = false;
 
-        if(!boxCareer.isChecked() && !boxHours.isChecked() && !boxPerc.isChecked()) {
+        prevInfo = boxInfo;
+        prevIndus = boxIndus;
+        prevElec = boxElec;
+
+        if(!boxCareer && !boxHours && !boxPerc) {
             adapter.resetData();
             adapter.notifyDataSetChanged();
         }

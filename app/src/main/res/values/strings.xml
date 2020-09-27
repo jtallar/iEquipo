@@ -2,108 +2,115 @@
     <string name="app_name">PAB</string>
     <string name="login_label">Login</string>
 
-    <string name="title_projects">My Activities</string>
-    <string name="title_explore">Explore</string>
-    <string name="title_students">Students</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_new_project">New Activity</string>
-    <string name="title_edit_project">Edit Activity</string>
-    <string name="title_project">Project</string>
-    <string name="title_student">Student</string>
+    <string name="title_projects">Mis Actividades</string>
+    <string name="title_explore">Explorar</string>
+    <string name="title_students">Estudiantes</string>
+    <string name="title_notifications">Notificaciones</string>
+    <string name="title_new_project">Nueva Actividad</string>
+    <string name="title_edit_project">Editar Actividad</string>
+    <string name="title_project">Actividad</string>
+    <string name="title_student">Estudiante</string>
 
-    <string name="option_search">Search</string>
-    <string name="option_profile">My profile</string>
-    <string name="option_about_us">About Us</string>
-    <string name="option_log_out">Log Out</string>
-    <string name="option_project_settings">Project settings</string>
-    <string name="option_filter">Filter by:</string>
-    <string name="option_sort">Sort by:</string>
-    <string name="sort_name">Name</string>
-    <string name="career">Career</string>
-    <string name="sort_percentage">Career percentage</string>
-    <string name="hours">Available hours</string>
-    <string name="filter_info">Ingenieria Informatica</string>
-    <string name="filter_indus">Ingenieria Industrial</string>
-    <string name="filter_elec">Ingenieria Electronica</string>
-    <string name="filter_percentage">Career % higher than</string>
-    <string name="accept_button">Apply</string>
+    <string name="option_search">Buscar</string>
+    <string name="option_profile">Mi perfil</string>
+    <string name="option_about_us">Quiénes somos</string>
+    <string name="option_log_out">Cerrar sesión</string>
+    <string name="option_project_settings">Configuración Actividad</string>
+    <string name="option_filter">Filtrar por</string>
+    <string name="option_sort">Ordenar por</string>
+    <string name="sort_name">Nombre</string>
+    <string name="sort_legajo">Legajo</string>
+    <string name="career">Carrera</string>
+    <string name="sort_percentage">Porcentaje carrera</string>
+    <string name="hours">Horas disponibles</string>
+    <string name="filter_info">Ingeniería Informática</string>
+    <string name="filter_indus">Ingeniería Industrial</string>
+    <string name="filter_elec">Ingeniería Electrónica</string>
+    <string name="filter_percentage">% carrera ></string>
+    <string name="accept_button">Aplicar</string>
 
-    <string name="search_button_message">Search not implemented yet!</string>
-    <string name="profile_button_message">Profile not implemented yet!</string>
-    <string name="filter_button_message">Filter not implemented yet!</string>
+    <string name="profile_button_message">Ya se encuentra en su perfil!</string>
 
-    <string name="about_us_title">About Us</string>
-    <string name="close_dialog_description">Close dialog</string>
+    <string name="search_button_message">Búsqueda no implementada!</string>
+    <string name="filter_button_message">Filtro no implementado!</string>
+
+    <string name="about_us_title">Quiénes somos</string>
+    <string name="close_dialog_description">Cerrar diálogo</string>
     <string name="about_us_message">
-        Programa para Alumnos Becados (PAB) is an application made by iEquipo. We are a student group from ITBA University
-        with the purpose of developing android applications applying IS1 knowledge.
+        Programa para Alumnos Becados (PAB) es una aplicación desarrollada por iEquipo. Somos un grupo de estudiantes de la universidad ITBA
+        con el fin de desarrollar aplicaciones Android aplicando el conocimiento de IS1.
     </string>
 
     <string name="description_pab_logo">PAB Logo</string>
-    <string name="description_login_button">Login button</string>
+    <string name="description_login_button">Botón de login</string>
 
+    <string name="student_id">Legajo</string>
     <string name="student_profile_career_progress">Porcentaje de carrera</string>
-    <string name="student_free_hours">Available hours</string>
-    <string name="project_required_hours">Weekly hours</string>
+    <string name="student_free_hours">Hs disponibles</string>
+    <string name="project_required_hours">Horas semanales</string>
 
-    <string name="empty_projects_list">No projects</string>
-    <string name="empty_students_list">No students</string>
-    <string name="empty_notifications_list">No notifications</string>
+    <string name="empty_projects_list">Sin actividades</string>
+    <string name="empty_students_list">Sin estudiantes</string>
+    <string name="empty_notifications_list">Sin notificaciones</string>
 
     <string name="activity_title">Nombre</string>
     <string name="activity_credits">Créditos</string>
     <string name="activity_students">Estudiantes</string>
-    <string name="activity_student_quantity"># Estudiantes</string>
+    <string name="activity_student_quantity">Cantidad</string>
     <string name="activity_description">Descripción</string>
+    <string name="activity_activities">Actividades</string>
+    <string name="activity_mail" >Mail</string>
     <string name="activity_schedule">Horarios</string>
+    <string name="activity_professor">Profesor</string>
     <string name="activity_requirements">Condiciones mínimas</string>
-    <string name="activity_delete_description">Delete student</string>
+    <string name="activity_delete_description">Borrar estudiante</string>
+    <string name="activity_empty">Sin actividades en curso</string>
     <string name="activity_prefix">A</string>
 
-    <string name="button_publish">Create</string>
-    <string name="button_edit">Edit</string>
-    <string name="button_cancel">Cancel</string>
-    <string name="button_add_student">Add to project…</string>
-    <string name="button_request">Request</string>
-    <string name="button_send">Send</string>
-    <string name="button_accept">Accept</string>
-    <string name="button_reject">Reject</string>
+    <string name="button_publish">Crear</string>
+    <string name="button_edit">Editar</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_add_student">Solicitar para …</string>
+    <string name="button_request">Solicitar</string>
+    <string name="button_send">Enviar</string>
+    <string name="button_accept">Aceptar</string>
+    <string name="button_reject">Rechazar</string>
 
     <!--  ARCHIVAR ABAJO  -->
-    <string name="button_store">Store</string>
-    <string name="button_accept_join">Accept join to</string>
-    <string name="button_accept_out">Accept out to</string>
-    <string name="button_reject_join">Reject join to</string>
-    <string name="button_reject_out">Reject out to</string>
+    <string name="button_store">Borrar</string>
 
-    <string name="error_login_failed">Google sign in failed!</string>
-    <string name="error_mail_not_found">Mail not registered in PAB!</string>
-    <string name="error_firebase_failed">Firebase authentication failed!</string>
-    <string name="error_project_full">Sorry! Project Full</string>
+    <string name="error_login_failed">Falló el loggeo en Google!</string>
+    <string name="error_mail_not_found">Mail no registrado!</string>
+    <string name="error_firebase_failed">Falló la autenticación de Firebase!</string>
+    <string name="error_network">Ha ocurrido un error de conexión!</string>
+    <string name="error_unexpected">Ha ocurrido un error inesperado! Código</string>
 
-    <string name="dialog_message_delete_project">Are you sure you want to delete this project?</string>
-    <string name="dialog_message_delete_request_out">Are you sure you want to request out of this project?</string>
-    <string name="dialog_delete">Delete</string>
-    <string name="dialog_cancel">Cancel</string>
+    <string name="error_project_full">Ups! Actividad llena</string>
+    <string name="error_project_incomplete_entry">Por favor complete la cantidad de créditos y estudiantes de la actividad</string>
 
-    <string name="project_action_btn_request_out">Request out</string>
-    <string name="project_action_btn_request_in">Request in</string>
-    <string name="project_action_btn_delete">Delete</string>
-    <string name="project_action_btn_accept_request">Accept request</string>
-    <string name="project_action_btn_reject_request">Reject request</string>
-    <string name="project_action_btn_contact_students">Contact students</string>
-    <string name="project_action_btn_contact_teacher">Contact teacher</string>
+    <string name="dialog_message_delete_project">Está seguro que quiere borrar esta actividad?</string>
+    <string name="dialog_message_delete_request_out">Está seguro que quiere darse de baja de esta actividad?</string>
+    <string name="dialog_message_delete_student">Está seguro que quiere borrar al alumno</string>
+    <string name="dialog_message_from_this_project">de este proyecto?</string>
+    <string name="dialog_delete">Borrar</string>
+    <string name="dialog_cancel">Cancelar</string>
 
-    <string name="student_join_message">would like to join</string>
-    <string name="student_quit_message">would like to quit</string>
+    <string name="project_action_btn_request_out">Solicitar baja</string>
+    <string name="project_action_btn_request_in">Solicitar alta</string>
+    <string name="project_action_btn_delete">Borrar</string>
+    <string name="project_action_btn_accept_request">Aceptar pedido</string>
+    <string name="project_action_btn_reject_request">Rechazar pedido</string>
+    <string name="project_action_btn_contact_students">Anuncio</string>
+    <string name="project_action_btn_contact_teacher">Contactar</string>
 
-    <string name="dialog_select_project_title">Select an activity</string>
+    <string name="student_join_message">desea unirse a</string>
+    <string name="student_quit_message">desea dejar</string>
 
-    <string name="dialog_message_title_student">Contact teacher</string>
-    <string name="dialog_message_title_teacher">Contact students</string>
-    <string name="dialog_message_content_hint">Write your message here</string>
+    <string name="dialog_select_project_title">Seleccione una actividad</string>
 
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="dialog_message_title_student">Contactar profesor</string>
+    <string name="dialog_message_title_teacher">Contactar estudiantes</string>
+    <string name="dialog_message_content_hint">Escriba su mensaje aquí</string>
 
     <string name="notification_down_title">Nueva solicitud</string>
     <string name="notification_down_message">ha solicitado darse de baja de la actividad</string>
@@ -121,15 +128,24 @@
     <string name="notification_info_reject_request">ha rechazado su invitación para la actividad</string>
 
     <string name="notification_info_delete_project">ha eliminado la actividad</string>
+    <string name="notification_info_delete_student">lo ha eliminado de la actividad</string>
 
     <string name="notification_info_remove_student">ha rechazado su invitación para la actividad</string>
 
     <string name="notification_info_from">de</string>
-    <string name="toast_request_sent">Request sent!</string>
-    <string name="toast_message_sent">Message sent!</string>
-    <!-- REVISAR QUE PONER ACA. PUEDE SER NO HAY ACT tuyas, estan todas llenas o el flaco ya esta en esa actividad   -->
-    <string name="toast_no_activities_message">No hay actividades válidas para este alumno!</string>
+    <string name="toast_request_sent">Pedido enviado!</string>
+    <string name="toast_deleted_project">Actividad borrada!</string>
+    <string name="toast_message_sent">Mensaje enviado!</string>
+    <string name="toast_edited_project">Cambios aplicados!</string>
+    <string name="toast_no_activities_message">Sin actividades válidas para alumno!</string>
+    <string name="toast_activity_gone">La actividad no se encuentra disponible!</string>
+    <string name="toast_student_gone">El alumno  no se encuentra disponible!</string>
+    <string name="project_professor_desc" >estudiantes anotados</string>
 
     <string name="description">Descripción</string>
     <string name="name">Nombre</string>
+    <string name="image_description_foto_itba">Foto ITBA</string>
+    <string name="image_description_default_user">Imagen defecto de usuario</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>

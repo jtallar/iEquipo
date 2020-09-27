@@ -1,6 +1,7 @@
 package ar.edu.itba.inge.pab.ui.project;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,7 +42,7 @@ import ar.edu.itba.inge.pab.notifications.MyFirebaseMessagingService;
 
 public class ProjectFragment extends Fragment {
     private ProjectViewModel projectViewModel;
-    private TextView title, credits, studentCant, description, schedule, requirements;
+    private TextView title, credits, studentCant, description, schedule, requirements, professor;
     private RecyclerView rvStudents;
     private List<Student> students = new ArrayList<>();
     private StudentListAdapter adapter;
@@ -55,7 +56,7 @@ public class ProjectFragment extends Fragment {
 
     private int deleteCount = 0;
 
-    private enum ConfirmAction {DELETE, REQUEST_OUT}
+    private enum ConfirmAction {DELETE_STUDENT, DELETE_PROJECT, REQUEST_OUT}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,15 +82,20 @@ public class ProjectFragment extends Fragment {
         credits = root.findViewById(R.id.act_credits);
         studentCant = root.findViewById(R.id.act_student_cant);
         description = root.findViewById(R.id.act_description);
+        description.setMovementMethod(new ScrollingMovementMethod());
         schedule = root.findViewById(R.id.act_schedule);
+        schedule.setMovementMethod(new ScrollingMovementMethod());
         requirements = root.findViewById(R.id.act_requirements);
+        requirements.setMovementMethod(new ScrollingMovementMethod());
         rvStudents = root.findViewById(R.id.rv_student_list);
-        adapter = new StudentListAdapter(students, student -> {
-            // TODO: HACER DELETE
-            MyApplication.makeToast(String.format("Borrar student %s", student.getNombre()));
-        });
+        adapter = new StudentListAdapter(students, student -> openConfirmationDialog(ConfirmAction.DELETE_STUDENT, student));
         rvStudents.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rvStudents.setAdapter(adapter);
+        professor = root.findViewById(R.id.act_professor);
+        projectViewModel.signleGetTeacher(project.getIdDocente()).observe(this, professor -> {
+            if (professor == null) return;
+            this.professor.setText(professor.getNombre());
+        });
 
         refreshView();
 
@@ -98,12 +104,11 @@ public class ProjectFragment extends Fragment {
         else {
             switch (callingFragment) {
                 case ProjectsFragment.className:
-                    if (MainActivity.getLoggedPerson().getClass() == Student.class)
-                        actionLeft.setVisibility(View.GONE);
-                    else {
+                    if (MainActivity.getLoggedPerson().getClass() != Student.class && project.getAlumnos().size() > 0) {
                         actionLeft.setText(getResources().getString(R.string.project_action_btn_contact_students));
                         actionLeft.setOnClickListener(v -> openMessageDialog(MainActivity.getLoggedPerson()));
-                    }
+                    } else
+                        actionLeft.setVisibility(View.GONE);
                     break;
                 case NotificationsFragment.className:
                     actionLeft.setText(getResources().getString(R.string.project_action_btn_reject_request));
@@ -122,10 +127,10 @@ public class ProjectFragment extends Fragment {
                 case ProjectsFragment.className:
                     if (MainActivity.getLoggedPerson().getClass() == Student.class) {
                         actionRight.setText(getResources().getString(R.string.project_action_btn_request_out));
-                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.REQUEST_OUT));
+                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.REQUEST_OUT, null));
                     } else {
                         actionRight.setText(getResources().getString(R.string.project_action_btn_delete));
-                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.DELETE));
+                        actionRight.setOnClickListener(v -> openConfirmationDialog(ConfirmAction.DELETE_PROJECT, null));
                     }
                     break;
                 case ExploreFragment.className:
@@ -137,21 +142,14 @@ public class ProjectFragment extends Fragment {
                     actionRight.setOnClickListener(v -> acceptRequest());
                     break;
                 default:
-                    // TODO lo que sigue es para probar nomas
-                    actionRight.setText("PROBAR NOTIF");
-                    actionRight.setOnClickListener(v -> {
-                        MyFirebaseMessagingService.sendMessage(new Notification("Request to join", "Join " + title.getText(), "A01", Notification.NotificationType.JOIN)
-                                , MainActivity.getLoggedPerson().getId());
-                        Navigation.findNavController(root).navigateUp();
-                    });
-                    //actionRight.setVisibility(View.GONE);
+                    actionRight.setVisibility(View.GONE);
             }
         }
 
         return root;
     }
 
-    private void openConfirmationDialog(ConfirmAction action) {
+    private void openConfirmationDialog(ConfirmAction action, Student student) {
         View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_confirmation, null);
         AlertDialog dialog = new AlertDialog.Builder(root.getContext()).setView(dialogView).create();
 
@@ -160,10 +158,9 @@ public class ProjectFragment extends Fragment {
         if (cancelButton != null) cancelButton.setOnClickListener(v -> dialog.dismiss());
         Button runButton = dialogView.findViewById(R.id.dialog_confirmation_ok);
 
-        // TODO: VER SI ALGUIEN MAS ABRE EL CONFIRMATION DIALOG
         if (runButton != null) {
             switch (action) {
-                case DELETE:
+                case DELETE_PROJECT:
                     confirmationText.setText(getResources().getString(R.string.dialog_message_delete_project));
                     runButton.setText(getResources().getString(R.string.dialog_delete));
                     runButton.setOnClickListener(v -> {
@@ -176,6 +173,14 @@ public class ProjectFragment extends Fragment {
                     runButton.setText(getResources().getString(R.string.project_action_btn_request_out));
                     runButton.setOnClickListener(v -> {
                         requestOut();
+                        dialog.dismiss();
+                    });
+                    break;
+                case DELETE_STUDENT:
+                    confirmationText.setText(String.format("%s %s %s", getResources().getString(R.string.dialog_message_delete_student), student.getNombre(), getResources().getString(R.string.dialog_message_from_this_project)));
+                    runButton.setText(getResources().getString(R.string.dialog_delete));
+                    runButton.setOnClickListener(v -> {
+                        removeStudent(student);
                         dialog.dismiss();
                     });
                     break;
@@ -225,17 +230,14 @@ public class ProjectFragment extends Fragment {
 
     private void deleteProject() {
         Person teacher = MainActivity.getLoggedPerson();
-        for (String studentId : project.getAlumnos()) {
-            projectViewModel.getStudent(studentId).observe(this, student -> {
-                if (student != null) {
-                    student.addCreditos(project.getCreditos());
-                    student.removeActivity(project.getId());
-                    projectViewModel.setStudent(student);
-                    sendNotif(Notification.NotificationType.INFO,
-                            String.format("%s %s %s", teacher.getNombre(), getResources().getString(R.string.notification_info_delete_project), project.getTitulo()), project.getId(), student.getId());
-                }
-                increaseDeleteCount(root);
-            });
+
+        for (Student student : students) {
+            student.addCreditos(project.getCreditos());
+            student.removeActivity(project.getId());
+            projectViewModel.setStudent(student);
+            sendNotif(Notification.NotificationType.INFO,
+                    String.format("%s %s %s", teacher.getNombre(), getResources().getString(R.string.notification_info_delete_project), project.getTitulo()), project.getId(), student.getId());
+            increaseDeleteCount(root);
         }
 
         teacher.removeActivity(project.getId());
@@ -245,6 +247,23 @@ public class ProjectFragment extends Fragment {
         projectViewModel.deleteProject(project.getId());
 
         increaseDeleteCount(root);
+    }
+
+    private void removeStudent(Student student) {
+        student.addCreditos(project.getCreditos());
+        student.removeActivity(project.getId());
+        projectViewModel.setStudent(student);
+        sendNotif(Notification.NotificationType.INFO,
+                String.format("%s %s %s", MainActivity.getLoggedPerson().getNombre(), getResources().getString(R.string.notification_info_delete_student), project.getTitulo()), project.getId(), student.getId());
+
+        project.removeStudent(student.getId());
+        projectViewModel.setProject(project);
+        studentCant.setText(String.format("%d/%d", project.getAlumnos().size(), project.getCantidad()));
+        students.remove(student);
+        adapter.notifyDataSetChanged();
+
+        if (actionLeft.getVisibility() == View.VISIBLE && students.size() == 0)
+            actionLeft.setVisibility(View.GONE);
     }
 
     private void requestIn() {
@@ -292,8 +311,10 @@ public class ProjectFragment extends Fragment {
 
     private void increaseDeleteCount(View root) {
         deleteCount++;
-        if (deleteCount >= project.getAlumnos().size() + 1)
+        if (deleteCount >= project.getAlumnos().size() + 1) {
             Navigation.findNavController(root).navigateUp();
+            MyApplication.makeToast(getResources().getString(R.string.toast_deleted_project));
+        }
     }
 
     private void sendNotif(Notification.NotificationType type, String message, String projectId, String receiverId) {
@@ -317,14 +338,6 @@ public class ProjectFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() != R.id.action_project_settings)
             return super.onOptionsItemSelected(item);
-
-        projectViewModel.getProject(project.getId()).observe(this, newProject -> {
-            if (newProject != null) {
-                // TODO: VER SI EL TITULO DEL PROYECTO ES MODIFICABLE, SI LO ES CAMBIARLO EN LA APP BAR
-                project = newProject;
-                refreshView();
-            }
-        });
 
         ProjectFragmentDirections.ActionEditProject action = ProjectFragmentDirections.actionEditProject(project, getResources().getString(R.string.title_edit_project));
         Navigation.findNavController(root).navigate(action);
