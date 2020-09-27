@@ -12,6 +12,7 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.android.volley.RequestQueue;
@@ -34,6 +35,7 @@ import ar.edu.itba.inge.pab.MainActivity;
 import ar.edu.itba.inge.pab.elements.Notification;
 import ar.edu.itba.inge.pab.elements.Person;
 import ar.edu.itba.inge.pab.elements.Student;
+import ar.edu.itba.inge.pab.ui.notifications.NotificationsFragment;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "ar.edu.itba.inge.pab.firebase_messaging";
@@ -41,7 +43,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TYPE = "application/json";
     private static final String KEY = "";
     private static RequestQueue requestQueue;
-    private static Context context;
     private static String userToken;
     private static MessagingViewModel messagingViewModel;
 
@@ -59,7 +60,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
         Integer id = (remoteMessage.getData().get("sender") +  remoteMessage.getData().get("project") + remoteMessage.getData().get("type") + message).hashCode();
-        // Send notification to user
+
+        // Send notification to user only if not on fragment notifications
         sendNotification(title, message, "unused", id);
     }
 
@@ -97,7 +99,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setSmallIcon(R.drawable.ic_stat_name)
                         .setContentTitle(messageTitle)
                         .setContentText(messageBody)
                         .setAutoCancel(true)
@@ -135,6 +137,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     /**
+     * Delete token to third-party servers.
+     *
+     * Modify this method to associate the user's FCM InstanceID token with any server-side account
+     * maintained by your application.
+     */
+    public static void deleteRegistrationToServer() {
+        Person user = MainActivity.getLoggedPerson();
+        if (user == null) return;
+
+        Log.d(TAG, "Delete token for: " + user.getNombre());
+
+        user.setToken("");
+        if (user.getClass() == Student.class)
+            MyApplication.getInstance().getApiRepository().setStudent((Student) user);
+        else MyApplication.getInstance().getApiRepository().setTeacher(user);
+    }
+
+    /**
      * Sends a message to a particular device, having its ID.
      *
      * @param notification The FCM message to send.
@@ -143,7 +163,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static void sendMessage(Notification notification, String id) {
         Log.d(TAG, "Request for message to: " + id);
 
-        // TODO: VER COMO QUEDA EL LEGADO DOCENTE
         if (id.charAt(0) != 'P')
             messagingViewModel.getStudent(id).observe(MainActivity.getInstance(), student -> {
                 if (student == null) return;
@@ -203,7 +222,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param contextIn Context given to run the queue.
      */
     public static void setParameters(Context contextIn) {
-        if (context == null) context = contextIn;
         if (requestQueue == null) requestQueue = Volley.newRequestQueue(contextIn);
         if (messagingViewModel == null) messagingViewModel = new MessagingViewModel();
     }

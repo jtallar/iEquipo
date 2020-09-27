@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     android:layout_width="340dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginLeft="8dp"
+    android:layout_marginStart="8dp"
     android:layout_marginTop="5dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginEnd="8dp"
     android:layout_marginBottom="5dp"
     android:gravity="center"
     android:orientation="vertical"
@@ -19,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:fontFamily="sans-serif-black"
             android:textSize="@dimen/text_size_title_double_medium"
@@ -34,6 +33,17 @@
             android:orientation="vertical"
             android:layout_margin="15dp">
             <Button
+                android:id="@+id/legajo_btn"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:text="@string/sort_legajo"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_large"
+                android:textAllCaps="false"
+                android:background="@drawable/border_button"
+                android:textColor="@android:color/black" />
+            <Button
                 android:id="@+id/nombre_btn"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
@@ -43,7 +53,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textAllCaps="false"
                 android:background="@drawable/border_button"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
             <Button
                 android:id="@+id/carrera_btn"
                 android:layout_width="200dp"
@@ -54,7 +64,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textAllCaps="false"
                 android:background="@drawable/border_button"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/black"/>
             <Button
                 android:id="@+id/porc_carrera_btn"
                 android:layout_width="200dp"
@@ -65,7 +75,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textAllCaps="false"
                 android:background="@drawable/border_button"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/black"/>
             <Button
                 android:id="@+id/horas_btn"
                 android:layout_width="200dp"
@@ -76,7 +86,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textAllCaps="false"
                 android:background="@drawable/border_button"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
         </LinearLayout>
     </LinearLayout>
     <!--</androidx.cardview.widget.CardView>-->

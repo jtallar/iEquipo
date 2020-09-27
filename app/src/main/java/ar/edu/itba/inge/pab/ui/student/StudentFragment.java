@@ -19,6 +19,7 @@ import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ import ar.edu.itba.inge.pab.ui.students.StudentsFragment;
 
 public class StudentFragment extends Fragment {
     private StudentViewModel studentViewModel;
-    private TextView name, career, id, hours, percentage;
+    private TextView name, career, id, hours, percentage, mail, activities;
     private ProgressBar careerProgressBar;
     private Button actionRight, actionLeft;
     private Student student;
@@ -65,6 +66,8 @@ public class StudentFragment extends Fragment {
         hours = root.findViewById(R.id.student_hours);
         percentage = root.findViewById(R.id.student_percentage);
         careerProgressBar = root.findViewById(R.id.career_progress_bar);
+        mail = root.findViewById(R.id.student_mail);
+        activities = root.findViewById(R.id.student_activities);
 
         name.setText(student.getNombre());
         career.setText(student.getCarrera());
@@ -72,6 +75,8 @@ public class StudentFragment extends Fragment {
         hours.setText(String.valueOf(student.getCreditos()));
         percentage.setText(String.format("%s%s",(String.valueOf(student.getPorcentaje())),"%"));
         careerProgressBar.setProgress((student.getPorcentaje()));
+        mail.setText(student.getEmail());
+        fillActivities();
 
         TextView requestMessage = root.findViewById(R.id.student_request_message);
 
@@ -114,6 +119,9 @@ public class StudentFragment extends Fragment {
                             actionLeft.setVisibility(View.GONE);
                             actionRight.setVisibility(View.GONE);
                     }
+                } else {
+                    actionLeft.setVisibility(View.GONE);
+                    actionRight.setVisibility(View.GONE);
                 }
             });
         }
@@ -209,6 +217,19 @@ public class StudentFragment extends Fragment {
 
     private void sendNotif(Notification.NotificationType type, String message, String body, String projectId, String receiverId) {
         MyFirebaseMessagingService.sendMessage(new Notification(type.getTitle(), message, body, projectId, type), receiverId);
+    }
+
+    private void fillActivities() {
+        AtomicReference<String> text = new AtomicReference<>();
+        for (String str: student.getActividades())
+            studentViewModel.singleGetProject(str).observe(this, project -> {
+                if (project == null) return;
+                String aux = text.get();
+                if (aux == null) aux = "";
+                text.set(aux + project.getTitulo() + "\n");
+                activities.setText(text.get());
+            });
+        if (student.getActividades().size() == 0) activities.setText(MyApplication.getStringResource(R.string.activity_empty));
     }
 
     @Override
